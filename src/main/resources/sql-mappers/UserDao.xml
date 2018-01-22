@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.UserDao">
+
+    <insert id="insertUser" parameterType="indi.zqc.warehouse.model.User">
+        insert into w_user
+          (usercode,
+           usertext,
+           password,
+           createuser,
+           createdatetime,
+           modifyuser,
+           modifydatetime)
+        values
+          (#{userCode, jdbcType = VARCHAR},
+           #{userText, jdbcType = VARCHAR},
+           #{password, jdbcType = VARCHAR},
+           #{createUser, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyUser, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="deleteUser">
+        delete from w_user
+         where usercode = #{userCode, jdbcType = VARCHAR}
+    </delete>
+
+    <update id="updateUser" parameterType="indi.zqc.warehouse.model.User">
+        update w_user
+           set usertext       = #{userText, jdbcType = VARCHAR},
+               modifyuser     = #{modifyUser, jdbcType = VARCHAR},
+               modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
+         where usercode = #{userCode, jdbcType = VARCHAR}
+    </update>
+
+    <select id="selectUser" resultType="indi.zqc.warehouse.model.User">
+        select * from w_user where usercode = #{userCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectUserPage" parameterType="indi.zqc.warehouse.model.condition.UserCondition"
+            resultType="indi.zqc.warehouse.model.User">
+        select * from w_user
+        <where>
+            <if test="userCode != null and userCode != ''">
+                and usercode like concat(concat('%', #{userCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="userText != null and userText != ''">
+                and usertext like concat(concat('%', #{userText, jdbcType = VARCHAR}), '%')
+            </if>
+        </where>
+        <if test="orderField != null and orderField != ''">
+            order by ${orderField} ${orderDirection}
+        </if>
+    </select>
+
+</mapper>
