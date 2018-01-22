@@ -72,5 +72,4 @@ public class MybatisConfiguration {
         factoryBean.setMapperLocations(resolver.getResources("classpath:sql-mappers/*.xml"));
         return factoryBean.getObject();
     }
-
 }
