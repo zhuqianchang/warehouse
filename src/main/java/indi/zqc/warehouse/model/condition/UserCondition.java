@@ -10,4 +10,24 @@ package indi.zqc.warehouse.model.condition;
  * @version v1.0.0
  */
 public class UserCondition extends Condition {
+
+    private String userCode;
+
+    private String userText;
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+
+    public String getUserText() {
+        return userText;
+    }
+
+    public void setUserText(String userText) {
+        this.userText = userText;
+    }
 }

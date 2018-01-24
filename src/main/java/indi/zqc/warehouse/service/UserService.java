@@ -19,6 +19,8 @@ public interface UserService {
 
     int deleteUser(String userCode);
 
+    int batchDeleteUser(String userCodes);
+
     int updateUser(User user);
 
     User selectUser(String userCode);

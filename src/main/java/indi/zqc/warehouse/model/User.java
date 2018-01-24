@@ -11,10 +11,13 @@ package indi.zqc.warehouse.model;
  */
 public class User extends Common {
 
+    //用户编号
     private String userCode;
 
+    //用户名称
     private String userText;
 
+    //密码
     private String password;
 
     public String getUserCode() {
@@ -39,14 +42,5 @@ public class User extends Common {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userCode='" + userCode + '\'' +
-                ", userText='" + userText + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }

@@ -1,0 +1,46 @@
+package indi.zqc.warehouse.model;
+
+/**
+ * Title : Material.java
+ * Package : indi.zqc.warehouse.model
+ * Description : 物料
+ * Create on : 2018/1/23 14:49
+ *
+ * @author Zhu.Qianchang
+ * @version v1.0.0
+ */
+public class Material extends Common{
+
+    //物料编号
+    private String materialCode;
+
+    //物料名称
+    private String materialText;
+
+    //物料类型
+    private String materialType;
+
+    public String getMaterialCode() {
+        return materialCode;
+    }
+
+    public void setMaterialCode(String materialCode) {
+        this.materialCode = materialCode;
+    }
+
+    public String getMaterialText() {
+        return materialText;
+    }
+
+    public void setMaterialText(String materialText) {
+        this.materialText = materialText;
+    }
+
+    public String getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
+    }
+}

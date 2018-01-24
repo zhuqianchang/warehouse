@@ -1,0 +1,25 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/user/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent" layoutH="56">
+            <p>
+                <label>用户编号：</label>
+                <input name="userCode" class="required" type="text" size="30" value="${user.userCode}" readonly="readonly" alt="请输入用户编号"/>
+            </p>
+            <p>
+                <label>用户名称：</label>
+                <input name="userText" class="required" type="text" size="30" value="${user.userText}" readonly="readonly" alt="请输入用户名称"/>
+            </p>
+        </div>
+        <#if (user.userCode)??>
+            <#assign createInfo=user/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

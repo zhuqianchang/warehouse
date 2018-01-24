@@ -36,6 +36,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int batchDeleteUser(String userCodes) {
+        int deleteNum = 0;
+        for (String userCode : userCodes.split(",")) {
+            deleteNum += deleteUser(userCode);
+        }
+        return deleteNum;
+    }
+
+    @Override
     public int updateUser(User user) {
         return userDao.updateUser(user);
     }
