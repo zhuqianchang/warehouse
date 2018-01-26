@@ -1,5 +1,8 @@
 package indi.zqc.warehouse.util;
 
+import indi.zqc.warehouse.shiro.AuthUtils;
+import indi.zqc.warehouse.shiro.SessionUser;
+
 /**
  * Title : SecurityContextUtils.java
  * Package : indi.zqc.warehouse.util
@@ -12,8 +15,18 @@ package indi.zqc.warehouse.util;
 public class SecurityContextUtils {
 
     public static String getCurrentUserCode() {
-        //TODO 当前用户
+        SessionUser sessionUser = getCurrentUser();
+        if (sessionUser != null) {
+            return sessionUser.getUserCode();
+        }
         return null;
     }
 
+    public static SessionUser getCurrentUser() {
+        Object sessionUser = AuthUtils.getSessionUser();
+        if (sessionUser instanceof SessionUser) {
+            return (SessionUser) sessionUser;
+        }
+        return null;
+    }
 }

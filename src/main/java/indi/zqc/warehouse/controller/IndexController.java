@@ -14,15 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping
-public class IndexController extends BaseController{
+public class IndexController extends BaseController {
 
     @RequestMapping(value = "index")
     public String index() {
         return "index";
-    }
-
-    @RequestMapping(value = "login")
-    public String login() {
-        return "login";
     }
 }

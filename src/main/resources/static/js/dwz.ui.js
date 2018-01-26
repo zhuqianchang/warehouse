@@ -54,7 +54,7 @@ function initUI($p){
 	//tables
 	if ($.fn.jTable) $("table.table", $p).jTable();
 
-	// css tables
+	// login tables
 	if ($.fn.cssTable) $('table.list', $p).not('.nowrap').cssTable();
 
 	if ($.fn.jPanel) $("div.panel", $p).jPanel();

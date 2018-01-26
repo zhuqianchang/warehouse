@@ -10,7 +10,7 @@
 			return this.each(function(){
 				var jThemeLi = $(this).find(">li[theme]");
 				var setTheme = function(themeName){
-					$("head").find("link[href$='style.css']").attr("href", _themeHref.replace("#theme#", themeName));
+					$("head").find("link[href$='style.login']").attr("href", _themeHref.replace("#theme#", themeName));
 					jThemeLi.find(">div").removeClass("selected");
 					jThemeLi.filter("[theme="+themeName+"]").find(">div").addClass("selected");
 					

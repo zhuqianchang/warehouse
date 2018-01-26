@@ -1,4 +1,4 @@
-package indi.zqc.warehouse.constant;
+package indi.zqc.warehouse.enums;
 
 /**
  * Title : WarehouseType.java
