@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.MenuDao">
+
+    <insert id="insertMenu" parameterType="indi.zqc.warehouse.model.Menu">
+        insert into w_menu
+          (menucode,
+           menutext,
+           password,
+           createmenu,
+           createdatetime,
+           modifymenu,
+           modifydatetime)
+        values
+          (#{menuCode, jdbcType = VARCHAR},
+           #{menuText, jdbcType = VARCHAR},
+           #{password, jdbcType = VARCHAR},
+           #{createMenu, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyMenu, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="deleteMenu">
+        delete from w_menu
+         where menucode = #{menuCode, jdbcType = VARCHAR}
+    </delete>
+
+    <update id="updateMenu" parameterType="indi.zqc.warehouse.model.Menu">
+        update w_menu
+           set menutext       = #{menuText, jdbcType = VARCHAR},
+               modifymenu     = #{modifyMenu, jdbcType = VARCHAR},
+               modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
+         where menucode = #{menuCode, jdbcType = VARCHAR}
+    </update>
+
+    <select id="selectMenu" resultType="indi.zqc.warehouse.model.Menu">
+        select * from w_menu where menucode = #{menuCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectMenuList" resultType="indi.zqc.warehouse.model.Menu">
+        select * from w_menu
+    </select>
+
+    <select id="selectMenuByParent" resultType="indi.zqc.warehouse.model.Menu">
+        select * from w_menu where parentmenucode = #{parentMenuCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectRootMenu" resultType="indi.zqc.warehouse.model.Menu">
+        select * from w_menu where parentMenuCode is null
+    </select>
+
+    <select id="selectMaxOrdinal" resultType="int">
+        select max(displayordinal) from w_menu where parentmenucode = #{parentMenuCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectRootMaxOrdinal" resultType="int">
+        select max(displayordinal) from w_menu where parentMenuCode is null
+    </select>
+
+</mapper>

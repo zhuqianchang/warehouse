@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 /**
  * Title : LoginController.java
  * Package : indi.zqc.warehouse.controller
@@ -37,8 +40,9 @@ public class LoginController extends BaseController {
         return "login";
     }
 
+    @Valid
     @RequestMapping(value = "/doLogin")
-    public String doLogin(Model model, String userCode, String password) throws Exception {
+    public String doLogin(Model model, @NotNull String userCode, @NotNull String password) throws Exception {
         try {
             model.addAttribute("userCode", userCode);
             model.addAttribute("password", password);

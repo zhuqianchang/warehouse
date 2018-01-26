@@ -17,7 +17,7 @@ public class User extends Common {
     //用户名称
     private String userText;
 
-    //密码
+    //用户密码
     private String password;
 
     public String getUserCode() {

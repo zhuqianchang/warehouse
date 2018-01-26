@@ -6,9 +6,8 @@ import indi.zqc.warehouse.dao.UserDao;
 import indi.zqc.warehouse.model.User;
 import indi.zqc.warehouse.model.condition.UserCondition;
 import indi.zqc.warehouse.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * Title : UserServiceImpl.java
@@ -22,7 +21,7 @@ import javax.annotation.Resource;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Resource
+    @Autowired
     private UserDao userDao;
 
     @Override

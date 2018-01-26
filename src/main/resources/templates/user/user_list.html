@@ -2,19 +2,21 @@
 <div class="pageHeader">
     <form onsubmit="return navTabSearch(this);" action="" method="post">
         <div class="searchBar">
-            <table class="searchContent">
-                <ul>
-                    <li><label>用户编号</label><input type="text" name="userCode" value="<#if (user.userCode)??>${user.userCode!''}</#if>"/></li>
-                    <li><label>用户描述</label><input type="text" name="userText" value="<#if (user.userText)??>${user.userText!''}</#if>"/></li>
-                    <li class="query">
-                        <div class="buttonActive">
-                            <div class="buttonContent">
-                                <button type="submit">查询</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </table>
+            <div class="pageFormContent">
+                <p>
+                    <label>用户编号：</label>
+                    <input type="text" name="userCode" value="<#if (user.userCode)??>${user.userCode!''}</#if>"/>
+                </p>
+                <p>
+                    <label>用户描述：</label>
+                    <input type="text" name="userText" value="<#if (user.userText)??>${user.userText!''}</#if>"/>
+                </p>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit">查询</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>
@@ -31,16 +33,16 @@
                    href="${rc.getContextPath()}/user/delete?navTabId=${navTabId}"><span>删除</span></a></li>
         </ul>
     </div>
-    <table class="table" width="100%" layoutH="138">
+    <table class="table" width="100%" layoutH="140">
         <thead>
         <tr>
             <th width="40"></th>
             <th width="120" orderField="userCode" <#if (page.orderField?? && page.orderField=='userCode')>class="${page.orderDirection!''}"</#if>>用户编号</th>
-            <th width="120" orderField="userText" <#if (page.orderField?? && page.orderField=='userText')>class="${page.orderDirection!''}"</#if>>用户名称</th>
+            <th width="150" orderField="userText" <#if (page.orderField?? && page.orderField=='userText')>class="${page.orderDirection!''}"</#if>>用户名称</th>
             <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
-            <th width="150" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
             <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
-            <th width="150" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
+            <th width="120" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
         </tr>
         </thead>
         <tbody>
