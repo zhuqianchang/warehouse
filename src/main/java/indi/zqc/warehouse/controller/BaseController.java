@@ -1,12 +1,20 @@
 package indi.zqc.warehouse.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import indi.zqc.warehouse.enums.DWZCallbackType;
 import indi.zqc.warehouse.enums.DWZStatusCode;
+import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.Common;
 import indi.zqc.warehouse.model.DWZResult;
 import indi.zqc.warehouse.util.SecurityContextUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 /**
@@ -18,7 +26,9 @@ import java.util.Date;
  * @author Zhu.Qianchang
  * @version v1.0.0
  */
-public class BaseController {
+public abstract class BaseController {
+
+    protected static final Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     /**
      * 操作模式（增、改、查）
@@ -34,6 +44,32 @@ public class BaseController {
     protected static final String NAVTABID = "navTabId";
 
     protected static final String PAGE = "page";
+
+    @ExceptionHandler
+    public String exp(HttpServletResponse response, Exception ex) {
+        logger.error(ex.getMessage(), ex);
+        String jsonObject;
+        if (ex instanceof BusinessException) {
+            jsonObject = JSONObject.toJSONString(ajaxError(ex.getMessage()));
+        } else {
+            jsonObject = JSONObject.toJSONString(ajaxError(ex.getMessage()));
+        }
+        response.setHeader("Content-Type", "application/json;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            out.print(jsonObject);
+            out.flush();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+        return null;
+    }
 
     /**
      * 创建信息
@@ -57,17 +93,27 @@ public class BaseController {
     }
 
     public String getForwardUrl(HttpServletRequest request) {
-        String requestUrl = request.getServletPath();
-        String[] url = requestUrl.split("/");
-        String forwardUrl = "";
-        if (url.length > 1) {
-            forwardUrl = request.getContextPath() + "/" + url[1];
-        }
-        return forwardUrl;
+        return request.getContextPath();
     }
 
-    public DWZResult navTabAjaxDone(String navTabId) {
-        return getDWZJsonObject(DWZStatusCode.OK, "操作成功", navTabId, null, null);
+    public DWZResult ajaxDone() {
+        return getDWZJsonObject(DWZStatusCode.OK, "操作成功", null, DWZCallbackType.EMPTY, null);
+    }
+
+    public DWZResult ajaxError(String message) {
+        return getDWZJsonObject(DWZStatusCode.ERROR, message, null, DWZCallbackType.EMPTY, null);
+    }
+
+    public DWZResult navTabAjaxDone(String navTabId, DWZCallbackType callbackType, String forwardUrl) {
+        return getDWZJsonObject(DWZStatusCode.OK, "操作成功", navTabId, callbackType, forwardUrl);
+    }
+
+    public DWZResult dialogAjaxDone() {
+        return getDWZJsonObject(DWZStatusCode.OK, "操作成功", null, DWZCallbackType.CLOSECURRENT, null);
+    }
+
+    public DWZResult dialogAjaxDone(String navTabId) {
+        return getDWZJsonObject(DWZStatusCode.OK, "操作成功", navTabId, DWZCallbackType.CLOSECURRENT, null);
     }
 
     public DWZResult dialogAjaxDone(String navTabId, String forwardUrl) {

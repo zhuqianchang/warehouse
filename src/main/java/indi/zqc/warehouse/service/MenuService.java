@@ -16,15 +16,13 @@ import java.util.List;
  */
 public interface MenuService {
 
-    int insertMenu(Menu menu);
-
-    int deleteMenu(String menuCode);
-
     int updateMenu(Menu menu);
 
     Menu selectMenu(String menuCode);
 
     List<TreeInterface> selectMenuTree();
+
+    List<TreeInterface> selectMenuByRole(String roleCode);
 
     int selectMaxOrdinal(String parentMenuCode);
 
@@ -33,4 +31,10 @@ public interface MenuService {
     List<Menu> selectMenuByParent(String parentMenuCode);
 
     List<Menu> selectRootMenu();
+
+    void upMenu(String menuCode);
+
+    void downMenu(String menuCode);
+
+    List<TreeInterface> selectMenuByUser(String userCode);
 }

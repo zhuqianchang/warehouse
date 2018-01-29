@@ -1,0 +1,35 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/stock/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <p>
+                <label>仓库：</label>
+                <input type="hidden" name="warehouseCode" value="<#if (stock.warehouseCode)??>${stock.warehouseCode!''}</#if>"/>
+                <input type="text" name="warehouseText" class="required" readonly="readonly"
+                       value="<#if (stock.warehouseText)??>${stock.warehouseText!''}</#if>" placeholder="请选择仓库"/>
+            </p>
+            <p>
+                <label>物料：</label>
+                <input type="hidden" name="materialCode" value="<#if (stock.materialCode)??>${stock.materialCode!''}</#if>"/>
+                <input type="text" name="materialText" class="required" readonly="readonly"
+                       value="<#if (stock.materialText)??>${stock.materialText!''}</#if>" placeholder="请选择物料"/>
+            </p>
+            <p>
+                <label>库存：</label>
+                <input type="text" name="stock" class="required digits" min="0" maxlength="9"
+                       value="<#if (stock.stock)??>${stock.stock!''}</#if>" alt="请输入库存数量"/>
+            </p>
+        </div>
+        <#if (stock.warehouseCode)?? && (stock.materialCode)??>
+            <#assign createInfo=stock/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="save();">保存</button></div></div></li>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

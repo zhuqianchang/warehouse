@@ -1,0 +1,27 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/warehouse/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <p>
+                <label>仓库编号：</label>
+                <input type="text" name="warehouseCode" class="required" maxlength="40" readonly="readonly"
+                       value="<#if (warehouse.warehouseCode)??>${warehouse.warehouseCode!''}</#if>"/>
+            </p>
+            <p>
+                <label>仓库名称：</label>
+                <input type="text" name="warehouseText" class="required" maxlength="60" readonly="readonly"
+                       value="<#if (warehouse.warehouseText)??>${warehouse.warehouseText!''}</#if>"/>
+            </p>
+        </div>
+        <#if (warehouse.warehouseCode)??>
+            <#assign createInfo=warehouse/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

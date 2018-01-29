@@ -686,6 +686,7 @@ $.extend($.validator, {
 				// create label
 				label = $("<" + this.settings.errorElement + ">")
 					.attr("for", this.idOrName(element))
+                    .attr("title", message || "")
 					.addClass(this.settings.errorClass)
 					.html(message || "");
 				if ( this.settings.wrapper ) {
@@ -1160,7 +1161,7 @@ $.extend($.validator, {
 						validator.showErrors();
 					} else {
 						var errors = {};
-						var message = response || validator.defaultMessage( element, "remote" );
+						var message = response || $(element).attr("warn") || validator.defaultMessage( element, "remote" );
 						errors[element.name] = previous.message = $.isFunction(message) ? message(value) : message;
 						validator.invalid[element.name] = true;
 						validator.showErrors(errors);

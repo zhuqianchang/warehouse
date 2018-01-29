@@ -1,24 +1,85 @@
+<link href="${rc.getContextPath()}/css/dwz.custom.css" rel="stylesheet" type="text/css">
 <div class="pageContent">
     <form method="post" action="${rc.getContextPath()}/user/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-        <div class="pageFormContent" layoutH="56">
-            <p>
-                <label>用户编号：</label>
-                <#if (user.userCode)??>
-                    <input name="userCode" class="required" type="text" size="30" value="${user.userCode}" readonly="readonly"/>
-                <#else>
-                    <input name="userCode" class="required" type="text" size="30" value="" alt="请输入用户编号"
-                           remote="${rc.getContextPath()}/user/verify" warn="用户编号已经存在"/>
-                </#if>
-            </p>
-            <p>
-                <label>用户名称：</label>
-                <input name="userText" class="required" type="text" size="30"
-                       value="<#if (user.userText)??>${user.userText!''}</#if>" alt="请输入用户名称"/>
-            </p>
+        <div class="pageFormContent">
+            <dl>
+                <dt>用户编号：</dt>
+                <dd>
+                    <#if (user.userCode)??>
+                        <input type="text" name="userCode" class="required" maxlength="40" value="${user.userCode}" readonly="readonly"/>
+                        <#else>
+                        <input type="text" name="userCode" class="required" maxlength="40" value="" alt="请输入用户编号"
+                               remote="${rc.getContextPath()}/user/verify" warn="用户编号已经存在"/>
+                    </#if>
+                </dd>
+            </dl>
+            <dl>
+                <dt>用户名称：</dt>
+                <dd>
+                    <input type="text" name="userText" class="required" maxlength="60"
+                           value="<#if (user.userText)??>${user.userText!''}</#if>" alt="请输入用户名称"/>
+                </dd>
+            </dl>
+            <!--新增用户时提示初始密码-->
+            <#if defaultPassword??>
+                <dl>
+                    <dt style="width: 300px;">
+                        注：初始密码为${defaultPassword}
+                    </dt>
+                </dl>
+            </#if>
+            <dl style="width:auto;height: auto;">
+                <dt>
+                    <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                        <div class="tabsHeader">
+                            <div class="tabsHeaderContent">
+                                <ul><li><a href="javascript:;"><span>角色</span></a></li></ul>
+                            </div>
+                        </div>
+                        <div class="tabsContent">
+                            <div style="height: 250px">
+                                <div class="pBar">
+                                    <ul class="toolBar">
+                                        <input id="role" name="roleCodes" type="hidden">
+                                        <input id="roleCodes" name="roleLookup.roleCode" type="hidden">
+                                        <input id="roleTexts" name="roleLookup.roleText" type="hidden">
+                                        <li><a class="add" href="${rc.getContextPath()}/role/lookup?navTabId=${navTabId!''}" lookupGroup="roleLookup" callback="role_callback" title="新增角色"><span>新增</span></a>
+                                        <li><a class="delete" href="javascript:" onclick="delRole()"><span>删除</span></a></li>
+                                    </ul>
+                                </div>
+                                <table class="table border" width="100%" <#if (user.userCode)??>layoutH="295"<#else>layoutH="255"</#if>>
+                                    <thead>
+                                    <tr>
+                                        <th width="20"><input type="checkbox" group="roleCodes" class="checkboxCtrl">
+                                        <th width="100">角色编号</th>
+                                        <th width="100">角色描述</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="roletbody">
+                                    <#if (roles?? && roles?size>0)>
+                                        <#list roles as role>
+                                            <tr id="role_${role.roleCode!''}">
+                                                <td><input type="checkbox" name="roleCodes" value="${role.roleCode!''}" class="checkboxCtrl"/></td>
+                                                <td>${role.roleCode!''}</td>
+                                                <td>${role.roleText!''}</td>
+                                            </tr>
+                                        </#list>
+                                    </#if>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </dt>
+            </dl>
         </div>
+        <#if (user.userCode)??>
+            <#assign createInfo=user/>
+            <#include "/common/createInfo.html">
+        </#if>
         <div class="formBar">
             <ul>
-                <li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+                <li><div class="buttonActive"><div class="buttonContent" onclick="save();"><button type="submit">保存</button></div></div></li>
                 <li>
                     <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
                 </li>
@@ -26,3 +87,57 @@
         </div>
     </form>
 </div>
+<script type="text/javascript">
+
+    var $dialog = $.pdialog.getCurrent();
+
+    //查找带回
+    function role_callback() {
+        var roleCodeArr = $("#roleCodes").val().split(',');
+        var roleTextArr = $("#roleTexts").val().split(',');
+        var ht = "";
+        for (var i = 0; i < roleCodeArr.length; i++) {
+            var roleCode = roleCodeArr[i];
+            var roleText = roleTextArr[i];
+            var my_element = $("#role_" + roleCode, $dialog);
+            if (my_element.length == 0) {
+                ht += "<tr id='role_" + roleCode + "'>" +
+                        "<td><input name='roleCodes' value='" + roleCode + "' type='checkbox'/></td>" +
+                        "<td>" + roleCode + "</td>" +
+                        "<td>" + roleText + "</td>" +
+                       "</tr>";
+            }
+        }
+        $("#roletbody", $dialog).append(ht);
+        $.jTableTool.initGridColumnWidth($("#roletbody", $dialog).parents(".grid"));
+    }
+
+    //删除角色
+    function delRole() {
+        var count = 0;
+        $('input[name="roleCodes"]:checked', $dialog).each(function () {
+            count++;
+        });
+        if (count == 0) {
+            alertMsg.warn('请勾选角色');
+        } else {
+            alertMsg.confirm("确定要删除选中的角色吗？", {
+                okCall: function () {
+                    $('input[name="roleCodes"]:checked', $dialog).each(function (i, e) {
+                        $("#role_" + e.value).remove();
+                    });
+                }
+            });
+        }
+    }
+
+    //保存
+    function save() {
+        var roleCodes = [];
+        $('#roletbody', $dialog).find('tr').each(function () {
+            roleCodes.push($(this).attr("id").replace('role_', ''));
+        });
+        $('#role', $dialog).val(roleCodes.join('@zqc@'));
+    }
+
+</script>

@@ -53,6 +53,13 @@
 
         assignCookie();
 
+        $(document).keydown(function(event) {
+            //回车事件
+            if (event.keyCode == 13) {
+                $('#btn_Login').click();
+            }
+        });
+
         //登录
         $('#btn_Login').click(function () {
             if ($userCode.val() == $userCode.attr('placeholder') || $.trim($userCode.val()).length == 0) {

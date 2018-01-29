@@ -1,0 +1,119 @@
+<link href="${rc.getContextPath()}/css/dwz.custom.css" rel="stylesheet" type="text/css">
+<div class="pageContent uiComplete">
+    <div class="treeleft">
+        <div class="pBar pBarBorder">
+            <ul class="toolBar">
+                <li><a id="edit" class="edit" title="编辑"><span>编辑</span></a></li>
+                <li><a id="upMenu" class="up" title="上移"><span>上移</span></a></li>
+                <li><a id="downMenu" class="up" title="下移"><span>下移</span></a></li>
+            </ul>
+        </div>
+        <div id="menuTree" layoutH="25" class="treebody">
+            <ul class="tree treeFolder expand">
+                <#list menuTree as menu>
+                    <li><a target="ajax" rel="menuDetail" tvalue="${menu.menuCode}" href="${rc.getContextPath()}/menu/view?menuCode=${menu.menuCode}&navTabId=${navTabId!''}">${menu.menuText}</a>
+                        <#if menu.children?? &&menu.children?size gt 0>
+                            <ul><@bpTree children=menu.children /></ul>
+                        </#if>
+                    </li>
+                </#list>
+            </ul>
+        </div>
+    </div>
+    <div id="menuDetail" class="unitBox treeBox">
+        <div class="treeTip">请点击左侧树形菜单进行相关操作</div>
+    </div>
+</div>
+<!-- 递归产生树的宏定义 -->
+<#macro bpTree children>
+    <#if children?? && children?size gt 0>
+        <#list children as child>
+            <li><a target="ajax" rel="menuDetail" tvalue="${child.menuCode}" href="${rc.getContextPath()}/menu/view?menuCode=${child.menuCode}&navTabId=${navTabId!''}">${child.menuText}</a>
+                <#if child.children?? &&child.children?size gt 0>
+                    <ul><@bpTree children=child.children /></ul>
+                </#if>
+            </li>
+        </#list>
+    </#if>
+</#macro>
+
+<script>
+
+    $(function () {
+
+        var $page = navTab.getCurrentPanel();
+
+        var selectNode = "${selectNode!''}";
+        if (selectNode) {
+            setTimeout(function () {
+                var $targetItem = $('a[tvalue=' + selectNode + ']:eq(0)', $page).click();
+                $targetItem.parent().addClass('selected');
+            }, 0);
+        }
+
+        //编辑
+        $('#edit', $page).click(function () {
+            var $menu = $('#menuTree', $page).find('.selected').children('a');
+            var menuCode = $menu.attr('tvalue');
+            if (!menuCode) {
+                alertMsg.warn('请先选择一个节点！');
+                return;
+            }
+            $('#menuDetail', $page).loadUrl(contextPath + '/menu/edit', {
+                'menuCode': menuCode,
+                'navTabId': "${navTabId!''}"
+            });
+        });
+
+        //上移
+        $('#upMenu', $page).click(function () {
+            var $menu = $('#menuTree', $page).find('.selected').children('a');
+            var menuCode = $menu.attr('tvalue');
+            if (!menuCode) {
+                alertMsg.warn('请先选择一个节点！');
+                return;
+            }
+            $.ajax({
+                url: contextPath + "/menu/up",
+                data: {
+                    'menuCode': menuCode,
+                    'navTabId': "${navTabId!''}"
+                },
+                success: function (result) {
+                    if (result.statusCode == 200) {
+                        navTab.reload(contextPath + "/menu/tree?navTabId=${navTabId!''}&selectNode=" + menuCode);
+                        alertMsg.correct("上移成功！");
+                    } else {
+                        alertMsg.error(result.message);
+                    }
+                }
+            });
+        });
+
+        //下移
+        $('#downMenu', $page).click(function () {
+            var $menu = $('#menuTree', $page).find('.selected').children('a');
+            var menuCode = $menu.attr('tvalue');
+            if (!menuCode) {
+                alertMsg.warn('请先选择一个节点！');
+                return;
+            }
+            $.ajax({
+                url: contextPath + "/menu/down",
+                data: {
+                    'menuCode': menuCode,
+                    'navTabId': "${navTabId!''}"
+                },
+                success: function (result) {
+                    if (result.statusCode == 200) {
+                        navTab.reload(contextPath + "/menu/tree?navTabId=${navTabId!''}&selectNode=" + menuCode);
+                        alertMsg.correct("下移成功！");
+                    } else {
+                        alertMsg.error(result.message);
+                    }
+                }
+            });
+        });
+    });
+
+</script>

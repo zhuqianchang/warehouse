@@ -1,0 +1,43 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/material/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <p>
+                <label>物料编号：</label>
+                <#if (material.materialCode)??>
+                    <input type="text" name="materialCode" class="required" maxlength="40" value="${material.materialCode}" readonly="readonly"/>
+                <#else>
+                    <input type="text" name="materialCode" class="required" maxlength="40" value="" alt="请输入物料编号"
+                           remote="${rc.getContextPath()}/material/verify" warn="物料编号已经存在"/>
+                </#if>
+            </p>
+            <p>
+                <label>物料名称：</label>
+                <input type="text" name="materialText" class="required" maxlength="60"
+                       value="<#if (material.materialText)??>${material.materialText!''}</#if>" alt="请输入物料名称"/>
+            </p>
+            <p>
+                <label>物料类型：</label>
+                <select name="materialType" class="required">
+                    <option value="">请选择</option>
+                    <#if materialTypes??>
+                        <#list materialTypes as materialType>
+                            <option value="${materialType.eCode!''}" <#if (material.materialType)?? && material.materialType == materialType.eCode>selected="selected"</#if>>${materialType.eCodeText!''}</option>
+                        </#list>
+                    </#if>
+                </select>
+            </p>
+        </div>
+        <#if (material.materialCode)??>
+            <#assign createInfo=material/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

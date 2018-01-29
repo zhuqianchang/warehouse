@@ -5,6 +5,8 @@ import indi.zqc.warehouse.model.Role;
 import indi.zqc.warehouse.model.condition.RoleCondition;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Title : RoleDao.java
  * Package : indi.zqc.warehouse.dao
@@ -25,4 +27,6 @@ public interface RoleDao {
     Role selectRole(@Param("roleCode") String roleCode);
 
     Page<Role> selectRolePage(RoleCondition condition);
+
+    List<Role> selectRoleByUser(@Param("userCode") String userCode);
 }

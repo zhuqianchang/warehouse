@@ -40,14 +40,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
             //用户不存在
             throw new BusinessException(Errors.Authentication.USER_NOT_EXISTS);
         }
-        String md5Password = null;
-        try {
-            //密码加密
-            md5Password = EncryptAlgorithm.hexMD5(password);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        if (!StringUtils.equals(user.getPassword(), md5Password)) {
+        if (!StringUtils.equals(user.getPassword(), password)) {
             //密码错误
             throw new BusinessException(Errors.Authentication.PASSWORD_ERROR);
         }

@@ -1,6 +1,7 @@
 package indi.zqc.warehouse.dao;
 
 import indi.zqc.warehouse.model.Menu;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,19 +18,23 @@ public interface MenuDao {
 
     int insertMenu(Menu menu);
 
-    int deleteMenu(String menuCode);
+    int deleteMenu(@Param("menuCode") String menuCode);
 
     int updateMenu(Menu menu);
 
-    Menu selectMenu(String menuCode);
+    Menu selectMenu(@Param("menuCode") String menuCode);
 
     List<Menu> selectMenuList();
 
-    int selectMaxOrdinal(String parentMenuCode);
+    int selectMaxOrdinal(@Param("parentMenuCode") String parentMenuCode);
 
     int selectRootMaxOrdinal();
 
-    List<Menu> selectMenuByParent(String parentMenuCode);
+    List<Menu> selectMenuByParent(@Param("parentMenuCode") String parentMenuCode);
 
     List<Menu> selectRootMenu();
+
+    List<Menu> selectMenuByRole(@Param("roleCode") String roleCode);
+
+    List<Menu> selectMenuByUser(@Param("userCode") String userCode);
 }

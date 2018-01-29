@@ -19,7 +19,7 @@ public interface TreeInterface {
 
     String getNodeId();
 
-    boolean isLeaf();
+    boolean getIsLeaf();
 
-    boolean isChecked();
+    Integer getIsChecked();
 }

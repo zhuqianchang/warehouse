@@ -22,6 +22,8 @@ public interface UserDao {
 
     int updateUser(User user);
 
+    int resetPassword(User user);
+
     User selectUser(@Param("userCode") String userCode);
 
     Page<User> selectUserPage(UserCondition condition);

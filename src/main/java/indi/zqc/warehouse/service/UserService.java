@@ -15,15 +15,17 @@ import indi.zqc.warehouse.model.condition.UserCondition;
  */
 public interface UserService {
 
-    int insertUser(User user);
+    int insertUser(User user) throws Exception;
 
     int deleteUser(String userCode);
-
-    int batchDeleteUser(String userCodes);
 
     int updateUser(User user);
 
     User selectUser(String userCode);
 
     Page<User> selectUserPage(UserCondition condition);
+
+    int resetUser(String userCode) throws Exception;
+
+    int updateUserRole(String userCode, String[] roleCodes);
 }

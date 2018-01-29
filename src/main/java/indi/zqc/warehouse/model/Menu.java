@@ -36,7 +36,7 @@ public class Menu extends Common implements TreeInterface{
     private Integer displayOrdinal;
 
     //选中状态
-    private boolean isChecked;
+    private Integer isChecked;
 
     //子菜单
     private List<Menu> children = new ArrayList<>();
@@ -89,10 +89,6 @@ public class Menu extends Common implements TreeInterface{
         this.displayOrdinal = displayOrdinal;
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-    }
-
     public List<Menu> getChildren() {
         return children;
     }
@@ -117,7 +113,7 @@ public class Menu extends Common implements TreeInterface{
     }
 
     @Override
-    public boolean isLeaf() {
+    public boolean getIsLeaf() {
         if (StringUtils.isNotBlank(menuType)) {
             return StringUtils.equals(MenuType.FORM.getValue(), menuType);
         }
@@ -125,7 +121,11 @@ public class Menu extends Common implements TreeInterface{
     }
 
     @Override
-    public boolean isChecked() {
-        return this.isChecked;
+    public Integer getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(Integer isChecked) {
+        this.isChecked = isChecked;
     }
 }

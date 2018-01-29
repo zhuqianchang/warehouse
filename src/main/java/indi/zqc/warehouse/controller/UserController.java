@@ -1,9 +1,11 @@
 package indi.zqc.warehouse.controller;
 
 import com.github.pagehelper.Page;
+import indi.zqc.warehouse.constant.Constants;
 import indi.zqc.warehouse.model.DWZResult;
 import indi.zqc.warehouse.model.User;
 import indi.zqc.warehouse.model.condition.UserCondition;
+import indi.zqc.warehouse.service.RoleService;
 import indi.zqc.warehouse.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,41 +31,46 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @RequestMapping("/list")
     public String userList(Model model, UserCondition condition, String navTabId) {
         Page<User> page = userService.selectUserPage(condition);
         condition.setData(page);
         condition.setTotalCount(page.getTotal());
         model.addAttribute(PAGE, condition);
+        model.addAttribute("defaultPassword", Constants.DEFAULT_PASSWORD);
         model.addAttribute(NAVTABID, navTabId);
         return "user/user_list";
     }
 
     @RequestMapping("/add")
     public String addUser(Model model, String navTabId) {
+        model.addAttribute("defaultPassword", Constants.DEFAULT_PASSWORD);
         model.addAttribute(NAVTABID, navTabId);
         return "user/user_add";
     }
 
     @RequestMapping("/edit")
     public String editUser(Model model, String userCode, String navTabId) {
-        User user = userService.selectUser(userCode);
+        model.addAttribute("user", userService.selectUser(userCode));
+        model.addAttribute("roles", roleService.selectRoleByUser(userCode));
         model.addAttribute(NAVTABID, navTabId);
-        model.addAttribute("user", user);
         return "user/user_add";
     }
 
     @RequestMapping("/view")
     public String viewUser(Model model, String userCode, String navTabId) {
-        User user = userService.selectUser(userCode);
+        model.addAttribute("user", userService.selectUser(userCode));
+        model.addAttribute("roles", roleService.selectRoleByUser(userCode));
         model.addAttribute(NAVTABID, navTabId);
-        model.addAttribute("user", user);
         return "user/user_view";
     }
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveUser(User user, String navTabId, HttpServletRequest request) {
+    public DWZResult saveUser(User user, String roleCodes, String navTabId, HttpServletRequest request) throws Exception {
         User oldUser = userService.selectUser(user.getUserCode());
         if (oldUser == null) {
             setCreateInfo(user);
@@ -72,15 +79,23 @@ public class UserController extends BaseController {
             setModifyInfo(user);
             userService.updateUser(user);
         }
-        String forwardUrl = getForwardUrl(request) + "/userParameter/userParameterList?navTabId=" + navTabId;
+        userService.updateUserRole(user.getUserCode(), roleCodes.split(Constants.SEPARATOR));
+        String forwardUrl = getForwardUrl(request) + "/user/list?navTabId=" + navTabId;
         return dialogAjaxDone(navTabId, forwardUrl);
     }
 
     @RequestMapping("/delete")
     @ResponseBody
-    public DWZResult deleteUser(String userCodes, String navTabId) {
-        userService.batchDeleteUser(userCodes);
-        return navTabAjaxDone(navTabId);
+    public DWZResult deleteUser(String userCode) {
+        userService.deleteUser(userCode);
+        return ajaxDone();
+    }
+
+    @RequestMapping("/reset")
+    @ResponseBody
+    public DWZResult resetUser(String userCode) throws Exception {
+        userService.resetUser(userCode);
+        return ajaxDone();
     }
 
     @RequestMapping("/verify")

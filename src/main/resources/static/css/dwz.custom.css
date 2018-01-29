@@ -1,0 +1,338 @@
+.pBar {
+    display: block;
+    height: 25px;
+}
+
+.pBar ul {
+    padding: 1px;
+}
+
+.pBar li {
+    float: left;
+    display: block;
+    overflow: hidden;
+    height: 23px;
+    padding: 0 0 0 5px;
+}
+
+.pBar li.hover {
+    background-position: 0 -100px;
+}
+
+.pBar li.hover a {
+    background-position: 100% -150px;
+}
+
+.pBar .toolBar li,.pBar .toolBar li.hover {
+    padding: 0 0 0 5px;
+    background-position: 0 -100px;
+}
+
+.pBar .toolBar a,.pBar .toolBar li.hover a {
+    float: left;
+    display: block;
+    overflow: hidden;
+    padding: 0 5px 0 0;
+    text-decoration: none;
+    background-position: 100% -150px;
+}
+
+.pBar .toolBar span,.pBar .toolBar li.hover span {
+    float: left;
+    display: block;
+    overflow: hidden;
+    height: 23px;
+    padding: 0 0 0 20px;
+    line-height: 23px;
+    cursor: pointer;
+}
+
+.pBar .toolBar a.add span {
+    background-position: 0 -694px;
+}
+
+.pBar .toolBar a.delete span {
+    background-position: 0 -743px;
+}
+
+.pBar .toolBar a.edit span {
+    background-position: 0 -796px;
+}
+
+.pBar .toolBar a.icon span {
+    background-position: 0 -844px;
+}
+
+.pBar .toolBar a.up span {
+    background-position: 0 -990px;
+}
+
+.pBar .toolBar a.down span {
+    background-position: 0 -1038px;
+}
+
+.pBar .toolBar a.collapse span {
+    background-position: 0 -1086px;
+}
+
+.pBar .toolBar a.expand span {
+    background-position: 0 -1134px;
+}
+
+.pBar .toolBar li.line {
+    display: block;
+    overflow: hidden;
+    width: 12px;
+    padding: 0;
+    text-indent: -1000px;
+    background-position: 5px -200px;
+}
+
+/* 修改页脚显示 left 改为 right */
+.pBar .pages {
+    float: right;
+    overflow: hidden;
+    height: 21px;
+    padding: 2px 5px;
+}
+
+.pBar .pages span {
+    float: left;
+    line-height: 21px;
+}
+
+.pBar .pages select {
+    float: left;
+    margin: 0 3px;
+    font-size: 12px;
+}
+
+.divlist {
+    border: 1px solid #d9dfe5;
+    padding: 5px;
+    background-color: white;
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    top: 70px;
+    z-index: 9999999;
+}
+
+.divlist ul a {
+    display: block;
+    width: 60px;
+    height: 20px;
+    border: 1px solid #ccc;
+    background: #FFF;
+}
+
+.divlist ul {
+    list-style: none;
+    width: 75px;
+    background: white;
+}
+
+.divlist ul li /** 一级菜单菜单项 */ {
+    position: relative;
+    display: block;
+}
+
+.divlist  ul li a {
+    display: block;
+    text-decoration: none;
+    background: #white;
+    height: 20px;
+    border: 1px solid #ffffff;
+    border-bottom: 0;
+    color: #666666;
+    padding-left: 10px;
+    line-height: 20px;
+}
+
+.divlist  ul  li:hover a,.divlist  ul li.showStyle a {
+    background: #ebeaeb;
+}
+
+.alt {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    line-height: 20px;
+}
+
+.highlight {
+    background-color: #FFC125;
+}
+
+.contactSelected {
+    float: left;
+    width: 100%;
+    overflow: auto;
+}
+
+.contactSelected ul li {
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    clear: both;
+}
+
+.contactSelected ul li-selected {
+    background-color: #fffad6;
+}
+
+.contactName {
+    float: left;
+    width: 195px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    padding: 7px 10px;
+}
+
+.contactArrow {
+    float: left;
+    width: 35px;
+    height: 350px;
+    background: url(../../images/common-arrowTurn.gif) no-repeat center
+        center;
+}
+
+.deleteInfo {
+    cursor: pointer;
+    float: left;
+    width: 16px;
+    height: 30px;
+    background: url(../../images/common-delete.gif) no-repeat center center;
+}
+
+.contactSelected  .contactList-filephoto {
+    background-position: 0 -98px;
+}
+
+.contactList-filephoto {
+    float: left;
+    width: 20px;
+    height: 22px;
+    background: url(../../images/folder.png);
+    margin-right: 5px
+}
+
+.deletebtn {
+    display: block;
+    width: 22px;
+    height: 20px;
+    text-indent: -1000px;
+    overflow: hidden;
+    float: left;
+    background: url(../../images/common-delete.gif) no-repeat center center;
+}
+
+.per-docContact-listtitle {
+    width: 280px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.fn-left {
+    float: left;
+}
+
+.fn-right {
+    float: right;
+}
+
+.per-docContact-list {
+    clear: both;
+    width: 278px;
+    border: 1px solid #D1D1D1;
+    height: 350px;
+}
+
+.contactList {
+    clear: both;
+    width: 280px;
+    border: 1px solid #D1D1D1;
+    height: 350px;
+}
+
+.fn-pos-rel {
+    position: relative;
+}
+
+.per-docContact-tab {
+    width: 280px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.per-docContact {
+    padding: 10px 10px;
+}
+
+.linkblue {
+    cursor: pointer;
+}
+
+.linkblue a {
+    color: #137cc0;
+}
+
+.queryButton div {
+    width: 60px;
+}
+
+.queryButton div div {
+    width: 55px
+}
+
+.queryButton div div button {
+    width: 55px
+}
+
+.searchContent select {
+    height: 23px;
+}
+
+.treeleft {
+    border-color: #d8dfe5;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    float: left;
+    display: block;
+    overflow: auto;
+    width: 280px;
+    background: #fff
+}
+
+.treebody {
+    margin-left: 2px;
+    display: block;
+    overflow: auto;
+    width: 278px;
+    line-height: 21px;
+    background: #fff
+}
+
+.treeTip {
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #d8dfe5;
+    height: 100px;
+    background-color: #eff3f7;
+    line-height: 100px;
+    text-align: center;
+}
+
+.treeBox {
+    margin-left: 280px;
+    padding: 10px;
+}
+
+.pBarBorder {
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #d8dfe5;
+}
+

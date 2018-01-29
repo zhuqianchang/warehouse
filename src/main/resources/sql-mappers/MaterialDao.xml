@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.MaterialDao">
+
+    <insert id="insertMaterial" parameterType="indi.zqc.warehouse.model.Material">
+        insert into w_material
+          (materialcode,
+           materialtext,
+           materialtype,
+           createuser,
+           createdatetime,
+           modifyuser,
+           modifydatetime)
+        values
+          (#{materialCode, jdbcType = VARCHAR},
+           #{materialText, jdbcType = VARCHAR},
+           #{materialType, jdbcType = VARCHAR},
+           #{createUser, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyUser, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="deleteMaterial">
+        delete from w_material
+         where materialcode = #{materialCode, jdbcType = VARCHAR}
+    </delete>
+
+    <update id="updateMaterial" parameterType="indi.zqc.warehouse.model.Material">
+        update w_material
+           set materialtext   = #{materialText, jdbcType = VARCHAR},
+               materialtype   = #{materialType, jdbcType = VARCHAR},
+               modifyuser     = #{modifyUser, jdbcType = VARCHAR},
+               modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
+         where materialcode = #{materialCode, jdbcType = VARCHAR}
+    </update>
+
+    <select id="selectMaterial" resultType="indi.zqc.warehouse.model.Material">
+        select * from w_material where materialcode = #{materialCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectMaterialPage" parameterType="indi.zqc.warehouse.model.condition.MaterialCondition"
+            resultType="indi.zqc.warehouse.model.Material">
+        select * from w_material
+        <where>
+            <if test="materialCode != null and materialCode != ''">
+                and materialcode like concat(concat('%', #{materialCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="materialText != null and materialText != ''">
+                and materialtext like concat(concat('%', #{materialText, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="materialType != null and materialType != ''">
+                and materialtype = #{materialType, jdbcType = VARCHAR}
+            </if>
+        </where>
+        <if test="orderField != null and orderField != ''">
+            order by ${orderField} ${orderDirection}
+        </if>
+    </select>
+
+</mapper>

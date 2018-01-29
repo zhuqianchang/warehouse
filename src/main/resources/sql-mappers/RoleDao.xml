@@ -8,16 +8,16 @@
         insert into w_role
           (rolecode,
            roletext,
-           createrole,
+           createuser,
            createdatetime,
-           modifyrole,
+           modifyuser,
            modifydatetime)
         values
           (#{roleCode, jdbcType = VARCHAR},
            #{roleText, jdbcType = VARCHAR},
-           #{createRole, jdbcType = VARCHAR},
+           #{createUser, jdbcType = VARCHAR},
            #{createDateTime, jdbcType = TIMESTAMP},
-           #{modifyRole, jdbcType = VARCHAR},
+           #{modifyUser, jdbcType = VARCHAR},
            #{modifyDateTime, jdbcType = TIMESTAMP})
     </insert>
 
@@ -29,13 +29,22 @@
     <update id="updateRole" parameterType="indi.zqc.warehouse.model.Role">
         update w_role
            set roletext       = #{roleText, jdbcType = VARCHAR},
-               modifyrole     = #{modifyRole, jdbcType = VARCHAR},
+               modifyuser     = #{modifyUser, jdbcType = VARCHAR},
                modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
          where rolecode = #{roleCode, jdbcType = VARCHAR}
     </update>
 
     <select id="selectRole" resultType="indi.zqc.warehouse.model.Role">
         select * from w_role where rolecode = #{roleCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectRoleByUser" resultType="indi.zqc.warehouse.model.Role">
+        select *
+          from w_role r
+         where exists (select 1
+                  from w_userrole ur
+                 where r.rolecode = ur.rolecode
+                   and ur.usercode = #{userCode, jdbcType = VARCHAR})
     </select>
 
     <select id="selectRolePage" parameterType="indi.zqc.warehouse.model.condition.RoleCondition"

@@ -36,6 +36,12 @@
          where usercode = #{userCode, jdbcType = VARCHAR}
     </update>
 
+    <update id="resetPassword" parameterType="indi.zqc.warehouse.model.User">
+        update w_user
+           set password = #{password, jdbcType = VARCHAR}
+         where usercode = #{userCode, jdbcType = VARCHAR}
+    </update>
+
     <select id="selectUser" resultType="indi.zqc.warehouse.model.User">
         select * from w_user where usercode = #{userCode, jdbcType = VARCHAR}
     </select>

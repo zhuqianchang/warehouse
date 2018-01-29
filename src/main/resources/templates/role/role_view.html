@@ -1,0 +1,77 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/role/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <dl>
+                <dt>角色编号：</dt>
+                <dd><input type="text" name="roleCode" class="required" maxlength="40" readonly="readonly"
+                           value="<#if (role.roleCode)??>${role.roleCode!''}</#if>"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>角色描述：</dt>
+                <dd><input type="text" name="roleText" class="required" maxlength="60" readonly="readonly"
+                           value="<#if (role.roleText)??>${role.roleText!''}</#if>"/>
+                </dd>
+            </dl>
+            <dl style="width: auto;height: auto">
+                <dd>
+                    <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                        <div class="tabsHeader">
+                            <div class="tabsHeaderContent">
+                                <ul><li><a href="javascript:;"><span>权限</span></a></li></ul>
+                            </div>
+                        </div>
+                        <div class="tabsContent">
+                            <div>
+                                <div id="menuTree" style="height: 200px;overflow: auto;">
+                                    <ul id="tree" class="tree treeFolder expand">
+                                        <#if menuTree??>
+                                            <#list menuTree as menu>
+                                                <#if (menu.isChecked)?? && (menu.isChecked == 1)>
+                                                    <li>
+                                                        <a tvalue="${menu.menuCode}" tname="${menu.menuText}" >${menu.menuText}</a>
+                                                        <#if menu.children?? && menu.children?size gt 0>
+                                                            <ul><@bpTree children=menu.children /></ul>
+                                                        </#if>
+                                                    </li>
+                                                </#if>
+                                            </#list>
+                                        </#if>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabsFooter">
+                            <div class="tabsFooterContent"></div>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <#if (role.roleCode)??>
+            <#assign createInfo=role/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+<#macro bpTree children>
+    <#if children?? && children?size gt 0>
+        <#list children as child>
+            <#if (child.isChecked)?? && (child.isChecked == 1)>
+                <li><a tvalue="${child.menuCode}" tname="${child.menuText}">${child.menuText}</a>
+                    <#if child.children?? &&child.children?size gt 0>
+                        <ul><@bpTree children=child.children />
+                        </ul>
+                    </#if>
+                </li>
+            </#if>
+        </#list>
+    </#if>
+</#macro>

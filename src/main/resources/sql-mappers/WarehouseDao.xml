@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.WarehouseDao">
+
+    <insert id="insertWarehouse" parameterType="indi.zqc.warehouse.model.Warehouse">
+        insert into w_warehouse
+          (warehousecode,
+           warehousetext,
+           createuser,
+           createdatetime,
+           modifyuser,
+           modifydatetime)
+        values
+          (#{warehouseCode, jdbcType = VARCHAR},
+           #{warehouseText, jdbcType = VARCHAR},
+           #{createUser, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyUser, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="deleteWarehouse">
+        delete from w_warehouse
+         where warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+    </delete>
+
+    <update id="updateWarehouse" parameterType="indi.zqc.warehouse.model.Warehouse">
+        update w_warehouse
+           set warehousetext  = #{warehouseText, jdbcType = VARCHAR},
+               modifyuser     = #{modifyUser, jdbcType = VARCHAR},
+               modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
+         where warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+    </update>
+
+    <select id="selectWarehouse" resultType="indi.zqc.warehouse.model.Warehouse">
+        select * from w_warehouse where warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectWarehousePage" parameterType="indi.zqc.warehouse.model.condition.WarehouseCondition"
+            resultType="indi.zqc.warehouse.model.Warehouse">
+        select * from w_warehouse
+        <where>
+            <if test="warehouseCode != null and warehouseCode != ''">
+                and warehousecode like concat(concat('%', #{warehouseCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="warehouseText != null and warehouseText != ''">
+                and warehousetext like concat(concat('%', #{warehouseText, jdbcType = VARCHAR}), '%')
+            </if>
+        </where>
+        <if test="orderField != null and orderField != ''">
+            order by ${orderField} ${orderDirection}
+        </if>
+    </select>
+
+</mapper>

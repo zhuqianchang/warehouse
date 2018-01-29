@@ -1,0 +1,57 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form onsubmit="return dialogSearch(this);" action="${rc.getContextPath()}/warehouse/lookup" method="post">
+        <div class="searchBar">
+            <ul class="searchContent">
+                <li>
+                    <label>仓库编号：</label>
+                    <input type="text" name="warehouseCode" maxlength="40" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>"/>
+                </li>
+                <li>
+                    <label>仓库描述：</label>
+                    <input type="text" name="warehouseText" maxlength="60" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>"/>
+                </li>
+            </ul>
+            <div class="subBar">
+                <ul>
+                    <li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <table class="table" width="100%" layoutH="110">
+        <thead>
+        <tr>
+            <th width="120" orderField="warehouseCode" <#if (page.orderField?? && page.orderField=='warehouseCode')>class="${page.orderDirection!''}"</#if>>仓库编号</th>
+            <th width="150" orderField="warehouseText" <#if (page.orderField?? && page.orderField=='warehouseText')>class="${page.orderDirection!''}"</#if>>仓库名称</th>
+            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
+            <th width="120" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
+            <th width="100">请选择</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as warehouse>
+                <tr target="warehouseCode" rel="${warehouse.warehouseCode!''}">
+                    <td>${warehouse.warehouseCode!''}</td>
+                    <td>${warehouse.warehouseText!''}</td>
+                    <td>${warehouse.createUser!''}</td>
+                    <td>${warehouse.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td>${warehouse.modifyUser!''}</td>
+                    <td>${warehouse.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td><a class="btnSelect" href="javascript:$.bringBack({warehouseCode:'${warehouse.warehouseCode!''}', warehouseText:'${warehouse.warehouseText!''}'})" title="查找带回">选择</a></td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="6" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>

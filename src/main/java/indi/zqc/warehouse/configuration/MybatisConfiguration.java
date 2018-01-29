@@ -7,6 +7,7 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,9 @@ import java.util.Properties;
 @Configuration
 @MapperScan("indi.zqc.warehouse.dao")
 public class MybatisConfiguration {
+
+    @Value("${spring.datasource.db-type:oracle}")
+    private String dbType;
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
@@ -69,9 +73,6 @@ public class MybatisConfiguration {
         factoryBean.setDataSource(dataSource);
         //添加PageHelper插件
         factoryBean.setPlugins(new Interceptor[]{pageHelper});
-        //数据库类型
-        //TODO 获取不到
-        String dbType = dataSource instanceof DruidDataSource ? ((DruidDataSource) dataSource).getDbType() : null;
         //添加Xml目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] rs1 = resolver.getResources("classpath*:/sql-mappers/*.xml");

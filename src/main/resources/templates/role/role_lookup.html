@@ -1,0 +1,50 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form onsubmit="return dwzSearch(this, 'dialog');" action="${rc.getContextPath()}/role/lookup" method="post">
+        <div class="searchBar">
+            <ul class="searchContent">
+                <li>
+                    <label>角色编号：</label>
+                    <input type="text" name="roleCode" maxlength="40" value="<#if (page.roleCode)??>${page.roleCode!''}</#if>"/>
+                </li>
+                <li>
+                    <label>角色描述：</label>
+                    <input type="text" name="roleText" maxlength="60" value="<#if (page.roleText)??>${page.roleText!''}</#if>"/>
+                </li>
+            </ul>
+            <div class="subBar">
+                <ul>
+                    <li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>
+                    <li><div class="button"><div class="buttonContent"><button type="button" multLookup="role" warn="请选择角色">选择带回</button></div></div></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <table class="table" width="100%" targetType="dialog" layoutH="118">
+        <thead>
+        <tr>
+            <th width="30"><input type="checkbox" class="checkboxCtrl" group="role"/></th>
+            <th orderField="roleCode" <#if (page.orderField?? && page.orderField=='roleCode')>class="${page.orderDirection!''}"</#if>>角色编号</th>
+            <th orderField="roleText" <#if (page.orderField?? && page.orderField=='roleText')>class="${page.orderDirection!''}"</#if>>角色描述</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as role>
+                <tr>
+                    <td><input type="checkbox" name="role" value="{roleCode:'${role.roleCode!''}', roleText:'${role.roleText!''}'}"/></td>
+                    <td>${role.roleCode!''}</td>
+                    <td>${role.roleText!''}</td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="3" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>

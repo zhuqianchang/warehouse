@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.ECodeDao">
+
+    <select id="selectECodeList" resultType="indi.zqc.warehouse.model.ECode">
+        select * from w_ecode
+         where ecodetype = #{eCodeType, jdbcType = VARCHAR}
+         order by displayOrdinal
+    </select>
+
+    <select id="selectECode" resultType="indi.zqc.warehouse.model.ECode">
+        select * from w_ecode
+         where ecodetype = #{eCodeType, jdbcType = VARCHAR}
+           and ecode = #{eCode, jdbcType = VARCHAR}
+    </select>
+
+</mapper>

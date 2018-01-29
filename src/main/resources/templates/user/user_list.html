@@ -23,20 +23,21 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add" target="dialog" mask="true" width="650" height="450" rel="addUser" title="新增用户"
+            <li><a class="add" target="dialog" mask="true" width="440" height="490" rel="addUser" title="新增用户"
                    href="${rc.getContextPath()}/user/add?navTabId=${navTabId}"><span>新增</span></a></li>
-            <li><a class="edit" target="dialog" mask="true" width="650" height="450" rel="editUser" title="编辑用户"
+            <li><a class="edit" target="dialog" mask="true" width="440" height="530" rel="editUser" title="编辑用户"
                    href="${rc.getContextPath()}/user/edit?userCode={userCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
-            <li><a class="icon" target="dialog" mask="true" width="650" height="450" rel="viewUser" title="用户详情"
+            <li><a class="icon" target="dialog" mask="true" width="440" height="530" rel="viewUser" title="用户详情"
                    href="${rc.getContextPath()}/user/view?userCode={userCode}&navTabId=${navTabId}"><span>详情</span></a></li>
-            <li><a class="delete" target="selectedTodo" postType="string" rel="userCodes" title="确定要删除勾选的用户吗?"
-                   href="${rc.getContextPath()}/user/delete?navTabId=${navTabId}"><span>删除</span></a></li>
+            <li><a class="delete" target="ajaxTodo" rel="deleteUser" title="确定要删除选中的用户吗?"
+                   href="${rc.getContextPath()}/user/delete?userCode={userCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            <li><a class="reset" target="ajaxTodo" rel="resetPassword" title="确定要重置选中的用户密码吗？重置后密码为${defaultPassword}"
+                   href="${rc.getContextPath()}/user/reset?userCode={userCode}&navTabId=${navTabId}"><span>重置密码</span></a></li>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="140">
         <thead>
         <tr>
-            <th width="40"></th>
             <th width="120" orderField="userCode" <#if (page.orderField?? && page.orderField=='userCode')>class="${page.orderDirection!''}"</#if>>用户编号</th>
             <th width="150" orderField="userText" <#if (page.orderField?? && page.orderField=='userText')>class="${page.orderDirection!''}"</#if>>用户名称</th>
             <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
@@ -49,7 +50,6 @@
         <#if (page?? && page.data?size>0)>
             <#list page.data as user>
             <tr target="userCode" rel="${user.userCode!''}">
-                <td><input name="userCodes" value="${user.userCode!''}" type="checkbox"></td>
                 <td>${user.userCode!''}</td>
                 <td>${user.userText!''}</td>
                 <td>${user.createUser!''}</td>
@@ -59,7 +59,7 @@
             </tr>
             </#list>
         <#else>
-            <tr target="user_id">
+            <tr>
                 <td colspan="6" class="noData">======列表无数据=====</td>
             </tr>
         </#if>

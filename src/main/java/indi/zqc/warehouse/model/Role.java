@@ -14,7 +14,7 @@ public class Role extends Common {
     //角色编号
     private String roleCode;
 
-    //角色名称
+    //角色描述
     private String roleText;
 
     public String getRoleCode() {

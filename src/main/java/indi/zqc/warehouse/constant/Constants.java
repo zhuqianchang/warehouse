@@ -9,11 +9,17 @@ package indi.zqc.warehouse.constant;
  * @author Zhu.Qianchang
  * @version v1.0.0
  */
-public class SystemConstant {
+public class Constants {
 
     //基础路径
     public static final String BASE_URL = "warehouse";
 
+    //管理员
+    public static final String ADMIN = "admin";
+
     //初始密码
     public static final String DEFAULT_PASSWORD = "a1234567";
+
+    //分隔符
+    public static final String SEPARATOR = "@zqc@";
 }

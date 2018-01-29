@@ -1,0 +1,93 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form onsubmit="return navTabSearch(this);" action="" method="post">
+        <div class="searchBar">
+            <div class="pageFormContent">
+                <p>
+                    <label>仓库：</label>
+                    <input type="hidden" name="warehouseCode" value="">
+                    <input type="hidden" name="warehouseText" value="">
+                    <input type="hidden" name="warehouse.warehouseCode" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>">
+                    <input type="text" name="warehouse.warehouseText" readonly="readonly" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>"/>
+                    <a class="btnLook" href="warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
+                </p>
+                <p>
+                    <label>物料：</label>
+                    <input type="hidden" name="materialCode" value="">
+                    <input type="hidden" name="materialText" value="">
+                    <input type="hidden" name="material.materialCode" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>">
+                    <input type="text" name="material.materialText" readonly="readonly" value="<#if (page.materialText)??>${page.materialText!''}</#if>"/>
+                    <a class="btnLook" href="material/lookup" warn="请选择物料" lookupGroup="material">查找带回</a>
+                </p>
+                <div class="button">
+                    <div class="buttonContent">
+                        <button type="submit" onclick="query();">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add" target="dialog" mask="true" width="400" height="190" rel="addStock" title="新增库存"
+                   href="${rc.getContextPath()}/stock/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            <li><a class="edit" target="dialog" mask="true" width="400" height="265" rel="editStock" title="编辑库存"
+                   href="${rc.getContextPath()}/stock/edit?stockCode={stockCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            <li><a class="icon" target="dialog" mask="true" width="400" height="265" rel="viewStock" title="库存详情"
+                   href="${rc.getContextPath()}/stock/view?stockCode={stockCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            <li><a class="delete" target="ajaxTodo" rel="deleteStock" title="确定要删除选择的库存吗?"
+                   href="${rc.getContextPath()}/stock/delete?stockCode={stockCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="140">
+        <thead>
+        <tr>
+            <th width="120" orderField="warehouseCode" <#if (page.orderField?? && page.orderField=='warehouseCode')>class="${page.orderDirection!''}"</#if>>仓库编号</th>
+            <th width="150" orderField="warehouseText" <#if (page.orderField?? && page.orderField=='warehouseText')>class="${page.orderDirection!''}"</#if>>仓库描述</th>
+            <th width="120" orderField="materialCode" <#if (page.orderField?? && page.orderField=='materialCode')>class="${page.orderDirection!''}"</#if>>物料编号</th>
+            <th width="150" orderField="materialText" <#if (page.orderField?? && page.orderField=='materialText')>class="${page.orderDirection!''}"</#if>>物料描述</th>
+            <th width="120" orderField="stock" <#if (page.orderField?? && page.orderField=='stock')>class="${page.orderDirection!''}"</#if>>库存</th>
+            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
+            <th width="120" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as stock>
+                <tr target="stockCode" rel="${stock.warehouseCode + '@zqc@' + stock.materialCode!''}">
+                    <td>${stock.warehouseCode!''}</td>
+                    <td>${stock.warehouseText!''}</td>
+                    <td>${stock.materialCode!''}</td>
+                    <td>${stock.materialText!''}</td>
+                    <td>${stock.stock!''}</td>
+                    <td>${stock.createUser!''}</td>
+                    <td>${stock.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td>${stock.modifyUser!''}</td>
+                    <td>${stock.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="9" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>
+<script>
+
+    var $panel = navTab.getCurrentPanel();
+
+    function query() {
+        $('input[name="warehouseCode"]', $panel).val($('input[name="warehouse.warehouseCode"]', $panel).val());
+        $('input[name="warehouseText"]', $panel).val($('input[name="warehouse.warehouseText"]', $panel).val());
+        $('input[name="materialCode"]', $panel).val($('input[name="material.materialCode"]', $panel).val());
+        $('input[name="materialText"]', $panel).val($('input[name="material.materialText"]', $panel).val());
+    }
+
+</script>

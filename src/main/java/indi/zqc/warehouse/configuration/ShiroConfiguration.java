@@ -54,6 +54,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/logout", "anon");
         //静态资源不拦截
         filterChainDefinitionMap.put("/bin/**", "anon");
+        filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/login/**", "anon");
         filterChainDefinitionMap.put("/themes/**", "anon");

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.RoleMenuDao">
+
+    <insert id="insertRoleMenu">
+        insert into w_rolemenu
+          (rolecode,
+           menucode)
+        values
+          (#{roleCode, jdbcType = VARCHAR},
+           #{menuCode, jdbcType = VARCHAR})
+    </insert>
+
+    <delete id="deleteRoleMenuByRole">
+        delete from w_rolemenu
+         where rolecode = #{roleCode, jdbcType = VARCHAR}
+    </delete>
+
+</mapper>

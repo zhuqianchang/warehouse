@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import indi.zqc.warehouse.model.Role;
 import indi.zqc.warehouse.model.condition.RoleCondition;
 
+import java.util.List;
+
 /**
  * Title : RoleService.java
  * Package : indi.zqc.warehouse.service
@@ -26,4 +28,8 @@ public interface RoleService {
     Role selectRole(String roleCode);
 
     Page<Role> selectRolePage(RoleCondition condition);
+
+    int authorize(String roleCode, String[] menuCodes);
+
+    List<Role> selectRoleByUser(String userCode);
 }

@@ -1,0 +1,80 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form onsubmit="return navTabSearch(this);" action="" method="post">
+        <div class="searchBar">
+            <div class="pageFormContent">
+                <p>
+                    <label>物料编号：</label>
+                    <input type="text" name="materialCode" maxlength="40" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>"/>
+                </p>
+                <p>
+                    <label>物料描述：</label>
+                    <input type="text" name="materialText" maxlength="60" value="<#if (page.materialText)??>${page.materialText!''}</#if>"/>
+                </p>
+                <p>
+                    <label>物料类型：</label>
+                    <select name="materialType">
+                        <option value="">请选择</option>
+                        <#if materialTypes??>
+                            <#list materialTypes as materialType>
+                                <option value="${materialType.eCode!''}" <#if page.materialType?? && page.materialType == materialType.eCode>selected="selected"</#if>>${materialType.eCodeText!''}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </p>
+                <div class="button">
+                    <div class="buttonContent">
+                        <button type="submit">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add" target="dialog" mask="true" width="400" height="190" rel="addMaterial" title="新增物料"
+                   href="${rc.getContextPath()}/material/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            <li><a class="edit" target="dialog" mask="true" width="400" height="265" rel="editMaterial" title="编辑物料"
+                   href="${rc.getContextPath()}/material/edit?materialCode={materialCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            <li><a class="icon" target="dialog" mask="true" width="400" height="265" rel="viewMaterial" title="物料详情"
+                   href="${rc.getContextPath()}/material/view?materialCode={materialCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            <li><a class="delete" target="ajaxTodo" rel="deleteMaterial" title="确定要删除选择的物料吗?"
+                   href="${rc.getContextPath()}/material/delete?materialCode={materialCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="140">
+        <thead>
+        <tr>
+            <th width="120" orderField="materialCode" <#if (page.orderField?? && page.orderField=='materialCode')>class="${page.orderDirection!''}"</#if>>物料编号</th>
+            <th width="150" orderField="materialText" <#if (page.orderField?? && page.orderField=='materialText')>class="${page.orderDirection!''}"</#if>>物料名称</th>
+            <th width="150" orderField="materialType" <#if (page.orderField?? && page.orderField=='materialType')>class="${page.orderDirection!''}"</#if>>物料类型</th>
+            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
+            <th width="120" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as material>
+                <tr target="materialCode" rel="${material.materialCode!''}">
+                    <td>${material.materialCode!''}</td>
+                    <td>${material.materialText!''}</td>
+                    <td>${material.materialTypeText!''}</td>
+                    <td>${material.createUser!''}</td>
+                    <td>${material.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td>${material.modifyUser!''}</td>
+                    <td>${material.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="7" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>

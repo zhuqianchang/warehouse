@@ -17,9 +17,6 @@ public class Warehouse extends Common {
     //仓库名称
     private String warehouseText;
 
-    //仓库类型
-    private String warehouseType;
-
     public String getWarehouseCode() {
         return warehouseCode;
     }
@@ -34,13 +31,5 @@ public class Warehouse extends Common {
 
     public void setWarehouseText(String warehouseText) {
         this.warehouseText = warehouseText;
-    }
-
-    public String getWarehouseType() {
-        return warehouseType;
-    }
-
-    public void setWarehouseType(String warehouseType) {
-        this.warehouseType = warehouseType;
     }
 }

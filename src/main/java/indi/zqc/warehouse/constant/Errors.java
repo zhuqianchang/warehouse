@@ -16,4 +16,7 @@ public interface Errors {
         String PASSWORD_ERROR = "密码错误";
     }
 
+    interface Menu{
+    }
+
 }

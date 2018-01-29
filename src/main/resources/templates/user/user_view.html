@@ -1,14 +1,53 @@
 <div class="pageContent">
     <form method="post" action="${rc.getContextPath()}/user/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-        <div class="pageFormContent" layoutH="56">
-            <p>
-                <label>用户编号：</label>
-                <input name="userCode" class="required" type="text" size="30" value="${user.userCode}" readonly="readonly" alt="请输入用户编号"/>
-            </p>
-            <p>
-                <label>用户名称：</label>
-                <input name="userText" class="required" type="text" size="30" value="${user.userText}" readonly="readonly" alt="请输入用户名称"/>
-            </p>
+        <div class="pageFormContent">
+            <dl>
+                <dt>用户编号：</dt>
+                <dd><input type="text" name="userCode" class="required" maxlength="40" readonly="readonly"
+                       value="<#if (user.userCode)??>${user.userCode!''}</#if>"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>用户名称：</dt>
+                <dd><input type="text" name="userText" class="required" maxlength="60" readonly="readonly"
+                       value="<#if (user.userText)??>${user.userText!''}</#if>"/>
+                </dd>
+            </dl>
+            <dl style="width:auto;height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>角色</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 250px">
+                            <table class="table border" width="100%" layoutH="275">
+                            <thead>
+                            <tr>
+                                <th width="20"><input type="checkbox" group="roleCodes" class="checkboxCtrl">
+                                <th width="100">角色编号</th>
+                                <th width="100">角色描述</th>
+                            </tr>
+                            </thead>
+                            <tbody id="roletbody">
+                            <#if (roles?? && roles?size>0)>
+                                <#list roles as role>
+                                    <tr id="role_${role.roleCode!''}">
+                                        <td><input type="checkbox" name="roleCodes" value="${role.roleCode!''}" class="checkboxCtrl"/></td>
+                                        <td>${role.roleCode!''}</td>
+                                        <td>${role.roleText!''}</td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
         </div>
         <#if (user.userCode)??>
             <#assign createInfo=user/>

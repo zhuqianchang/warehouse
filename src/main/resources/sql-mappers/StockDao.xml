@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.StockDao">
+
+    <insert id="insertStock" parameterType="indi.zqc.warehouse.model.Stock">
+        insert into w_stock
+          (warehousecode,
+           materialcode,
+           stock,
+           createuser,
+           createdatetime,
+           modifyuser,
+           modifydatetime)
+        values
+          (#{warehouseCode, jdbcType = VARCHAR},
+           #{materialCode, jdbcType = VARCHAR},
+           #{stock, jdbcType = NUMERIC},
+           #{createUser, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyUser, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="deleteStock">
+        delete from w_stock
+         where warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+           and materialcode  = #{materialCode, jdbcType = VARCHAR}
+    </delete>
+
+    <update id="updateStock" parameterType="indi.zqc.warehouse.model.Stock">
+        update w_stock
+           set stock          = #{stock, jdbcType = NUMERIC},
+               modifyuser     = #{modifyUser, jdbcType = VARCHAR},
+               modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
+         where warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+           and materialcode  = #{materialCode, jdbcType = VARCHAR}
+    </update>
+
+    <select id="selectStock" resultType="indi.zqc.warehouse.model.Stock">
+        select s.warehousecode,
+               w.warehousetext,
+               s.materialcode,
+               m.materialtext,
+               m.materialtype,
+               s.stock,
+               s.createuser,
+               s.createdatetime,
+               s.modifyuser,
+               s.modifydatetime
+	      from w_stock s
+	      left join w_material m on s.materialcode = m.materialcode
+	      left join w_warehouse w on s.warehousecode = w.warehousecode
+         where s.warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+           and s.materialcode  = #{materialCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectWarehouseStock" resultType="indi.zqc.warehouse.model.Stock">
+        select * from w_stock
+         where warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectMaterialStock" resultType="indi.zqc.warehouse.model.Stock">
+        select * from w_stock
+         where materialcode  = #{materialCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectStockPage" parameterType="indi.zqc.warehouse.model.condition.StockCondition"
+            resultType="indi.zqc.warehouse.model.Stock">
+        select s.warehousecode,
+               w.warehousetext,
+               s.materialcode,
+               m.materialtext,
+               m.materialtype,
+               s.stock,
+               s.createuser,
+               s.createdatetime,
+               s.modifyuser,
+               s.modifydatetime
+          from w_stock s
+          left join w_material m on s.materialcode = m.materialcode
+          left join w_warehouse w on s.warehousecode = w.warehousecode
+        <where>
+            <if test="warehouseCode != null and warehouseCode != ''">
+                and s.warehousecode like concat(concat('%', #{warehouseCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="materialCode != null and materialCode != ''">
+                and s.materialcode like concat(concat('%', #{materialCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="materialType != null and materialType != ''">
+                and m.materialType = #{materialType, jdbcType = VARCHAR}
+            </if>
+        </where>
+        <if test="orderField != null and orderField != ''">
+            order by ${orderField} ${orderDirection}
+        </if>
+    </select>
+
+</mapper>
