@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Title : ProductionDao.java
  * Package : indi.zqc.warehouse.dao
- * Description : 产品DAO
+ * Description : 成品DAO
  * Create on : 2018/1/28 14:46
  *
  * @author Zhu.Qianchang

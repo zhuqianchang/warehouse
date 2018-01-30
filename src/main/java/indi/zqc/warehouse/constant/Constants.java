@@ -22,4 +22,7 @@ public class Constants {
 
     //分隔符
     public static final String SEPARATOR = "@zqc@";
+
+    //单据前缀
+    public static final String DJ_PREFIX = "DJ";
 }

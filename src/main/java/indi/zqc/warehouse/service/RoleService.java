@@ -21,8 +21,6 @@ public interface RoleService {
 
     int deleteRole(String roleCode);
 
-    int batchDeleteRole(String roleCodes);
-
     int updateRole(Role role);
 
     Role selectRole(String roleCode);

@@ -4,7 +4,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import indi.zqc.warehouse.dao.RoleDao;
 import indi.zqc.warehouse.dao.RoleMenuDao;
+import indi.zqc.warehouse.dao.UserDao;
+import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.Role;
+import indi.zqc.warehouse.model.User;
 import indi.zqc.warehouse.model.condition.RoleCondition;
 import indi.zqc.warehouse.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMenuDao roleMenuDao;
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
     public int insertRole(Role role) {
         return roleDao.insertRole(role);
@@ -37,16 +43,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int deleteRole(String roleCode) {
-        return roleDao.deleteRole(roleCode);
-    }
-
-    @Override
-    public int batchDeleteRole(String roleCodes) {
-        int deleteNum = 0;
-        for (String roleCode : roleCodes.split(",")) {
-            deleteNum += deleteRole(roleCode);
+        List<User> users = userDao.selectUserByRole(roleCode);
+        if (users != null && users.size() > 0) {
+            throw new BusinessException("角色已关联用户，不能删除");
         }
-        return deleteNum;
+        int del = roleDao.deleteRole(roleCode);
+        roleMenuDao.deleteRoleMenuByRole(roleCode);
+        return del;
     }
 
     @Override

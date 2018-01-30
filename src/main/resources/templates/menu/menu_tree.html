@@ -79,10 +79,11 @@
                     'menuCode': menuCode,
                     'navTabId': "${navTabId!''}"
                 },
+                dataType: "json",
                 success: function (result) {
                     if (result.statusCode == 200) {
                         navTab.reload(contextPath + "/menu/tree?navTabId=${navTabId!''}&selectNode=" + menuCode);
-                        alertMsg.correct("上移成功！");
+                        alertMsg.correct("上移成功");
                     } else {
                         alertMsg.error(result.message);
                     }
@@ -104,10 +105,11 @@
                     'menuCode': menuCode,
                     'navTabId': "${navTabId!''}"
                 },
+                dataType: "json",
                 success: function (result) {
                     if (result.statusCode == 200) {
                         navTab.reload(contextPath + "/menu/tree?navTabId=${navTabId!''}&selectNode=" + menuCode);
-                        alertMsg.correct("下移成功！");
+                        alertMsg.correct("下移成功");
                     } else {
                         alertMsg.error(result.message);
                     }

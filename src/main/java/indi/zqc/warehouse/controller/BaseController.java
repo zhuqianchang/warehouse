@@ -92,12 +92,25 @@ public abstract class BaseController {
         common.setModifyUser(SecurityContextUtils.getCurrentUserCode());
     }
 
+    /**
+     * 当前用户
+     *
+     * @return
+     */
+    public String getCurrentUserCode(){
+        return SecurityContextUtils.getCurrentUserCode();
+    }
+
     public String getForwardUrl(HttpServletRequest request) {
         return request.getContextPath();
     }
 
     public DWZResult ajaxDone() {
         return getDWZJsonObject(DWZStatusCode.OK, "操作成功", null, DWZCallbackType.EMPTY, null);
+    }
+
+    public DWZResult ajaxDone(String message) {
+        return getDWZJsonObject(DWZStatusCode.OK, message, null, DWZCallbackType.EMPTY, null);
     }
 
     public DWZResult ajaxError(String message) {

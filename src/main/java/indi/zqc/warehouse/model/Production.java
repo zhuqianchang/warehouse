@@ -3,7 +3,7 @@ package indi.zqc.warehouse.model;
 /**
  * Title : Production.java
  * Package : indi.zqc.warehouse.model
- * Description : 产品
+ * Description : 成品
  * Create on : 2018/1/27 23:25
  *
  * @author Zhu.Qianchang
@@ -11,8 +11,11 @@ package indi.zqc.warehouse.model;
  */
 public class Production extends Common {
 
-    //产品编号
+    //成品编号
     private String productionCode;
+
+    //成品描述
+    private String productionText;
 
     //物料编号
     private String materialCode;
@@ -26,6 +29,14 @@ public class Production extends Common {
 
     public void setProductionCode(String productionCode) {
         this.productionCode = productionCode;
+    }
+
+    public String getProductionText() {
+        return productionText;
+    }
+
+    public void setProductionText(String productionText) {
+        this.productionText = productionText;
     }
 
     public String getMaterialCode() {

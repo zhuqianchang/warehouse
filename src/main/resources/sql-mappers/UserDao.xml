@@ -46,6 +46,15 @@
         select * from w_user where usercode = #{userCode, jdbcType = VARCHAR}
     </select>
 
+    <select id="selectUserByRole" resultType="indi.zqc.warehouse.model.User">
+        select *
+          from w_user u
+         where exists (select 1
+                  from w_userrole ur
+                 where u.usercode = ur.usercode
+                   and ur.rolecode = #{roleCode, jdbcType = VARCHAR})
+    </select>
+
     <select id="selectUserPage" parameterType="indi.zqc.warehouse.model.condition.UserCondition"
             resultType="indi.zqc.warehouse.model.User">
         select * from w_user

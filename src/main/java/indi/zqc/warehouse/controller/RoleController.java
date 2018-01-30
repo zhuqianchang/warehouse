@@ -84,8 +84,8 @@ public class RoleController extends BaseController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public DWZResult deleteRole(String roleCodes) {
-        roleService.batchDeleteRole(roleCodes);
+    public DWZResult deleteRole(String roleCode) {
+        roleService.deleteRole(roleCode);
         return ajaxDone();
     }
 

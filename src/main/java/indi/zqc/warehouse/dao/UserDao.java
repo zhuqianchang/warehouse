@@ -5,6 +5,8 @@ import indi.zqc.warehouse.model.User;
 import indi.zqc.warehouse.model.condition.UserCondition;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Title : UserDao.java
  * Package : indi.zqc.warehouse.dao
@@ -25,6 +27,8 @@ public interface UserDao {
     int resetPassword(User user);
 
     User selectUser(@Param("userCode") String userCode);
+
+    List<User> selectUserByRole(@Param("roleCode") String roleCode);
 
     Page<User> selectUserPage(UserCondition condition);
 }

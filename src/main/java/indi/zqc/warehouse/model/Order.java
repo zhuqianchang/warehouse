@@ -16,7 +16,7 @@ public class Order {
     //订单编号
     private String orderCode;
 
-    //产品编号
+    //成品编号
     private String productionCode;
 
     //数量

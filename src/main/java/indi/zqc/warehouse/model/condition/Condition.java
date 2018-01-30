@@ -39,7 +39,7 @@ public abstract class Condition {
     private int pageNum = 1;
 
     //排序字段
-    private String orderField;
+    private String orderField = "modifyDateTime";
 
     //排序方式 默认降序
     private String orderDirection = "desc";
