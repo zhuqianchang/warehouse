@@ -29,11 +29,11 @@
 
     <select id="selectOperationStockPage" parameterType="indi.zqc.warehouse.model.condition.OperationStockCondition"
             resultType="indi.zqc.warehouse.model.OperationStock">
-        select o.receiptCode,
+        select o.receiptcode,
                o.warehousecode,
-               w.warehouseText,
+               w.warehousetext,
                o.materialcode,
-               m.materialText,
+               m.materialtext,
                o.operationtype,
                o.quantity,
                o.createuser,
@@ -48,13 +48,13 @@
                 and o.receiptcode like concat(concat('%', #{receiptCode, jdbcType = VARCHAR}), '%')
             </if>
             <if test="warehouseCode != null and warehouseCode != ''">
-                and o.warehouseCode like concat(concat('%', #{warehouseCode, jdbcType = VARCHAR}), '%')
+                and o.warehousecode like concat(concat('%', #{warehouseCode, jdbcType = VARCHAR}), '%')
             </if>
             <if test="materialCode != null and materialCode != ''">
-                and o.materialCode like concat(concat('%', #{materialCode, jdbcType = VARCHAR}), '%')
+                and o.materialcode like concat(concat('%', #{materialCode, jdbcType = VARCHAR}), '%')
             </if>
             <if test="operationType != null and operationType != ''">
-                and o.operationType = #{materialType, jdbcType = VARCHAR}
+                and o.operationtype = #{operationType, jdbcType = VARCHAR}
             </if>
         </where>
         <if test="orderField != null and orderField != ''">

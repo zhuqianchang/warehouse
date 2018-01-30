@@ -120,6 +120,7 @@
     //删除添加记录
     function delStock(warehouseCode, materialCode) {
         $('#stock_' + warehouseCode + '_' + materialCode, $panel).remove();
+        $.jTableTool.initGridColumnWidth($("#stockTBody", $panel).parents(".grid"));
     }
 
     //入库

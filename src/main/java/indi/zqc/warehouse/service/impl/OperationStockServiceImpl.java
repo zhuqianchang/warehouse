@@ -14,12 +14,12 @@ import indi.zqc.warehouse.model.Stock;
 import indi.zqc.warehouse.model.condition.OperationStockCondition;
 import indi.zqc.warehouse.service.OperationStockService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -121,7 +121,7 @@ public class OperationStockServiceImpl implements OperationStockService {
         if (StringUtils.equals(operationStock.getOperationType(), OperationType.OUTPUT.getKey())) {
             //出库
             if (stock == null || stock.getStock() < operationStock.getQuantity()) {
-                throw new BusinessException(operationStock.getWarehouseText() + "中" + operationStock.getMaterialText() + "库存不足");
+                throw new BusinessException(String.format("[%s]中的[%s]库存不足", operationStock.getWarehouseText(), operationStock.getMaterialText()));
             } else {
                 stock.setStock(stock.getStock() - operationStock.getQuantity());
                 stock.setModifyUser(operationStock.getModifyUser());
@@ -163,15 +163,7 @@ public class OperationStockServiceImpl implements OperationStockService {
      * 单据编号
      */
     private String newReceiptCode() {
-        StringBuilder receiptCode = new StringBuilder(Constants.DJ_PREFIX);
-        Calendar cal = Calendar.getInstance();
-        receiptCode.append(cal.get(Calendar.YEAR));
-        receiptCode.append(cal.get(Calendar.MINUTE) + 1);
-        receiptCode.append(cal.get(Calendar.DAY_OF_MONTH));
-        receiptCode.append(cal.get(Calendar.HOUR_OF_DAY));
-        receiptCode.append(cal.get(Calendar.MINUTE));
-        receiptCode.append(cal.get(Calendar.SECOND));
-        return receiptCode.toString();
+        return Constants.DJ_PREFIX + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
     }
 
 }
