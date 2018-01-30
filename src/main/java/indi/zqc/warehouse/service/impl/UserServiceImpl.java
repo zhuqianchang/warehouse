@@ -12,6 +12,7 @@ import indi.zqc.warehouse.service.UserService;
 import indi.zqc.warehouse.util.EncryptAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Title : UserServiceImpl.java
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
  * @author Zhu.Qianchang
  * @version v1.0.0
  */
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 

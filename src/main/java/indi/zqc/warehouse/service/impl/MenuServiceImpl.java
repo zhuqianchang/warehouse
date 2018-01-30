@@ -9,6 +9,7 @@ import indi.zqc.warehouse.util.TreeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * @author Zhu.Qianchang
  * @version v1.0.0
  */
+@Transactional
 @Service
 public class MenuServiceImpl implements MenuService {
 
