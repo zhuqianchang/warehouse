@@ -1,0 +1,74 @@
+<link href="${rc.getContextPath()}/css/dwz.custom.css" rel="stylesheet" type="text/css">
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/purchase/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <dl>
+                <dt>采购编号：</dt>
+                <dd>
+                    <input type="text" name="purchaseCode" class="required" maxlength="40" readonly="readonly"
+                           value="<#if (purchase.purchaseCode)??>${purchase.purchaseCode!''}</#if>"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>采购类型：</dt>
+                <dd>
+                    <input type="text" name="purchaseType" class="required" maxlength="20" readonly="readonly"
+                           value="<#if (purchase.purchaseTypeText)??>${purchase.purchaseTypeText!''}</#if>"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>采购状态：</dt>
+                <dd>
+                    <input type="text" name="purchaseStatus" class="required" maxlength="20" readonly="readonly"
+                           value="<#if (purchase.purchaseStatusText)??>${purchase.purchaseStatusText!''}</#if>"/>
+                </dd>
+            </dl>
+            <dl style="width:auto;height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>物料</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 290px">
+                            <table class="table border" width="100%" layoutH="300">
+                            <thead>
+                            <tr>
+                                <th width="100">物料编号</th>
+                                <th width="100">物料描述</th>
+                                <th width="100">数量</th>
+                            </tr>
+                            </thead>
+                            <tbody id="materialTBody">
+                            <#if (materials?? && materials?size>0)>
+                                <#list materials as material>
+                                    <tr id="material_${material.materialCode!''}">
+                                        <td>${material.materialCode!''}</td>
+                                        <td>${material.materialText!''}</td>
+                                        <td>${material.quantity!''}</td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+        </div>
+        <#if (purchase.purchaseCode)??>
+            <#assign createInfo=purchase/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

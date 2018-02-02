@@ -1,10 +1,10 @@
 <div class="createInfo">
     <p>
         <label class="time">创建时间：<#if (createInfo.createDateTime)??>${createInfo.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</#if></label>
-        <label class="user">创建人：<#if (createInfo.createUser)??>${createInfo.createUser}</#if></label>
+        <label class="user">创建人：<#if (createInfo.createUserText)??>${createInfo.createUserText}</#if></label>
     </p>
     <p>
         <label class="time">修改时间：<#if (createInfo.modifyDateTime)??>${createInfo.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</#if></label>
-        <label class="user">修改人：<#if (createInfo.modifyUser)??>${createInfo.modifyUser}</#if></label>
+        <label class="user">修改人：<#if (createInfo.modifyUserText)??>${createInfo.modifyUserText}</#if></label>
     </p>
 </div>

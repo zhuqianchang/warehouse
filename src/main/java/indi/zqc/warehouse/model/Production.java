@@ -20,9 +20,6 @@ public class Production extends Common {
     //物料编号
     private String materialCode;
 
-    //数量
-    private Integer quantity;
-
     public String getProductionCode() {
         return productionCode;
     }
@@ -45,13 +42,5 @@ public class Production extends Common {
 
     public void setMaterialCode(String materialCode) {
         this.materialCode = materialCode;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 }

@@ -25,4 +25,10 @@ public class Constants {
 
     //单据前缀
     public static final String DJ_PREFIX = "DJ";
+
+    //采购清单前缀
+    public static final String QD_PREFIX = "QD";
+
+    //成品类型
+    public static final String PRODUCTION_TYPE = "03";
 }

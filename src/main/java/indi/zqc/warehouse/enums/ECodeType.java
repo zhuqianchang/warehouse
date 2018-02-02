@@ -11,7 +11,7 @@ package indi.zqc.warehouse.enums;
  */
 public enum ECodeType {
 
-    MATERIAL("material", "物料类型");
+    MATERIAL("MATERIAL", "物料类型");
 
     private String key;
 

@@ -14,7 +14,7 @@
                         <input type="hidden" name="warehouseText" value="">
                         <input type="hidden" name="warehouse.warehouseCode" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>">
                         <input type="text" name="warehouse.warehouseText" readonly="readonly" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>"/>
-                        <a class="btnLook" href="warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
+                        <a class="btnLook" href="${rc.getContextPath()}/${rc.getContextPath()}/warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
                     </dd>
                 </dl>
                 <dl class="nowrap"></dl>
@@ -25,7 +25,7 @@
                         <input type="hidden" name="materialText" value="">
                         <input type="hidden" name="material.materialCode" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>">
                         <input type="text" name="material.materialText" readonly="readonly" value="<#if (page.materialText)??>${page.materialText!''}</#if>"/>
-                        <a class="btnLook" href="material/lookup" warn="请选择物料" lookupGroup="material">查找带回</a>
+                        <a class="btnLook" href="${rc.getContextPath()}/material/lookup" warn="请选择物料" lookupGroup="material">查找带回</a>
                     </dd>
                 </dl>
                 <dl>
@@ -43,7 +43,7 @@
                 </dl>
                 <div class="buttonActive">
                     <div class="buttonContent">
-                        <button type="submit" onclick="query();">查询</button>
+                        <button type="submit" onclick="record.query();">查询</button>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <td>${stock.materialText!''}</td>
                     <td>${stock.quantity!''}</td>
                     <td>${stock.operationTypeText!''}</td>
-                    <td>${stock.createUser!''}</td>
+                    <td>${stock.createUserText!''}</td>
                     <td>${stock.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
                 </tr>
             </#list>
@@ -93,11 +93,15 @@
 
     var $panel = navTab.getCurrentPanel();
 
-    function query() {
-        $('input[name="warehouseCode"]', $panel).val($('input[name="warehouse.warehouseCode"]', $panel).val());
-        $('input[name="warehouseText"]', $panel).val($('input[name="warehouse.warehouseText"]', $panel).val());
-        $('input[name="materialCode"]', $panel).val($('input[name="material.materialCode"]', $panel).val());
-        $('input[name="materialText"]', $panel).val($('input[name="material.materialText"]', $panel).val());
-    }
+    var record = {
+
+        //查询
+        query: function () {
+            $('input[name="warehouseCode"]', $panel).val($('input[name="warehouse.warehouseCode"]', $panel).val());
+            $('input[name="warehouseText"]', $panel).val($('input[name="warehouse.warehouseText"]', $panel).val());
+            $('input[name="materialCode"]', $panel).val($('input[name="material.materialCode"]', $panel).val());
+            $('input[name="materialText"]', $panel).val($('input[name="material.materialText"]', $panel).val());
+        }
+    };
 
 </script>

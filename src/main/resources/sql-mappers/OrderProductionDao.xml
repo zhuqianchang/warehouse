@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.OrderProductionDao">
+
+    <insert id="insertOrderProduction">
+        insert into w_orderproduction
+          (ordercode,
+           productioncode,
+           quantity)
+        values
+          (#{orderCode, jdbcType = VARCHAR},
+           #{productionCode, jdbcType = VARCHAR},
+           #{quantity, jdbcType = NUMERIC})
+    </insert>
+
+    <delete id="deleteOrderProduction">
+        delete from w_orderproduction
+         where ordercode = #{orderCode, jdbcType = VARCHAR}
+    </delete>
+
+    <select id="selectOrderProduction" resultType="indi.zqc.warehouse.model.OrderProduction">
+        select op.*,
+               m.materialtext productiontext
+          from w_orderproduction op
+          left join w_material m on op.productioncode = m.materialcode
+         where op.ordercode = #{orderCode, jdbcType = VARCHAR}
+    </select>
+</mapper>

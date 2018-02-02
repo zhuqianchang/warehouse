@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.OrderDao">
+
+    <insert id="insertOrder" parameterType="indi.zqc.warehouse.model.Order">
+        insert into w_order
+          (ordercode,
+           ordertext,
+           productdate,
+           orderstatus,
+           createuser,
+           createdatetime,
+           modifyuser,
+           modifydatetime)
+        values
+          (#{orderCode, jdbcType = VARCHAR},
+           #{orderText, jdbcType = VARCHAR},
+           #{productDate, jdbcType = DATE},
+           #{orderStatus, jdbcType = VARCHAR},
+           #{createUser, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyUser, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="deleteOrder">
+        delete from w_order
+         where ordercode = #{orderCode, jdbcType = VARCHAR}
+    </delete>
+
+    <update id="updateOrder" parameterType="indi.zqc.warehouse.model.Order">
+        update w_order
+           set ordertext      = #{orderText, jdbcType = VARCHAR},
+               productdate    = #{productDate, jdbcType = DATE},
+               orderstatus    = #{orderStatus, jdbcType = VARCHAR},
+               modifyuser     = #{modifyUser, jdbcType = VARCHAR},
+               modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
+         where ordercode = #{orderCode, jdbcType = VARCHAR}
+    </update>
+
+    <select id="selectOrder" resultType="indi.zqc.warehouse.model.Order">
+        select * from w_order
+         where ordercode = #{orderCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectOrderPage" parameterType="indi.zqc.warehouse.model.condition.OrderCondition"
+            resultType="indi.zqc.warehouse.model.Order">
+        select * from w_order
+        <where>
+            <if test="orderCode != null and orderCode != ''">
+                and ordercode like concat(concat('%', #{orderCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="orderText != null and orderText != ''">
+                and ordertext like concat(concat('%', #{orderText, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="orderStatus != null and orderStatus != ''">
+                and orderstatus = #{orderStatus, jdbcType = VARCHAR}
+            </if>
+        </where>
+        <if test="orderField != null and orderField != ''">
+            order by ${orderField} ${orderDirection}
+        </if>
+    </select>
+
+</mapper>

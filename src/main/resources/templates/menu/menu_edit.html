@@ -28,7 +28,7 @@
             </div>
             <div class="button" style="margin-left: 10px;">
                 <div class="buttonContent">
-                    <button type="button" onclick="cancel()">取消</button>
+                    <button type="button" onclick="menu.cancel()">取消</button>
                 </div>
             </div>
         </div>
@@ -36,9 +36,14 @@
 </div>
 <script>
 
-    function cancel() {
-        var ht = "<div class='treeTip'>请点击左侧树形菜单进行相关操作</div>";
-        $("#menuDetail", navTab.getCurrentPanel()).html(ht);
-    }
+    var menu = {
+
+        //取消
+        cancel: function () {
+            var html = "<div class='treeTip'>请点击左侧树形菜单进行相关操作</div>";
+            $("#menuDetail", navTab.getCurrentPanel()).html(html);
+        }
+    };
+
 
 </script>

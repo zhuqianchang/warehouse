@@ -54,6 +54,12 @@
             <if test="materialType != null and materialType != ''">
                 and materialtype = #{materialType, jdbcType = VARCHAR}
             </if>
+            <if test="materialTypes != null and materialTypes.size > 0">
+                and materialtype in
+                <foreach item="materialType" collection="materialTypes" index="index" open="(" separator="," close=")">
+                    #{materialType}
+                </foreach>
+            </if>
         </where>
         <if test="orderField != null and orderField != ''">
             order by ${orderField} ${orderDirection}

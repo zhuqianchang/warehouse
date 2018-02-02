@@ -1,0 +1,151 @@
+<link href="${rc.getContextPath()}/css/dwz.custom.css" rel="stylesheet" type="text/css">
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/order/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <dl>
+                <dt>订单编号：</dt>
+                <dd>
+                <dd>
+                    <input type="text" name="orderCode" class="required" maxlength="40" readonly="readonly"
+                           value="<#if (order.orderCode)??>${order.orderCode!''}</#if>" alt="请输入订单编号"/>
+                </dd>
+                </dd>
+            </dl>
+            <dl>
+                <dt>订单描述：</dt>
+                <dd>
+                    <input type="text" name="orderText" class="required" maxlength="60" readonly="readonly"
+                           value="<#if (order.orderText)??>${order.orderText!''}</#if>" alt="请输入订单描述"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>生产日期：</dt>
+                <dd>
+                    <input type="text" name="productDateStr" class="required" readonly="readonly"
+                           value="<#if (order.productDateStr)??>${order.productDateStr!''}</#if>">
+                </dd>
+            </dl>
+            <dl>
+                <dt>订单状态：</dt>
+                <dd>
+                    <input type="text" name="orderStatus" class="required" readonly="readonly"
+                           value="<#if (order.orderStatusText)??>${order.orderStatusText!''}</#if>">
+                </dd>
+            </dl>
+            <dl style="height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>成品</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 150px">
+                            <table class="table border" width="100%" layoutH="530">
+                            <thead>
+                            <tr>
+                                <th width="100">成品编号</th>
+                                <th width="100">成品描述</th>
+                                <th width="100">数量</th>
+                            </tr>
+                            </thead>
+                            <tbody id="productionTBody">
+                            <#if (productions?? && productions?size>0)>
+                                <#list productions as production>
+                                    <tr>
+                                        <td>${production.productionCode!''}</td>
+                                        <td>${production.productionText!''}</td>
+                                        <td>${production.quantity!''}</td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+            <dl style="height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>物料</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 150px">
+                            <table class="table border" width="100%" layoutH="530">
+                                <thead>
+                                <tr>
+                                    <th width="100">物料编号</th>
+                                    <th width="100">物料描述</th>
+                                    <th width="100">数量</th>
+                                </tr>
+                                </thead>
+                                <tbody id="materialTBody">
+                                <#if (materials?? && materials?size>0)>
+                                    <#list materials as material>
+                                        <tr>
+                                            <td>${material.materialCode!''}</td>
+                                            <td>${material.materialText!''}</td>
+                                            <td>${material.quantity!''}</td>
+                                        </tr>
+                                    </#list>
+                                </#if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+        </div>
+        <#if (order.orderCode)??>
+            <#assign createInfo=order/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+            </ul>
+        </div>
+    </form>
+</div>
+<script>
+
+    var $dialog = $.pdialog.getCurrent();
+
+    var order_purchase = {
+
+        //保存
+        save: function () {
+            var count = $('#productionTBody', $dialog).find('tr').length;
+            if (count == 0) {
+                alertMsg.warn('请添加成品');
+                return false;
+            }
+            var productions = [];
+            var flag = true;
+            $('#productionTBody', $dialog).find('tr').each(function () {
+                var quantity = $(this).find('input[name="quantity"]').val();
+                if (!quantity || isNaN(parseInt(quantity)) || quantity < 1) {
+                    alertMsg.warn('请输入正确的数量');
+                    flag = false;
+                    return false;
+                }
+                var production = {};
+                production.productionCode = $(this).attr('id').replace("production_","");
+                production.quantity = quantity;
+                productions.push(production);
+            });
+            if (flag) {
+                $('#productions', $dialog).val(JSON.stringify(productions));
+                $('form', $dialog).submit();
+            }
+        }
+    }
+
+</script>

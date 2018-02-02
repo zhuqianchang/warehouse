@@ -1,0 +1,100 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form rel="pagerForm" method="post" action="" class="pageForm required-validate" onsubmit="return navTabSearch(this);">
+        <div class="searchBar">
+            <div class="pageFormContent">
+                <dl>
+                    <dt>订单编号：</dt>
+                    <dd><input type="text" name="orderCode" maxlength="40" value="<#if (page.orderCode)??>${page.orderCode!''}</#if>"/></dd>
+                </dl>
+                <dl>
+                    <dt>订单描述：</dt>
+                    <dd><input type="text" name="orderText" maxlength="60" value="<#if (page.orderText)??>${page.orderText!''}</#if>"/></dd>
+                </dl>
+                <dl class="nowrap"></dl>
+                <dl>
+                    <dt>生产日期</dt>
+                    <dd>
+                        <input name="productDateStart" class="date readonly" readonly="readonly" type="text" value="<#if (page.productDateStart)??>${page.productDateStart}</#if>">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>至</dt>
+                    <dd>
+                        <input name="productDateEnd" class="date readonly" readonly="readonly" type="text" value="<#if (page.productDateEnd)??>${page.productDateEnd}</#if>">
+                    </dd>
+                </dl>
+                <dl class="nowrap"></dl>
+                <dl>
+                    <label>订单状态：</label>
+                    <dd>
+                        <select name="orderStatus">
+                            <option value="">请选择</option>
+                            <#if orderStatus??>
+                                <#list orderStatus as status>
+                                    <option value="${status.key!''}" <#if page.orderStatus?? && page.orderStatus == status.key>selected="selected"</#if>>${status.value!''}</option>
+                                </#list>
+                            </#if>
+                        </select>
+                    </dd>
+                </dl>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add" target="dialog" mask="true" width="440" height="520" rel="addOrder" title="新增订单"
+                   href="${rc.getContextPath()}/order/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            <li><a class="edit" target="dialog" mask="true" width="440" height="590" rel="editOrder" title="编辑订单"
+                   href="${rc.getContextPath()}/order/edit?orderCode={orderCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            <li><a class="icon" target="dialog" mask="true" width="440" height="690" rel="viewOrder" title="订单详情"
+                   href="${rc.getContextPath()}/order/view?orderCode={orderCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            <li><a class="edit" target="ajaxTodo" rel="producePurchase" title="确定要生成当前订单的采购清单吗?"
+                   href="${rc.getContextPath()}/purchase/produce?orderCode={orderCode}&navTabId=${navTabId}"><span>生成</span></a></li>
+            <li><a class="delete" target="ajaxTodo" rel="deleteOrder" title="确定要删除选择的订单吗?"
+                   href="${rc.getContextPath()}/order/delete?orderCode={orderCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="222">
+        <thead>
+        <tr>
+            <th width="120" orderField="orderCode" <#if (page.orderField?? && page.orderField=='orderCode')>class="${page.orderDirection!''}"</#if>>订单编号</th>
+            <th width="150" orderField="orderText" <#if (page.orderField?? && page.orderField=='orderText')>class="${page.orderDirection!''}"</#if>>订单描述</th>
+            <th width="120" orderField="productDate" <#if (page.orderField?? && page.orderField=='productDate')>class="${page.orderDirection!''}"</#if>>生产日期</th>
+            <th width="120" orderField="orderStatus" <#if (page.orderField?? && page.orderField=='orderStatus')>class="${page.orderDirection!''}"</#if>>订单状态</th>
+            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
+            <th width="120" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as order>
+                <tr target="orderCode" rel="${order.orderCode!''}">
+                    <td>${order.orderCode!''}</td>
+                    <td>${order.orderText!''}</td>
+                    <td>${order.productDate?string("yyyy-MM-dd")}</td>
+                    <td>${order.orderStatusText!''}</td>
+                    <td>${order.createUserText!''}</td>
+                    <td>${order.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td>${order.modifyUserText!''}</td>
+                    <td>${order.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="7" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>

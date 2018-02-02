@@ -1,12 +1,15 @@
 package indi.zqc.warehouse.controller;
 
 import com.github.pagehelper.Page;
+import indi.zqc.warehouse.constant.Constants;
 import indi.zqc.warehouse.enums.ECodeType;
 import indi.zqc.warehouse.model.DWZResult;
+import indi.zqc.warehouse.model.ECode;
 import indi.zqc.warehouse.model.Material;
 import indi.zqc.warehouse.model.condition.MaterialCondition;
 import indi.zqc.warehouse.service.MaterialService;
 import indi.zqc.warehouse.util.ECodeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Title : MaterialController.java
@@ -100,6 +105,35 @@ public class MaterialController extends BaseController {
         model.addAttribute(PAGE, condition);
         model.addAttribute("materialTypes", ECodeUtils.selectECodeList(ECodeType.MATERIAL.getKey()));
         return "material/material_lookup";
+    }
+
+    @RequestMapping("/production/lookup")
+    public String productionLookup(Model model, MaterialCondition condition) {
+        condition.setMaterialType(Constants.PRODUCTION_TYPE);
+        Page<Material> page = materialService.selectMaterialPage(condition);
+        condition.setData(page);
+        condition.setTotalCount(page.getTotal());
+        model.addAttribute(PAGE, condition);
+        model.addAttribute("url", "production/lookup");
+        return "material/material_production_lookup";
+    }
+
+    @RequestMapping("/production/not/lookup")
+    public String notProductionLookup(Model model, MaterialCondition condition) {
+        List<ECode> eCodes = ECodeUtils.selectECodeList(ECodeType.MATERIAL.getKey());
+        List<String> materialTypes = new ArrayList<>();
+        for (ECode eCode : eCodes) {
+            if (!StringUtils.equals(eCode.geteCode(), Constants.PRODUCTION_TYPE)) {
+                materialTypes.add(eCode.geteCode());
+            }
+        }
+        condition.setMaterialTypes(materialTypes);
+        Page<Material> page = materialService.selectMaterialPage(condition);
+        condition.setData(page);
+        condition.setTotalCount(page.getTotal());
+        model.addAttribute(PAGE, condition);
+        model.addAttribute("url", "production/not/lookup");
+        return "material/material_production_lookup";
     }
 
 }

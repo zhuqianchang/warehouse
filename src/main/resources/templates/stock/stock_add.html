@@ -6,14 +6,14 @@
                 <input name="warehouseCode" value="" type="hidden"/>
                 <input name="warehouse.warehouseCode" value="" type="hidden"/>
                 <input type="text" name="warehouse.warehouseText" class="required" value="" placeholder="请选择仓库" readonly="readonly"/>
-                <a class="btnLook" width="900" href="warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
+                <a class="btnLook" href="${rc.getContextPath()}/warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
             </p>
             <p>
                 <label>物料：</label>
                 <input name="materialCode" value="" type="hidden"/>
                 <input name="material.materialCode" value="" type="hidden"/>
                 <input type="text" name="material.materialText" class="required" value="" placeholder="请选择物料" readonly="readonly"/>
-                <a class="btnLook" href="material/lookup" warn="请选择物料" lookupGroup="material">查找带回</a>
+                <a class="btnLook" href="${rc.getContextPath()}/material/lookup" warn="请选择物料" lookupGroup="material">查找带回</a>
             </p>
             <p>
                 <label>库存：</label>
@@ -25,7 +25,7 @@
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="button" onclick="save();">保存</button>
+                            <button type="button" onclick="stock.save();">保存</button>
                         </div>
                     </div>
                 </li>
@@ -44,29 +44,32 @@
 
     var $dialog = $.pdialog.getCurrent();
 
-    function save() {
-        var warehouseCode = $('input[name="warehouse.warehouseCode"]', $dialog).val();
-        var materialCode = $('input[name="material.materialCode"]', $dialog).val();
-        $('input[name="warehouseCode"]', $dialog).val(warehouseCode);
-        $('input[name="materialCode"]', $dialog).val(materialCode);
+    var stock = {
 
-        //校验唯一
-        $.ajax({
-            url: '${rc.getContextPath()}/stock/verify',
-            data: {
-                warehouseCode: warehouseCode,
-                materialCode: materialCode
-            },
-            dataType: "json",
-            success: function (json) {
-                if (json === true) {
-                    $('form', $dialog).submit();
-                } else {
-                    alertMsg.error("库存已存在");
+        //保存
+        save: function () {
+            var warehouseCode = $('input[name="warehouse.warehouseCode"]', $dialog).val();
+            var materialCode = $('input[name="material.materialCode"]', $dialog).val();
+            $('input[name="warehouseCode"]', $dialog).val(warehouseCode);
+            $('input[name="materialCode"]', $dialog).val(materialCode);
+
+            //校验唯一
+            $.ajax({
+                url: '${rc.getContextPath()}/stock/verify',
+                data: {
+                    warehouseCode: warehouseCode,
+                    materialCode: materialCode
+                },
+                dataType: "json",
+                success: function (json) {
+                    if (json === true) {
+                        $('form', $dialog).submit();
+                    } else {
+                        alertMsg.error("库存已存在");
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
 </script>

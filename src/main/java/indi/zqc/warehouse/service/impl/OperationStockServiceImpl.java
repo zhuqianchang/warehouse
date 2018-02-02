@@ -140,7 +140,7 @@ public class OperationStockServiceImpl implements OperationStockService {
     private List<OperationStock> getOperationStockList(String stocks, String receiptCode, String userCode, OperationType operationType) {
         List<OperationStock> operationStocks = new ArrayList<>();
         JSONArray jsonArray = JSONArray.parseArray(stocks);
-        for (int i = 0; i < jsonArray.size(); i++) {
+        for (int i = 0; jsonArray != null && i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             OperationStock operationStock = new OperationStock();
             operationStock.setReceiptCode(receiptCode);

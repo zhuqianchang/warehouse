@@ -1,8 +1,10 @@
 package indi.zqc.warehouse.configuration;
 
 import indi.zqc.warehouse.service.ECodeService;
+import indi.zqc.warehouse.service.UserService;
 import indi.zqc.warehouse.util.ECodeUtils;
 import indi.zqc.warehouse.util.SpringBeanUtils;
+import indi.zqc.warehouse.util.UserUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,5 +28,10 @@ public class BaseConfiguration {
     @Bean
     public ECodeUtils eCodeUtils(ECodeService eCodeService) {
         return new ECodeUtils(eCodeService);
+    }
+
+    @Bean
+    public UserUtils userUtils(UserService userService) {
+        return new UserUtils(userService);
     }
 }

@@ -1,0 +1,70 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form rel="pagerForm" method="post" action="${rc.getContextPath()}/material/${url!''}" onsubmit="return dialogSearch(this);">
+        <div class="searchBar">
+            <ul class="searchContent">
+                <li>
+                    <label>物料编号：</label>
+                    <input type="text" name="materialCode" maxlength="40" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>"/>
+                </li>
+                <li>
+                    <label>物料描述：</label>
+                    <input type="text" name="materialText" maxlength="60" value="<#if (page.materialText)??>${page.materialText!''}</#if>"/>
+                </li>
+            </ul>
+            <div class="subBar">
+                <ul>
+                    <li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <table class="table" width="100%" layoutH="115">
+        <thead>
+        <tr>
+            <th width="120" orderField="materialCode" <#if (page.orderField?? && page.orderField=='materialCode')>class="${page.orderDirection!''}"</#if>>物料编号</th>
+            <th width="150" orderField="materialText" <#if (page.orderField?? && page.orderField=='materialText')>class="${page.orderDirection!''}"</#if>>物料名称</th>
+            <th width="150" orderField="materialType" <#if (page.orderField?? && page.orderField=='materialType')>class="${page.orderDirection!''}"</#if>>物料类型</th>
+            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
+            <th width="120" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
+            <th width="100">请选择</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as material>
+                <tr ondblclick="material_production_lookup.bringBack('${material.materialCode!''}','${material.materialText!''}')">
+                    <td>${material.materialCode!''}</td>
+                    <td>${material.materialText!''}</td>
+                    <td>${material.materialTypeText!''}</td>
+                    <td>${material.createUserText!''}</td>
+                    <td>${material.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td>${material.modifyUserText!''}</td>
+                    <td>${material.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td><a class="btnSelect" href="javascript:void(0);" onclick="material_production_lookup.bringBack('${material.materialCode!''}','${material.materialText!''}')" title="查找带回">选择</a></td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="7" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>
+<script>
+
+    var material_production_lookup = {
+
+        //查找带回
+        bringBack: function (materialCode, materialText) {
+            $.bringBack({materialCode: materialCode, materialText: materialText});
+        }
+    };
+
+</script>

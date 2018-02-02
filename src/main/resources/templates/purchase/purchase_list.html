@@ -1,0 +1,99 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form rel="pagerForm" method="post" action="" class="pageForm required-validate" onsubmit="return navTabSearch(this);">
+        <div class="searchBar">
+            <div class="pageFormContent">
+                <dl>
+                    <dt>采购编号：</dt>
+                    <dd><input type="text" name="purchaseCode" maxlength="40" value="<#if (page.purchaseCode)??>${page.purchaseCode!''}</#if>"/></dd>
+                </dl>
+                <dl>
+                    <label>采购类型：</label>
+                    <dd>
+                        <select name="purchaseType">
+                            <option value="">请选择</option>
+                            <#if purchaseTypes??>
+                                <#list purchaseTypes as purchaseType>
+                                    <option value="${purchaseType.key!''}" <#if page.purchaseType?? && page.purchaseType == purchaseType.key>selected="selected"</#if>>${purchaseType.value!''}</option>
+                                </#list>
+                            </#if>
+                        </select>
+                    </dd>
+                </dl>
+                <dl class="nowrap"></dl>
+                <dl>
+                    <label>采购状态：</label>
+                    <dd>
+                        <select name="purchaseStatus">
+                            <option value="">请选择</option>
+                            <#if purchaseStatus??>
+                                <#list purchaseStatus as status>
+                                    <option value="${status.key!''}" <#if page.purchaseStatus?? && page.purchaseStatus == status.key>selected="selected"</#if>>${status.value!''}</option>
+                                </#list>
+                            </#if>
+                        </select>
+                    </dd>
+                </dl>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add" target="dialog" mask="true" width="440" height="530" rel="addPurchase" title="新增采购清单"
+                   href="${rc.getContextPath()}/purchase/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            <li><a class="edit" target="dialog" mask="true" width="440" height="600" rel="editPurchase" title="编辑采购清单"
+                   href="${rc.getContextPath()}/purchase/edit?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            <li><a class="icon" target="dialog" mask="true" width="440" height="600" rel="viewPurchase" title="采购清单详情"
+                   href="${rc.getContextPath()}/purchase/view?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            <li><a class="edit" target="ajaxTodo" rel="exportPurchase" title="确定要导出选择的采购清单吗?"
+                   href="${rc.getContextPath()}/purchase/export?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>导出</span></a></li>
+            <li><a class="delete" target="ajaxTodo" rel="deletePurchase" title="确定要删除选择的采购清单吗?"
+                   href="${rc.getContextPath()}/purchase/delete?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="181">
+        <thead>
+        <tr>
+            <th width="120" orderField="purchaseCode" <#if (page.orderField?? && page.orderField=='purchaseCode')>class="${page.orderDirection!''}"</#if>>采购编号</th>
+            <th width="120" orderField="purchaseType" <#if (page.orderField?? && page.orderField=='purchaseType')>class="${page.orderDirection!''}"</#if>>采购类型</th>
+            <th width="120" orderField="purchaseStatus" <#if (page.orderField?? && page.orderField=='purchaseStatus')>class="${page.orderDirection!''}"</#if>>采购状态</th>
+            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
+            <th width="120" orderField="modifyDateTime" <#if (page.orderField?? && page.orderField=='modifyDateTime')>class="${page.orderDirection!''}"</#if>>修改时间</th>
+        </tr>
+        </thead>
+        <tbody id="purchaseTBody">
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as purchase>
+                <tr target="purchaseCode" rel="${purchase.purchaseCode!''}" type="${purchase.purchaseType!''}">
+                    <td>${purchase.purchaseCode!''}</td>
+                    <td>${purchase.purchaseTypeText!''}</td>
+                    <td>${purchase.purchaseStatusText!''}</td>
+                    <td>${purchase.createUserText!''}</td>
+                    <td>${purchase.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                    <td>${purchase.modifyUserText!''}</td>
+                    <td>${purchase.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="7" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>
+<script>
+
+    var $panel = navTab.getCurrentPanel();
+
+</script>

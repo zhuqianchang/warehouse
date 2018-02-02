@@ -1,0 +1,173 @@
+<link href="${rc.getContextPath()}/css/dwz.custom.css" rel="stylesheet" type="text/css">
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/order/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <dl>
+                <dt>订单编号：</dt>
+                <dd>
+                    <#if (order.orderCode)??>
+                        <input type="text" name="orderCode" class="required" maxlength="40" value="${order.orderCode}" readonly="readonly"/>
+                    <#else>
+                        <input type="text" name="orderCode" class="required" maxlength="40" value="" alt="请输入订单编号"
+                               remote="${rc.getContextPath()}/order/verify" warn="订单编号已经存在"/>
+                    </#if>
+                </dd>
+            </dl>
+            <dl>
+                <dt>订单描述：</dt>
+                <dd>
+                    <input type="text" name="orderText" class="required" maxlength="60"
+                           value="<#if (order.orderText)??>${order.orderText!''}</#if>" alt="请输入订单描述"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>生产日期：</dt>
+                <dd>
+                    <input type="text" name="productDateStr" class="date readonly required" type="text"
+                           value="<#if (order.productDateStr)??>${order.productDateStr!''}</#if>">
+                </dd>
+            </dl>
+            <dl>
+                <dt>采购状态：</dt>
+                <dd>
+                    <select name="orderStatus" class="required">
+                        <option value="">请选择</option>
+                        <#if orderStatus??>
+                            <#list orderStatus as status>
+                                <option value="${status.key!''}" <#if (order.orderStatus)?? && order.orderStatus == status.key>selected="selected"</#if>>${status.value!''}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </dd>
+            </dl>
+            <dl style="width:auto;height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>成品</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 250px">
+                            <div class="pBar">
+                                <ul class="toolBar">
+                                    <input id="productions" name="productions" type="hidden">
+                                    <input id="productionCode" name="productionLookup.productionCode" type="hidden">
+                                    <input id="productionText" name="productionLookup.productionText" type="hidden">
+                                    <li><a class="add" href="${rc.getContextPath()}/production/lookup?navTabId=${navTabId!''}" lookupGroup="productionLookup" callback="order.production_callback" title="新增成品"><span>新增</span></a>
+                                    <li><a class="delete" href="javascript:" onclick="order.delProduction()"><span>删除</span></a></li>
+                                </ul>
+                            </div>
+                            <table class="table border" width="100%" <#if (order.orderCode)??>layoutH="350"<#else>layoutH="285"</#if>>
+                            <thead>
+                            <tr>
+                                <th width="20"><input type="checkbox" group="productionCodes" class="checkboxCtrl">
+                                <th width="100">成品编号</th>
+                                <th width="100">成品描述</th>
+                                <th width="100">数量</th>
+                            </tr>
+                            </thead>
+                            <tbody id="productionTBody">
+                            <#if (productions?? && productions?size>0)>
+                                <#list productions as production>
+                                    <tr id="production_${production.productionCode!''}">
+                                        <td><input type="checkbox" name="productionCodes" value="${production.productionCode!''}" class="checkboxCtrl"/></td>
+                                        <td>${production.productionCode!''}</td>
+                                        <td>${production.productionText!''}</td>
+                                        <td><input type='text' name='quantity' style='width: 100px;' min='0' maxlength='9' value="${production.quantity!''}"/></td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+        </div>
+        <#if (order.orderCode)??>
+            <#assign createInfo=order/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="order.save();">保存</button></div></div></li>
+                <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+            </ul>
+        </div>
+    </form>
+</div>
+<script>
+
+    var $dialog = $.pdialog.getCurrent();
+
+    var order = {
+
+        //成品带回
+        production_callback: function () {
+            var productionCode = $("#productionCode", $dialog).val();
+            var productionText = $("#productionText", $dialog).val();
+            var html = "";
+            var element = $("#production_" + productionCode, $dialog);
+            if (element.length == 0) {
+                html += "<tr id='production_" + productionCode + "'>" +
+                        "<td><input name='productionCodes' value='" + productionCode + "' type='checkbox'/></td>" +
+                        "<td>" + productionCode + "</td>" +
+                        "<td>" + productionText + "</td>" +
+                        "<td><input type='text' name='quantity' style='width: 100px;' min='0' maxlength='9'/></td>" +
+                        "</tr>";
+                $("#productionTBody", $dialog).append(html);
+                $.jTableTool.initGridColumnWidth($("#productionTBody", $dialog).parents(".grid"));
+            } else {
+                alertMsg.warn('成品已存在');
+            }
+        },
+
+        //删除成品
+        delProduction: function () {
+            var count = $('input[name="productionCodes"]:checked', $dialog).length;
+            if (count == 0) {
+                alertMsg.warn('请勾选成品');
+                return false;
+            }
+            alertMsg.confirm("确定要删除选中的成品吗？", {
+                okCall: function () {
+                    $('input[name="productionCodes"]:checked', $dialog).each(function (i, e) {
+                        $("#production_" + e.value).remove();
+                    });
+                    $.jTableTool.initGridColumnWidth($("#productionTBody", $dialog).parents(".grid"));
+                }
+            });
+        },
+
+        //保存
+        save: function () {
+            var count = $('#productionTBody', $dialog).find('tr').length;
+            if (count == 0) {
+                alertMsg.warn('请添加成品');
+                return false;
+            }
+            var productions = [];
+            var flag = true;
+            $('#productionTBody', $dialog).find('tr').each(function () {
+                var quantity = $(this).find('input[name="quantity"]').val();
+                if (!quantity || isNaN(parseInt(quantity)) || quantity < 1) {
+                    alertMsg.warn('请输入正确的数量');
+                    flag = false;
+                    return false;
+                }
+                var production = {};
+                production.productionCode = $(this).attr('id').replace("production_","");
+                production.quantity = quantity;
+                productions.push(production);
+            });
+            if (flag) {
+                $('#productions', $dialog).val(JSON.stringify(productions));
+                $('form', $dialog).submit();
+            }
+        }
+    }
+
+</script>

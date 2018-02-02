@@ -1,9 +1,9 @@
 package indi.zqc.warehouse.dao;
 
+import com.github.pagehelper.Page;
 import indi.zqc.warehouse.model.Production;
+import indi.zqc.warehouse.model.condition.ProductionCondition;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * Title : ProductionDao.java
@@ -22,5 +22,7 @@ public interface ProductionDao {
 
     int updateProduction(Production production);
 
-    List<Production> selectProductionList(@Param("productionCode") String productionCode);
+    Production selectProduction(@Param("productionCode") String productionCode);
+
+    Page<Production> selectProductionPage(ProductionCondition condition);
 }

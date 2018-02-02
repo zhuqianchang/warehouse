@@ -1,0 +1,174 @@
+<link href="${rc.getContextPath()}/css/dwz.custom.css" rel="stylesheet" type="text/css">
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/production/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <dl>
+                <dt>成品编号：</dt>
+                <dd>
+                    <input type="hidden" name="productionCode">
+                    <#if (production.productionCode)??>
+                        <input type="text" name="production.materialCode" class="required" maxlength="40" value="${production.productionCode}" readonly="readonly"/>
+                    <#else>
+                        <input type="text" name="production.materialCode" class="required" maxlength="40" value="" readonly="readonly"/>
+                        <a class="btnLook" href="${rc.getContextPath()}/material/production/lookup" warn="请选择成品" lookupGroup="production" callback="production.production_callback" >查找带回</a>
+                    </#if>
+                </dd>
+            </dl>
+            <dl>
+                <dt>成品描述：</dt>
+                <dd>
+                    <input type="text" name="production.materialText" class="required" maxlength="60" value="<#if (production.productionText)??>${production.productionText!''}</#if>" readonly="readonly"/>
+                </dd>
+            </dl>
+            <dl style="width:auto;height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>物料</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 250px">
+                            <div class="pBar">
+                                <ul class="toolBar">
+                                    <input id="materials" name="materials" type="hidden">
+                                    <input id="materialCode" name="materialLookup.materialCode" type="hidden">
+                                    <input id="materialText" name="materialLookup.materialText" type="hidden">
+                                    <li><a class="add" href="${rc.getContextPath()}/material/production/not/lookup?navTabId=${navTabId!''}" lookupGroup="materialLookup" callback="production.material_callback" title="新增物料"><span>新增</span></a>
+                                    <li><a class="delete" href="javascript:" onclick="production.delMaterial()"><span>删除</span></a></li>
+                                </ul>
+                            </div>
+                            <table class="table border" width="100%" <#if (production.productionCode)??>layoutH="290"<#else>layoutH="225"</#if>>
+                            <thead>
+                            <tr>
+                                <th width="20"><input type="checkbox" group="materialCodes" class="checkboxCtrl">
+                                <th width="100">物料编号</th>
+                                <th width="100">物料描述</th>
+                                <th width="100">数量</th>
+                            </tr>
+                            </thead>
+                            <tbody id="materialTBody">
+                            <#if (materials?? && materials?size>0)>
+                                <#list materials as material>
+                                    <tr id="material_${material.materialCode!''}">
+                                        <td><input type="checkbox" name="materialCodes" value="${material.materialCode!''}" class="checkboxCtrl"/></td>
+                                        <td>${material.materialCode!''}</td>
+                                        <td>${material.materialText!''}</td>
+                                        <td><input type='text' name='quantity' style='width: 100px;' min='0' maxlength='9' value="${material.quantity!''}"/></td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+        </div>
+        <#if (production.productionCode)??>
+            <#assign createInfo=production/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="production.save();">保存</button></div></div></li>
+                <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+            </ul>
+        </div>
+    </form>
+</div>
+<script>
+
+    var $dialog = $.pdialog.getCurrent();
+
+    var production = {
+
+        //成品带回
+        production_callback : function(){
+            //校验成品唯一
+            var productionCode = $('input[name="production.materialCode"]', $dialog).val();
+            $.ajax({
+                url: '${rc.getContextPath()}/production/verify',
+                data: {
+                    productionCode: productionCode
+                },
+                dataType: "json",
+                success: function (json) {
+                    if (json === false) {
+                        alertMsg.error("成品已存在");
+                        $('input[name="production.materialCode"]', $dialog).val('');
+                        $('input[name="production.materialText"]', $dialog).val('');
+                    }
+                }
+            });
+        },
+
+        //物料带回
+        material_callback: function () {
+            var materialCode = $("#materialCode", $dialog).val();
+            var materialText = $("#materialText", $dialog).val();
+            var html = "";
+            var element = $("#material_" + materialCode, $dialog);
+            if (element.length == 0) {
+                html += "<tr id='material_" + materialCode + "'>" +
+                        "<td><input name='materialCodes' value='" + materialCode + "' type='checkbox'/></td>" +
+                        "<td>" + materialCode + "</td>" +
+                        "<td>" + materialText + "</td>" +
+                        "<td><input type='text' name='quantity' style='width: 100px;' min='0' maxlength='9'/></td>" +
+                        "</tr>";
+                $("#materialTBody", $dialog).append(html);
+                $.jTableTool.initGridColumnWidth($("#materialTBody", $dialog).parents(".grid"));
+            } else {
+                alertMsg.warn('物料已存在');
+            }
+        },
+
+        //删除物料
+        delMaterial: function () {
+            var count = $('input[name="materialCodes"]:checked', $dialog).length;
+            if (count == 0) {
+                alertMsg.warn('请勾选物料');
+                return false;
+            }
+            alertMsg.confirm("确定要删除选中的物料吗？", {
+                okCall: function () {
+                    $('input[name="materialCodes"]:checked', $dialog).each(function (i, e) {
+                        $("#material_" + e.value).remove();
+                    });
+                    $.jTableTool.initGridColumnWidth($("#materialTBody", $dialog).parents(".grid"));
+                }
+            });
+        },
+
+        //保存
+        save: function () {
+            var count = $('#materialTBody', $dialog).find('tr').length;
+            if (count == 0) {
+                alertMsg.warn('请添加物料');
+                return false;
+            }
+            var materials = [];
+            var flag = true;
+            $('#materialTBody', $dialog).find('tr').each(function () {
+                var quantity = $(this).find('input[name="quantity"]').val();
+                if (!quantity || isNaN(parseInt(quantity)) || quantity < 1) {
+                    alertMsg.warn('请输入正确的数量');
+                    flag = false;
+                    return false;
+                }
+                var material = {};
+                material.materialCode = $(this).attr('id').replace("material_","");
+                material.quantity = quantity;
+                materials.push(material);
+            });
+            if (flag) {
+                $('#materials', $dialog).val(JSON.stringify(materials));
+                $('input[name="productionCode"]', $dialog).val($('input[name="production.materialCode"]', $dialog).val());
+                $('form', $dialog).submit();
+            }
+        }
+    }
+
+</script>

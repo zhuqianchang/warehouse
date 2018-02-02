@@ -1,0 +1,65 @@
+<link href="${rc.getContextPath()}/css/dwz.custom.css" rel="stylesheet" type="text/css">
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/production/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <dl>
+                <dt>成品编号：</dt>
+                <dd>
+                    <input type="text" name="productionCode" class="required" maxlength="40" value="<#if (production.productionCode)??>${production.productionCode!''}</#if>" readonly="readonly"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>成品描述：</dt>
+                <dd>
+                    <input type="text" name="productionText" class="required" maxlength="60" value="<#if (production.productionText)??>${production.productionText!''}</#if>" readonly="readonly"/>
+                </dd>
+            </dl>
+            <dl style="width:auto;height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>物料</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 250px">
+                            <table class="table border" width="100%" layoutH="265">
+                            <thead>
+                            <tr>
+                                <th width="20"><input type="checkbox" group="materialCodes" class="checkboxCtrl">
+                                <th width="100">物料编号</th>
+                                <th width="100">物料描述</th>
+                                <th width="100">数量</th>
+                            </tr>
+                            </thead>
+                            <tbody id="materialTBody">
+                            <#if (materials?? && materials?size>0)>
+                                <#list materials as material>
+                                    <tr id="material_${material.materialCode!''}">
+                                        <td><input type="checkbox" name="materialCodes" value="${material.materialCode!''}" class="checkboxCtrl"/></td>
+                                        <td>${material.materialCode!''}</td>
+                                        <td>${material.materialText!''}</td>
+                                        <td>${material.quantity!''}</td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+        </div>
+        <#if (production.productionCode)??>
+            <#assign createInfo=production/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+            </ul>
+        </div>
+    </form>
+</div>

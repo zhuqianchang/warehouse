@@ -26,7 +26,7 @@
                         <div class="tabsContent">
                             <div>
                                 <div id="menuTree" style="height: 200px;overflow: auto;">
-                                    <ul id="tree" class="tree treeFolder treeCheck expand" oncheck="oncheck">
+                                    <ul id="tree" class="tree treeFolder treeCheck expand">
                                         <#if menuTree??>
                                             <#list menuTree as menu>
                                                 <li>
@@ -57,7 +57,7 @@
                 <li>
                     <div class="buttonActive" id="save">
                         <div class="buttonContent">
-                            <button type="submit" onclick="authorize()">保存</button>
+                            <button type="submit" onclick="authorize.authorize()">保存</button>
                         </div>
                     </div>
                 </li>
@@ -89,18 +89,18 @@
 
     var $dialog = $.pdialog.getCurrent();
 
-    function oncheck() {
-        $('#menuTree div[class="ckbox indeterminate"]', $dialog).each(function (i, e) {
-            $(e).find("input[type='checkbox']").attr("checked", "checked");
-        });
-    }
+    var authorize = {
 
-    function authorize() {
-        var menuCodes = [];
-        $('#menuTree input[type="checkbox"]:checked', $dialog).each(function (i, e) {
-            menuCodes.push(e.value);
-        });
-        $("#menuCodes", $dialog).val(menuCodes.join('@zqc@'));
-    }
+        authorize: function () {
+            $('#menuTree .indeterminate', $dialog).each(function () {
+                $(this).find('input[type="checkbox"]').attr('checked', 'checked');
+            });
 
+            var menuCodes = [];
+            $('#menuTree input[type="checkbox"]:checked', $dialog).each(function (i, e) {
+                menuCodes.push(e.value);
+            });
+            $("#menuCodes", $dialog).val(menuCodes.join('@zqc@'));
+        }
+    }
 </script>

@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import java.util.List;
+
 /**
  * Title : MaterialCondition.java
  * Package : indi.zqc.warehouse.model.condition
@@ -19,6 +21,9 @@ public class MaterialCondition extends Condition {
 
     //物料类型
     private String materialType;
+
+    //物料类型
+    private List<String> materialTypes;
 
     public String getMaterialCode() {
         return materialCode;
@@ -42,5 +47,13 @@ public class MaterialCondition extends Condition {
 
     public void setMaterialType(String materialType) {
         this.materialType = materialType;
+    }
+
+    public List<String> getMaterialTypes() {
+        return materialTypes;
+    }
+
+    public void setMaterialTypes(List<String> materialTypes) {
+        this.materialTypes = materialTypes;
     }
 }

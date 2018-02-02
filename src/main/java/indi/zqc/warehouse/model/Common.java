@@ -1,5 +1,8 @@
 package indi.zqc.warehouse.model;
 
+import indi.zqc.warehouse.util.UserUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Date;
 
 /**
@@ -16,11 +19,17 @@ public abstract class Common {
     //创建人
     private String createUser;
 
+    //创建人描述
+    private String createUserText;
+
     //创建时间
     private Date createDateTime;
 
     //修改人
     private String modifyUser;
+
+    //修改人描述
+    private String modifyUserText;
 
     //修改时间
     private Date modifyDateTime;
@@ -31,6 +40,17 @@ public abstract class Common {
 
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
+    }
+
+    public String getCreateUserText() {
+        if (StringUtils.isBlank(createUserText)) {
+            createUserText = UserUtils.selectUserText(createUser);
+        }
+        return createUserText;
+    }
+
+    public void setCreateUserText(String createUserText) {
+        this.createUserText = createUserText;
     }
 
     public Date getCreateDateTime() {
@@ -47,6 +67,17 @@ public abstract class Common {
 
     public void setModifyUser(String modifyUser) {
         this.modifyUser = modifyUser;
+    }
+
+    public String getModifyUserText() {
+        if (StringUtils.isBlank(modifyUserText)) {
+            modifyUserText = UserUtils.selectUserText(modifyUser);
+        }
+        return modifyUserText;
+    }
+
+    public void setModifyUserText(String modifyUserText) {
+        this.modifyUserText = modifyUserText;
     }
 
     public Date getModifyDateTime() {

@@ -9,13 +9,16 @@ package indi.zqc.warehouse.model;
  * @author Zhu.Qianchang
  * @version v1.0.0
  */
-public class PurchaseMaterial extends Common{
+public class PurchaseMaterial{
 
     //采购编号
     private String purchaseCode;
 
     //物料编号
     private String materialCode;
+
+    //物料描述
+    private String materialText;
 
     //数量
     private Integer quantity;
@@ -34,6 +37,14 @@ public class PurchaseMaterial extends Common{
 
     public void setMaterialCode(String materialCode) {
         this.materialCode = materialCode;
+    }
+
+    public String getMaterialText() {
+        return materialText;
+    }
+
+    public void setMaterialText(String materialText) {
+        this.materialText = materialText;
     }
 
     public Integer getQuantity() {

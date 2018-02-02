@@ -43,8 +43,8 @@
                                         <input id="role" name="roleCodes" type="hidden">
                                         <input id="roleCodes" name="roleLookup.roleCode" type="hidden">
                                         <input id="roleTexts" name="roleLookup.roleText" type="hidden">
-                                        <li><a class="add" href="${rc.getContextPath()}/role/lookup?navTabId=${navTabId!''}" lookupGroup="roleLookup" callback="role_callback" title="新增角色"><span>新增</span></a>
-                                        <li><a class="delete" href="javascript:" onclick="delRole()"><span>删除</span></a></li>
+                                        <li><a class="add" href="${rc.getContextPath()}/role/lookup?navTabId=${navTabId!''}" lookupGroup="roleLookup" callback="user.role_callback" title="新增角色"><span>新增</span></a>
+                                        <li><a class="delete" href="javascript:" onclick="user.delRole()"><span>删除</span></a></li>
                                     </ul>
                                 </div>
                                 <table class="table border" width="100%" <#if (user.userCode)??>layoutH="295"<#else>layoutH="255"</#if>>
@@ -79,7 +79,7 @@
         </#if>
         <div class="formBar">
             <ul>
-                <li><div class="buttonActive"><div class="buttonContent" onclick="save();"><button type="submit">保存</button></div></div></li>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="user.save();">保存</button></div></div></li>
                 <li>
                     <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
                 </li>
@@ -91,53 +91,56 @@
 
     var $dialog = $.pdialog.getCurrent();
 
-    //查找带回
-    function role_callback() {
-        var roleCodeArr = $("#roleCodes").val().split(',');
-        var roleTextArr = $("#roleTexts").val().split(',');
-        var ht = "";
-        for (var i = 0; i < roleCodeArr.length; i++) {
-            var roleCode = roleCodeArr[i];
-            var roleText = roleTextArr[i];
-            var my_element = $("#role_" + roleCode, $dialog);
-            if (my_element.length == 0) {
-                ht += "<tr id='role_" + roleCode + "'>" +
+    var user = {
+
+        //查找带回
+        role_callback: function () {
+            var roleCodeArr = $("#roleCodes", $dialog).val().split(',');
+            var roleTextArr = $("#roleTexts", $dialog).val().split(',');
+            var ht = "";
+            for (var i = 0; i < roleCodeArr.length; i++) {
+                var roleCode = roleCodeArr[i];
+                var roleText = roleTextArr[i];
+                var my_element = $("#role_" + roleCode, $dialog);
+                if (my_element.length == 0) {
+                    ht += "<tr id='role_" + roleCode + "'>" +
                         "<td><input name='roleCodes' value='" + roleCode + "' type='checkbox'/></td>" +
                         "<td>" + roleCode + "</td>" +
                         "<td>" + roleText + "</td>" +
-                       "</tr>";
-            }
-        }
-        $("#roletbody", $dialog).append(ht);
-        $.jTableTool.initGridColumnWidth($("#roletbody", $dialog).parents(".grid"));
-    }
-
-    //删除角色
-    function delRole() {
-        var count = 0;
-        $('input[name="roleCodes"]:checked', $dialog).each(function () {
-            count++;
-        });
-        if (count == 0) {
-            alertMsg.warn('请勾选角色');
-        } else {
-            alertMsg.confirm("确定要删除选中的角色吗？", {
-                okCall: function () {
-                    $('input[name="roleCodes"]:checked', $dialog).each(function (i, e) {
-                        $("#role_" + e.value).remove();
-                    });
+                        "</tr>";
                 }
-            });
-        }
-    }
+            }
+            $("#roletbody", $dialog).append(ht);
+            $.jTableTool.initGridColumnWidth($("#roletbody", $dialog).parents(".grid"));
+        },
 
-    //保存
-    function save() {
-        var roleCodes = [];
-        $('#roletbody', $dialog).find('tr').each(function () {
-            roleCodes.push($(this).attr("id").replace('role_', ''));
-        });
-        $('#role', $dialog).val(roleCodes.join('@zqc@'));
+        //删除角色
+        delRole: function () {
+            var count = 0;
+            $('input[name="roleCodes"]:checked', $dialog).each(function () {
+                count++;
+            });
+            if (count == 0) {
+                alertMsg.warn('请勾选角色');
+            } else {
+                alertMsg.confirm("确定要删除选中的角色吗？", {
+                    okCall: function () {
+                        $('input[name="roleCodes"]:checked', $dialog).each(function (i, e) {
+                            $("#role_" + e.value).remove();
+                        });
+                    }
+                });
+            }
+        },
+
+        //保存
+        save: function () {
+            var roleCodes = [];
+            $('#roletbody', $dialog).find('tr').each(function () {
+                roleCodes.push($(this).attr("id").replace('role_', ''));
+            });
+            $('#role', $dialog).val(roleCodes.join('@zqc@'));
+        }
     }
 
 </script>
