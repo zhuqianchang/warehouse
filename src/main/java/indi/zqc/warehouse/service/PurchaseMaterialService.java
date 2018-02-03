@@ -1,8 +1,6 @@
 package indi.zqc.warehouse.service;
 
 import indi.zqc.warehouse.model.PurchaseMaterial;
-import indi.zqc.warehouse.model.PurchaseProduction;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
