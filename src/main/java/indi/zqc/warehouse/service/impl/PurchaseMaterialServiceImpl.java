@@ -2,6 +2,7 @@ package indi.zqc.warehouse.service.impl;
 
 import indi.zqc.warehouse.dao.*;
 import indi.zqc.warehouse.enums.PurchaseType;
+import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.ProductionMaterial;
 import indi.zqc.warehouse.model.Purchase;
 import indi.zqc.warehouse.model.PurchaseMaterial;
@@ -45,6 +46,9 @@ public class PurchaseMaterialServiceImpl implements PurchaseMaterialService {
     @Override
     public List<PurchaseMaterial> selectPurchaseMaterial(String purchaseCode) {
         Purchase purchase = purchaseDao.selectPurchase(purchaseCode);
+        if (purchase == null) {
+            throw new BusinessException("采购清单不存在");
+        }
         if (StringUtils.equals(purchase.getPurchaseType(), PurchaseType.AUTO.getKey())) {
             List<PurchaseMaterial> purchaseMaterials = new ArrayList<>();
             //订单中的成品

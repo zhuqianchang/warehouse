@@ -31,4 +31,7 @@ public class Constants {
 
     //成品类型
     public static final String PRODUCTION_TYPE = "03";
+
+    //采购清单模板
+    public static final String TEMPLATE_PURCHASE = "/static/template/purchase.xlsx";
 }

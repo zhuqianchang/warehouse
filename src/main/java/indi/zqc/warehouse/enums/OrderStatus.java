@@ -15,6 +15,8 @@ public enum OrderStatus {
 
     CREATED("created", "创建"),
 
+    PRODUCED("produced", "已生成"),
+
     FINISHED("finished", "完成");
 
     private String key;
@@ -43,10 +45,11 @@ public enum OrderStatus {
     }
 
     public static String getValue(String key) {
-        if (StringUtils.equals(CREATED.getKey(), key)) {
-            return CREATED.getValue();
-        } else if (StringUtils.equals(FINISHED.getKey(), key)) {
-            return FINISHED.getValue();
+        OrderStatus[] orderStatuses = values();
+        for (OrderStatus orderStatus : orderStatuses) {
+            if (StringUtils.equals(orderStatus.getKey(), key)) {
+                return orderStatus.getValue();
+            }
         }
         return null;
     }

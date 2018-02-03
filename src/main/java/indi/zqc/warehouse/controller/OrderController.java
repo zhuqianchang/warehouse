@@ -79,6 +79,13 @@ public class OrderController extends BaseController {
         return dialogAjaxDone(navTabId, forwardUrl);
     }
 
+    @RequestMapping("/finish")
+    @ResponseBody
+    public DWZResult finishOrder(String orderCode) {
+        orderService.finishOrder(orderCode, getCurrentUserCode());
+        return ajaxDone();
+    }
+
     @RequestMapping("/delete")
     @ResponseBody
     public DWZResult deleteOrder(String orderCode) {

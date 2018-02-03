@@ -20,6 +20,9 @@ public class PurchaseMaterial{
     //物料描述
     private String materialText;
 
+    //物料类型
+    private String materialType;
+
     //数量
     private Integer quantity;
 
@@ -45,6 +48,14 @@ public class PurchaseMaterial{
 
     public void setMaterialText(String materialText) {
         this.materialText = materialText;
+    }
+
+    public String getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
     }
 
     public Integer getQuantity() {

@@ -6,6 +6,7 @@ import indi.zqc.warehouse.shiro.SessionUser;
 import indi.zqc.warehouse.util.SecurityContextUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +37,10 @@ public class IndexController extends BaseController {
             model.addAttribute("menuTree", menuService.selectMenuByUser(user.getUserCode()));
         }
         return "index";
+    }
+
+    @RequestMapping(value = "right")
+    public String right() {
+        return "copyright";
     }
 }

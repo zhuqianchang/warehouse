@@ -31,7 +31,7 @@
                    href="${rc.getContextPath()}/user/view?userCode={userCode}&navTabId=${navTabId}"><span>详情</span></a></li>
             <li><a class="delete" target="ajaxTodo" rel="deleteUser" title="确定要删除选中的用户吗?"
                    href="${rc.getContextPath()}/user/delete?userCode={userCode}&navTabId=${navTabId}"><span>删除</span></a></li>
-            <li><a class="reset" target="ajaxTodo" rel="resetPassword" title="确定要重置选中的用户密码吗？重置后密码为${defaultPassword}"
+            <li><a class="edit" target="ajaxTodo" rel="resetPassword" title="确定要重置选中的用户密码吗？重置后密码为${defaultPassword}"
                    href="${rc.getContextPath()}/user/reset?userCode={userCode}&navTabId=${navTabId}"><span>重置密码</span></a></li>
         </ul>
     </div>

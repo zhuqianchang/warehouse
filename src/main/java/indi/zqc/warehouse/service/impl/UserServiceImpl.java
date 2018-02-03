@@ -10,6 +10,7 @@ import indi.zqc.warehouse.model.User;
 import indi.zqc.warehouse.model.condition.UserCondition;
 import indi.zqc.warehouse.service.UserService;
 import indi.zqc.warehouse.util.EncryptAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,5 +81,18 @@ public class UserServiceImpl implements UserService {
             num += userRoleDao.insertUserRole(userCode, roleCode);
         }
         return num;
+    }
+
+    @Override
+    public int changePwd(String userCode, String oldPassword, String newPassword) throws Exception {
+        User user = selectUser(userCode);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        if (!StringUtils.equals(user.getPassword(), EncryptAlgorithm.hexMD5(oldPassword))) {
+            throw new BusinessException("密码错误");
+        }
+        user.setPassword(EncryptAlgorithm.hexMD5(newPassword));
+        return userDao.resetPassword(user);
     }
 }

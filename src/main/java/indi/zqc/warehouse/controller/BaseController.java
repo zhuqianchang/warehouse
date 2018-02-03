@@ -6,6 +6,7 @@ import indi.zqc.warehouse.enums.DWZStatusCode;
 import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.Common;
 import indi.zqc.warehouse.model.DWZResult;
+import indi.zqc.warehouse.util.DatabaseUtils;
 import indi.zqc.warehouse.util.SecurityContextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,17 +31,6 @@ public abstract class BaseController {
 
     protected static final Logger logger = LoggerFactory.getLogger(BaseController.class);
 
-    /**
-     * 操作模式（增、改、查）
-     */
-    protected static final String PATTERN = "pattern";
-
-    protected static final String PATTERN_ADD = "add";
-
-    protected static final String PATTERN_EDIT = "edit";
-
-    protected static final String PATTERN_VIEW = "view";
-
     protected static final String NAVTABID = "navTabId";
 
     protected static final String PAGE = "page";
@@ -50,8 +40,13 @@ public abstract class BaseController {
         logger.error(ex.getMessage(), ex);
         String jsonObject;
         if (ex instanceof BusinessException) {
+            //业务异常
             jsonObject = JSONObject.toJSONString(ajaxError(ex.getMessage()));
-        } else {
+        } else if(DatabaseUtils.isConstraintsError(ex.getMessage())){
+            //数据库删除异常
+            jsonObject = JSONObject.toJSONString(ajaxError("数据已被使用，不能删除"));
+        }else {
+            //其它异常
             jsonObject = JSONObject.toJSONString(ajaxError(ex.getMessage()));
         }
         response.setHeader("Content-Type", "application/json;charset=UTF-8");

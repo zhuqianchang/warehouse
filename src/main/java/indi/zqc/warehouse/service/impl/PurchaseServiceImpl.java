@@ -12,12 +12,23 @@ import indi.zqc.warehouse.enums.PurchaseType;
 import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.*;
 import indi.zqc.warehouse.model.condition.PurchaseCondition;
+import indi.zqc.warehouse.service.PurchaseMaterialService;
 import indi.zqc.warehouse.service.PurchaseService;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +61,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Autowired
     private OrderProductionDao orderProductionDao;
 
+    @Autowired
+    private PurchaseMaterialService purchaseMaterialService;
+
     @Override
     public int insertPurchase(Purchase purchase) {
         return purchaseDao.insertPurchase(purchase);
@@ -77,6 +91,18 @@ public class PurchaseServiceImpl implements PurchaseService {
     public Page<Purchase> selectPurchasePage(PurchaseCondition condition) {
         PageHelper.startPage(condition.getPageNum(), condition.getNumPerPage());
         return purchaseDao.selectPurchasePage(condition);
+    }
+
+    @Override
+    public int finishPurchase(String purchaseCode, String userCode) {
+        Purchase purchase = selectPurchase(purchaseCode);
+        if (purchase == null) {
+            throw new BusinessException("采购清单不存在");
+        }
+        purchase.setPurchaseStatus(PurchaseStatus.FINISHED.getKey());
+        purchase.setModifyUser(userCode);
+        purchase.setModifyDateTime(new Date());
+        return updatePurchase(purchase);
     }
 
     @Override
@@ -120,7 +146,7 @@ public class PurchaseServiceImpl implements PurchaseService {
             throw new BusinessException("订单不存在");
         }
         //修改订单状态
-        order.setOrderStatus(OrderStatus.FINISHED.getKey());
+        order.setOrderStatus(OrderStatus.PRODUCED.getKey());
         order.setModifyUser(userCode);
         order.setModifyDateTime(new Date());
         orderDao.updateOrder(order);
@@ -152,5 +178,66 @@ public class PurchaseServiceImpl implements PurchaseService {
      */
     private String newPurchaseCode() {
         return Constants.QD_PREFIX + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
+    }
+
+    @Override
+    public void exportPurchase(String purchaseCode, HttpServletResponse response) {
+        Purchase purchase = selectPurchase(purchaseCode);
+        List<PurchaseMaterial> purchaseMaterials = purchaseMaterialService.selectPurchaseMaterial(purchaseCode);
+        if (purchase == null) {
+            throw new BusinessException("采购清单不存在");
+        }
+        OutputStream os = null;
+        InputStream is = null;
+        XSSFWorkbook workbook;
+        XSSFSheet sheet;
+        try {
+            response.setContentType("application/vnd.ms-excel");
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(("采购清单" + purchaseCode).getBytes(), "ISO8859-1") + ".xlsx");
+            os = response.getOutputStream();
+            is = new ClassPathResource(Constants.TEMPLATE_PURCHASE).getInputStream();
+            workbook = new XSSFWorkbook(is);
+            sheet = workbook.getSheetAt(0);
+            XSSFRow row = sheet.getRow(1);
+            //采购编号
+            row.createCell(1).setCellValue(purchaseCode);
+            //日期
+            row.getCell(3).setCellValue(row.getCell(3).getStringCellValue() + DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
+            //物料信息
+            XSSFRow styleRow = sheet.getRow(2);
+            for (int i = 0; i < purchaseMaterials.size(); i++) {
+                PurchaseMaterial purchaseMaterial = purchaseMaterials.get(i);
+                row = sheet.createRow(i + 3);
+                XSSFCell cell = row.createCell(0);
+                cell.setCellStyle(styleRow.getCell(0).getCellStyle());
+                cell.setCellValue(i + 1);
+                cell = row.createCell(1);
+                cell.setCellStyle(styleRow.getCell(1).getCellStyle());
+                cell.setCellValue(purchaseMaterial.getMaterialCode());
+                cell = row.createCell(2);
+                cell.setCellStyle(styleRow.getCell(2).getCellStyle());
+                cell.setCellValue(purchaseMaterial.getMaterialText());
+                cell = row.createCell(3);
+                cell.setCellStyle(styleRow.getCell(3).getCellStyle());
+                cell.setCellValue(purchaseMaterial.getQuantity());
+            }
+            workbook.write(os);
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                }
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                }
+            }
+        }
     }
 }

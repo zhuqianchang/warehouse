@@ -52,8 +52,9 @@
                    href="${rc.getContextPath()}/purchase/edit?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
             <li><a class="icon" target="dialog" mask="true" width="440" height="600" rel="viewPurchase" title="采购清单详情"
                    href="${rc.getContextPath()}/purchase/view?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>详情</span></a></li>
-            <li><a class="edit" target="ajaxTodo" rel="exportPurchase" title="确定要导出选择的采购清单吗?"
-                   href="${rc.getContextPath()}/purchase/export?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>导出</span></a></li>
+            <li><a class="edit" href="javascript:purchase_list.export();"><span>导出</span></a></li>
+            <li><a class="edit" target="ajaxTodo" rel="finishPurchase" title="确定要完成选择的采购清单吗?"
+                   href="${rc.getContextPath()}/purchase/finish?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>完成</span></a></li>
             <li><a class="delete" target="ajaxTodo" rel="deletePurchase" title="确定要删除选择的采购清单吗?"
                    href="${rc.getContextPath()}/purchase/delete?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>删除</span></a></li>
         </ul>
@@ -73,7 +74,7 @@
         <tbody id="purchaseTBody">
         <#if (page?? && page.data?size>0)>
             <#list page.data as purchase>
-                <tr target="purchaseCode" rel="${purchase.purchaseCode!''}" type="${purchase.purchaseType!''}">
+                <tr target="purchaseCode" rel="${purchase.purchaseCode!''}" purchaseCode="${purchase.purchaseCode!''}">
                     <td>${purchase.purchaseCode!''}</td>
                     <td>${purchase.purchaseTypeText!''}</td>
                     <td>${purchase.purchaseStatusText!''}</td>
@@ -95,5 +96,22 @@
 <script>
 
     var $panel = navTab.getCurrentPanel();
+
+    var purchase_list = {
+
+        //导出
+        export: function () {
+            var purchaseCode = $('#purchaseTBody', $panel).find('tr.selected').attr('purchaseCode');
+            if (!purchaseCode) {
+                alertMsg.error("请选择信息");
+                return;
+            }
+            alertMsg.confirm('确定要导出选择的采购清单吗', {
+                okCall: function () {
+                    window.open('${rc.getContextPath()}/purchase/export?purchaseCode=' + purchaseCode + '&navTabId=${navTabId}');
+                }
+            });
+        }
+    }
 
 </script>

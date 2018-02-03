@@ -98,6 +98,18 @@ public class UserController extends BaseController {
         return ajaxDone();
     }
 
+    @RequestMapping("/changePwd")
+    public String changePwd(){
+        return "changePwd";
+    }
+
+    @RequestMapping("/password/save")
+    @ResponseBody
+    public DWZResult changePwd(String oldPassword, String newPassword) throws Exception {
+        userService.changePwd(getCurrentUserCode(), oldPassword, newPassword);
+        return ajaxDone();
+    }
+
     @RequestMapping("/verify")
     @ResponseBody
     public boolean verifyUserCode(String userCode) {

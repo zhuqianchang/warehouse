@@ -55,6 +55,12 @@
             <if test="orderText != null and orderText != ''">
                 and ordertext like concat(concat('%', #{orderText, jdbcType = VARCHAR}), '%')
             </if>
+            <if test="productDateStart != null and productDateStart != ''">
+                and date_format(productdate, '%Y-%m-%d') >= #{productDateStart, jdbcType = VARCHAR}
+            </if>
+            <if test="productDateEnd != null and productDateEnd != ''">
+                and date_format(productdate, '%Y-%m-%d') &lt;= #{productDateEnd, jdbcType = VARCHAR}
+            </if>
             <if test="orderStatus != null and orderStatus != ''">
                 and orderstatus = #{orderStatus, jdbcType = VARCHAR}
             </if>

@@ -31,4 +31,6 @@ public interface OrderService {
     int saveOrder(Order order, String productions);
 
     List<OrderMaterial> selectOrderMaterial(String orderCode);
+
+    int finishOrder(String orderCode, String userCode);
 }

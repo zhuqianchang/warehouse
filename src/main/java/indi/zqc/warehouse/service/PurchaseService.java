@@ -4,6 +4,9 @@ import com.github.pagehelper.Page;
 import indi.zqc.warehouse.model.Purchase;
 import indi.zqc.warehouse.model.condition.PurchaseCondition;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Title : PurchaseService.java
  * Package : indi.zqc.warehouse.service
@@ -28,4 +31,8 @@ public interface PurchaseService {
     int savePurchase(Purchase purchase, String materials);
 
     String producePurchase(String orderCode, String userCode);
+
+    int finishPurchase(String purchaseCode, String currentUserCode);
+
+    void exportPurchase(String purchaseCode, HttpServletResponse response);
 }

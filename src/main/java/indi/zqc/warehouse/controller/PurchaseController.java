@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Title : PurchaseController.java
@@ -114,9 +115,22 @@ public class PurchaseController extends BaseController {
         return ajaxDone(purchaseService.producePurchase(orderCode, getCurrentUserCode()));
     }
 
+    @RequestMapping("/finish")
+    @ResponseBody
+    public DWZResult finishPurchase(String purchaseCode) {
+        purchaseService.finishPurchase(purchaseCode, getCurrentUserCode());
+        return ajaxDone();
+    }
+
     @RequestMapping("/verify")
     @ResponseBody
     public boolean verifyPurchaseCode(String purchaseCode) {
         return purchaseService.selectPurchase(purchaseCode) == null;
+    }
+
+    @RequestMapping("/export")
+    @ResponseBody
+    public void exportPurchase(String purchaseCode, HttpServletResponse response) {
+        purchaseService.exportPurchase(purchaseCode, response);
     }
 }

@@ -10,11 +10,11 @@ textarea { resize: none; }
 a, button, input, select, textarea { outline: 0; }
 a, button { cursor: pointer; }
 button { border: none; }
-.main { position: relative; margin: 0 auto; width: 100%; height: 100%; background: url(background.jpg) 0px center no-repeat;}
+.main { position: relative; margin: 0 auto; width: 100%; height: 100%; background: url(background.jpg) 0px 0px no-repeat;}
 .header { padding: 1px 0 0; height: 190px; }
 .header h1 a { display: block; }
 .content { overflow: hidden; }
-.content .con_right { margin: 200px auto; width: 28pc; height: 320px; border: 1px solid #dedede; background: #fff; }
+.content .con_right { margin: 200px auto 0; width: 28pc; height: 320px; border: 1px solid #dedede; background: #fff; }
 .content .con_right .con_r_top { padding: 0 0 0 39px; width: 409px; height: 110px; border-top: 8px solid #2e558e; }
 .content .con_right .con_r_top .left, .content .con_right .con_r_top .right { float: left; padding: 35px 0 0 0; width: 358px; height: 35px; text-align: center; text-decoration: none; font-size: 18px; font-family: "微软雅黑"; }
 .content .con_right .con_r_top .left { border-bottom: 2px solid #dedede; color: #999; }

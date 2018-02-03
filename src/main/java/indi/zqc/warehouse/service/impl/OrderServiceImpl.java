@@ -9,6 +9,7 @@ import indi.zqc.warehouse.dao.OrderDao;
 import indi.zqc.warehouse.dao.OrderProductionDao;
 import indi.zqc.warehouse.dao.ProductionMaterialDao;
 import indi.zqc.warehouse.enums.OrderStatus;
+import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.Order;
 import indi.zqc.warehouse.model.OrderMaterial;
 import indi.zqc.warehouse.model.OrderProduction;
@@ -72,6 +73,18 @@ public class OrderServiceImpl implements OrderService {
     public Page<Order> selectOrderPage(OrderCondition condition) {
         PageHelper.startPage(condition.getPageNum(), condition.getNumPerPage());
         return orderDao.selectOrderPage(condition);
+    }
+
+    @Override
+    public int finishOrder(String orderCode, String userCode) {
+        Order order = selectOrder(orderCode);
+        if (order == null) {
+            throw new BusinessException("订单不存在");
+        }
+        order.setOrderStatus(OrderStatus.FINISHED.getKey());
+        order.setModifyUser(userCode);
+        order.setModifyDateTime(new Date());
+        return updateOrder(order);
     }
 
     @Override

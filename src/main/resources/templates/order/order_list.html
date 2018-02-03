@@ -58,6 +58,8 @@
                    href="${rc.getContextPath()}/order/view?orderCode={orderCode}&navTabId=${navTabId}"><span>详情</span></a></li>
             <li><a class="edit" target="ajaxTodo" rel="producePurchase" title="确定要生成当前订单的采购清单吗?"
                    href="${rc.getContextPath()}/purchase/produce?orderCode={orderCode}&navTabId=${navTabId}"><span>生成</span></a></li>
+            <li><a class="edit" target="ajaxTodo" rel="finishOrder" title="确定要完成选择的订单吗?"
+                   href="${rc.getContextPath()}/order/finish?orderCode={orderCode}&navTabId=${navTabId}"><span>完成</span></a></li>
             <li><a class="delete" target="ajaxTodo" rel="deleteOrder" title="确定要删除选择的订单吗?"
                    href="${rc.getContextPath()}/order/delete?orderCode={orderCode}&navTabId=${navTabId}"><span>删除</span></a></li>
         </ul>

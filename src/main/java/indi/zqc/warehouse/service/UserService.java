@@ -4,6 +4,9 @@ import com.github.pagehelper.Page;
 import indi.zqc.warehouse.model.User;
 import indi.zqc.warehouse.model.condition.UserCondition;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Title : UserService.java
  * Package : indi.zqc.warehouse.service
@@ -28,4 +31,6 @@ public interface UserService {
     int resetUser(String userCode) throws Exception;
 
     int updateUserRole(String userCode, String[] roleCodes);
+
+    int changePwd(String userCode, String oldPassword, String newPassword) throws UnsupportedEncodingException, NoSuchAlgorithmException, Exception;
 }
