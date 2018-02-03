@@ -43,9 +43,8 @@ public class ProductionServiceImpl implements ProductionService {
 
     @Override
     public int deleteProduction(String productionCode) {
-        int num = productionDao.deleteProduction(productionCode);
         productionMaterialDao.deleteProductionMaterial(productionCode);
-        return num;
+        return productionDao.deleteProduction(productionCode);
     }
 
     @Override

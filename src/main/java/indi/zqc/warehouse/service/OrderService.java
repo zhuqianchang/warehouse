@@ -28,9 +28,9 @@ public interface OrderService {
 
     Page<Order> selectOrderPage(OrderCondition condition);
 
-    int saveOrder(Order order, String productions);
+    int saveOrder(Order orders, String productions);
 
     List<OrderMaterial> selectOrderMaterial(String orderCode);
 
-    int finishOrder(String orderCode, String userCode);
+    int finishOrder(String orderCodes, String userCode);
 }

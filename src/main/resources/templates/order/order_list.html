@@ -56,17 +56,18 @@
                    href="${rc.getContextPath()}/order/edit?orderCode={orderCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
             <li><a class="icon" target="dialog" mask="true" width="440" height="690" rel="viewOrder" title="订单详情"
                    href="${rc.getContextPath()}/order/view?orderCode={orderCode}&navTabId=${navTabId}"><span>详情</span></a></li>
-            <li><a class="edit" target="ajaxTodo" rel="producePurchase" title="确定要生成当前订单的采购清单吗?"
-                   href="${rc.getContextPath()}/purchase/produce?orderCode={orderCode}&navTabId=${navTabId}"><span>生成</span></a></li>
-            <li><a class="edit" target="ajaxTodo" rel="finishOrder" title="确定要完成选择的订单吗?"
-                   href="${rc.getContextPath()}/order/finish?orderCode={orderCode}&navTabId=${navTabId}"><span>完成</span></a></li>
-            <li><a class="delete" target="ajaxTodo" rel="deleteOrder" title="确定要删除选择的订单吗?"
-                   href="${rc.getContextPath()}/order/delete?orderCode={orderCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            <li><a class="edit" target="selectedTodo" postType="string" rel="orderCodes" title="确定要生成勾选订单的采购清单吗?"
+                   href="${rc.getContextPath()}/purchase/produce?navTabId=${navTabId}"><span>生成</span></a></li>
+            <li><a class="edit" target="selectedTodo" postType="string" rel="orderCodes" title="确定要完成勾选的订单吗?"
+                   href="${rc.getContextPath()}/order/finish?navTabId=${navTabId}"><span>完成</span></a></li>
+            <li><a class="delete" target="selectedTodo" postType="string" rel="orderCodes"  title="确定要删除勾选的订单吗?"
+                   href="${rc.getContextPath()}/order/delete?navTabId=${navTabId}"><span>删除</span></a></li>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="222">
         <thead>
         <tr>
+            <th width="20"><input type="checkbox" group="orderCodes" class="checkboxCtrl">
             <th width="120" orderField="orderCode" <#if (page.orderField?? && page.orderField=='orderCode')>class="${page.orderDirection!''}"</#if>>订单编号</th>
             <th width="150" orderField="orderText" <#if (page.orderField?? && page.orderField=='orderText')>class="${page.orderDirection!''}"</#if>>订单描述</th>
             <th width="120" orderField="productDate" <#if (page.orderField?? && page.orderField=='productDate')>class="${page.orderDirection!''}"</#if>>生产日期</th>
@@ -81,6 +82,7 @@
         <#if (page?? && page.data?size>0)>
             <#list page.data as order>
                 <tr target="orderCode" rel="${order.orderCode!''}">
+                    <td><input type="checkbox" name="orderCodes" value="${order.orderCode!''}"></td>
                     <td>${order.orderCode!''}</td>
                     <td>${order.orderText!''}</td>
                     <td>${order.productDate?string("yyyy-MM-dd")}</td>

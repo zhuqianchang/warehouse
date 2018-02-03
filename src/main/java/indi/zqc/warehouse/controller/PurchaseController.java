@@ -7,6 +7,7 @@ import indi.zqc.warehouse.model.DWZResult;
 import indi.zqc.warehouse.model.Purchase;
 import indi.zqc.warehouse.model.condition.PurchaseCondition;
 import indi.zqc.warehouse.service.PurchaseMaterialService;
+import indi.zqc.warehouse.service.PurchaseOrderService;
 import indi.zqc.warehouse.service.PurchaseProductionService;
 import indi.zqc.warehouse.service.PurchaseService;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +40,7 @@ public class PurchaseController extends BaseController {
     private PurchaseMaterialService purchaseMaterialService;
 
     @Autowired
-    private PurchaseProductionService purchaseProductionService;
+    private PurchaseOrderService purchaseOrderService;
 
     @RequestMapping("/list")
     public String purchaseList(Model model, PurchaseCondition condition, String navTabId) {
@@ -70,9 +71,9 @@ public class PurchaseController extends BaseController {
         model.addAttribute("purchaseStatus", PurchaseStatus.values());
         model.addAttribute(NAVTABID, navTabId);
         if (StringUtils.equals(purchase.getPurchaseType(), PurchaseType.AUTO.getKey())) {
-            model.addAttribute("productions", purchaseProductionService.selectPurchaseProduction(purchaseCode));
+            model.addAttribute("orders", purchaseOrderService.selectPurchaseOrder(purchaseCode));
             model.addAttribute("message", "自动生成的采购清单不能修改");
-            return "purchase/purchase_production_view";
+            return "purchase/purchase_order_view";
         } else {
             return "purchase/purchase_add";
         }
@@ -85,8 +86,8 @@ public class PurchaseController extends BaseController {
         model.addAttribute("materials", purchaseMaterialService.selectPurchaseMaterial(purchaseCode));
         model.addAttribute(NAVTABID, navTabId);
         if (StringUtils.equals(purchase.getPurchaseType(), PurchaseType.AUTO.getKey())) {
-            model.addAttribute("productions", purchaseProductionService.selectPurchaseProduction(purchaseCode));
-            return "purchase/purchase_production_view";
+            model.addAttribute("orders", purchaseOrderService.selectPurchaseOrder(purchaseCode));
+            return "purchase/purchase_order_view";
         } else {
             return "purchase/purchase_material_view";
         }
@@ -104,21 +105,21 @@ public class PurchaseController extends BaseController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public DWZResult deletePurchase(String purchaseCode) {
-        purchaseService.deletePurchase(purchaseCode);
+    public DWZResult deletePurchase(String purchaseCodes) {
+        purchaseService.deletePurchase(purchaseCodes);
         return ajaxDone();
     }
 
     @RequestMapping("/produce")
     @ResponseBody
-    public DWZResult producePurchase(String orderCode) {
-        return ajaxDone(purchaseService.producePurchase(orderCode, getCurrentUserCode()));
+    public DWZResult producePurchase(String orderCodes) {
+        return ajaxDone(purchaseService.producePurchase(orderCodes, getCurrentUserCode()));
     }
 
     @RequestMapping("/finish")
     @ResponseBody
-    public DWZResult finishPurchase(String purchaseCode) {
-        purchaseService.finishPurchase(purchaseCode, getCurrentUserCode());
+    public DWZResult finishPurchase(String purchaseCodes) {
+        purchaseService.finishPurchase(purchaseCodes, getCurrentUserCode());
         return ajaxDone();
     }
 

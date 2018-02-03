@@ -3,10 +3,7 @@ package indi.zqc.warehouse.service.impl;
 import indi.zqc.warehouse.dao.*;
 import indi.zqc.warehouse.enums.PurchaseType;
 import indi.zqc.warehouse.exception.BusinessException;
-import indi.zqc.warehouse.model.ProductionMaterial;
-import indi.zqc.warehouse.model.Purchase;
-import indi.zqc.warehouse.model.PurchaseMaterial;
-import indi.zqc.warehouse.model.PurchaseProduction;
+import indi.zqc.warehouse.model.*;
 import indi.zqc.warehouse.service.PurchaseMaterialService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +32,13 @@ public class PurchaseMaterialServiceImpl implements PurchaseMaterialService {
     private PurchaseMaterialDao purchaseMaterialDao;
 
     @Autowired
-    private PurchaseProductionDao purchaseProductionDao;
+    private PurchaseOrderDao purchaseOrderDaoDao;
 
     @Autowired
     private ProductionMaterialDao productionMaterialDao;
+
+    @Autowired
+    private OrderProductionDao orderProductionDao;
 
     @Autowired
     private MaterialDao materialDao;
@@ -51,18 +51,22 @@ public class PurchaseMaterialServiceImpl implements PurchaseMaterialService {
         }
         if (StringUtils.equals(purchase.getPurchaseType(), PurchaseType.AUTO.getKey())) {
             List<PurchaseMaterial> purchaseMaterials = new ArrayList<>();
-            //订单中的成品
-            List<PurchaseProduction> purchaseProductions = purchaseProductionDao.selectPurchaseProduction(purchaseCode);
+            //订单
+            List<PurchaseOrder> purchaseOrders = purchaseOrderDaoDao.selectPurchaseOrder(purchaseCode);
             Map<String, Integer> materialMap = new HashMap<>();
-            for (PurchaseProduction purchaseProduction : purchaseProductions) {
-                //成品中的物料
-                List<ProductionMaterial> productionMaterials = productionMaterialDao.selectProductionMaterial(purchaseProduction.getProductionCode());
-                for (ProductionMaterial productionMaterial : productionMaterials) {
-                    String materialCode = productionMaterial.getMaterialCode();
-                    if (materialMap.containsKey(materialCode)) {
-                        materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * purchaseProduction.getQuantity());
-                    } else {
-                        materialMap.put(materialCode, productionMaterial.getQuantity() * purchaseProduction.getQuantity());
+            for (PurchaseOrder purchaseOrder : purchaseOrders) {
+                //成品
+                List<OrderProduction> orderProductions = orderProductionDao.selectOrderProduction(purchaseOrder.getOrderCode());
+                for (OrderProduction orderProduction : orderProductions) {
+                    //成品中的物料
+                    List<ProductionMaterial> productionMaterials = productionMaterialDao.selectProductionMaterial(orderProduction.getProductionCode());
+                    for (ProductionMaterial productionMaterial : productionMaterials) {
+                        String materialCode = productionMaterial.getMaterialCode();
+                        if (materialMap.containsKey(materialCode)) {
+                            materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * productionMaterial.getQuantity());
+                        } else {
+                            materialMap.put(materialCode, productionMaterial.getQuantity() * productionMaterial.getQuantity());
+                        }
                     }
                 }
             }

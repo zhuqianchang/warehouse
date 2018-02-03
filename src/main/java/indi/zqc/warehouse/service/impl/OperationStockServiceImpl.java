@@ -83,15 +83,7 @@ public class OperationStockServiceImpl implements OperationStockService {
         if (StringUtils.equals(operationStock.getOperationType(), OperationType.INPUT.getKey())) {
             //入库
             if (stock == null) {
-                stock = new Stock();
-                stock.setWarehouseCode(operationStock.getWarehouseCode());
-                stock.setMaterialCode(operationStock.getMaterialCode());
-                stock.setStock(operationStock.getQuantity());
-                stock.setCreateUser(operationStock.getCreateUser());
-                stock.setCreateDateTime(operationStock.getCreateDateTime());
-                stock.setModifyUser(operationStock.getModifyUser());
-                stock.setModifyDateTime(operationStock.getModifyDateTime());
-                stockDao.insertStock(stock);
+                throw new BusinessException(String.format("[%]与[%s]的关系不存在，请先维护", operationStock.getWarehouseText(), operationStock.getMaterialText()));
             } else {
                 stock.setStock(stock.getStock() + operationStock.getQuantity());
                 stock.setModifyUser(operationStock.getModifyUser());
@@ -107,7 +99,7 @@ public class OperationStockServiceImpl implements OperationStockService {
     /**
      * 出库处理
      */
-    public void outputStock(List<OperationStock> operationStockList){
+    public void outputStock(List<OperationStock> operationStockList) {
         for (OperationStock operationStock : operationStockList) {
             outputStock(operationStock);
         }
@@ -120,7 +112,9 @@ public class OperationStockServiceImpl implements OperationStockService {
         Stock stock = stockDao.selectStock(operationStock.getWarehouseCode(), operationStock.getMaterialCode());
         if (StringUtils.equals(operationStock.getOperationType(), OperationType.OUTPUT.getKey())) {
             //出库
-            if (stock == null || stock.getStock() < operationStock.getQuantity()) {
+            if (stock == null) {
+                throw new BusinessException(String.format("[%]与[%s]的关系不存在，请先维护", operationStock.getWarehouseText(), operationStock.getMaterialText()));
+            } else if (stock.getStock() < operationStock.getQuantity()) {
                 throw new BusinessException(String.format("[%s]中的[%s]库存不足", operationStock.getWarehouseText(), operationStock.getMaterialText()));
             } else {
                 stock.setStock(stock.getStock() - operationStock.getQuantity());

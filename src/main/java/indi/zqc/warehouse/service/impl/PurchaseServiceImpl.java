@@ -10,10 +10,14 @@ import indi.zqc.warehouse.enums.OrderStatus;
 import indi.zqc.warehouse.enums.PurchaseStatus;
 import indi.zqc.warehouse.enums.PurchaseType;
 import indi.zqc.warehouse.exception.BusinessException;
-import indi.zqc.warehouse.model.*;
+import indi.zqc.warehouse.model.Order;
+import indi.zqc.warehouse.model.Purchase;
+import indi.zqc.warehouse.model.PurchaseMaterial;
+import indi.zqc.warehouse.model.PurchaseOrder;
 import indi.zqc.warehouse.model.condition.PurchaseCondition;
 import indi.zqc.warehouse.service.PurchaseMaterialService;
 import indi.zqc.warehouse.service.PurchaseService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -24,7 +28,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,13 +56,13 @@ public class PurchaseServiceImpl implements PurchaseService {
     private PurchaseMaterialDao purchaseMaterialDao;
 
     @Autowired
-    private PurchaseProductionDao purchaseProductionDao;
-
-    @Autowired
     private OrderDao orderDao;
 
     @Autowired
     private OrderProductionDao orderProductionDao;
+
+    @Autowired
+    private PurchaseOrderDao purchaseOrderDao;
 
     @Autowired
     private PurchaseMaterialService purchaseMaterialService;
@@ -71,10 +74,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public int deletePurchase(String purchaseCode) {
-        int num = purchaseDao.deletePurchase(purchaseCode);
         purchaseMaterialDao.deletePurchaseMaterial(purchaseCode);
-        purchaseProductionDao.deletePurchaseProduction(purchaseCode);
-        return num;
+        purchaseOrderDao.deletePurchaseOrder(purchaseCode);
+        return purchaseDao.deletePurchase(purchaseCode);
     }
 
     @Override
@@ -140,18 +142,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public String producePurchase(String orderCode, String userCode) {
-        Order order = orderDao.selectOrder(orderCode);
-        if (order == null) {
-            throw new BusinessException("订单不存在");
-        }
-        //修改订单状态
-        order.setOrderStatus(OrderStatus.PRODUCED.getKey());
-        order.setModifyUser(userCode);
-        order.setModifyDateTime(new Date());
-        orderDao.updateOrder(order);
+    public String producePurchase(String orderCodes, String userCode) {
+        //采购清单编号
         String purchaseCode = newPurchaseCode();
-        //保存采购清单
         Purchase purchase = new Purchase();
         purchase.setPurchaseCode(purchaseCode);
         purchase.setPurchaseType(PurchaseType.AUTO.getKey());
@@ -161,14 +154,25 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchase.setModifyUser(userCode);
         purchase.setModifyDateTime(new Date());
         purchaseDao.insertPurchase(purchase);
-        //将订单中的成品转换成清单中的成品
-        List<OrderProduction> orderProductions = orderProductionDao.selectOrderProduction(orderCode);
-        for (OrderProduction orderProduction : orderProductions) {
-            PurchaseProduction purchaseProduction = new PurchaseProduction();
-            purchaseProduction.setPurchaseCode(purchaseCode);
-            purchaseProduction.setProductionCode(orderProduction.getProductionCode());
-            purchaseProduction.setQuantity(orderProduction.getQuantity());
-            purchaseProductionDao.insertPurchaseProduction(purchaseProduction);
+        for (String orderCode : orderCodes.split(",")) {
+            Order order = orderDao.selectOrder(orderCode);
+            if (order == null) {
+                throw new BusinessException(String.format("订单[%s]不存在", orderCode));
+            }
+            if (StringUtils.equals(order.getOrderStatus(), OrderStatus.PRODUCED.getKey()) ||
+                    StringUtils.equals(order.getOrderStatus(), OrderStatus.FINISHED.getKey())) {
+                throw new BusinessException(String.format("订单[%s]已生成或已完成", orderCode));
+            }
+            //修改订单状态
+            order.setOrderStatus(OrderStatus.PRODUCED.getKey());
+            order.setModifyUser(userCode);
+            order.setModifyDateTime(new Date());
+            orderDao.updateOrder(order);
+            //保存采购订单
+            PurchaseOrder purchaseOrder = new PurchaseOrder();
+            purchaseOrder.setPurchaseCode(purchaseCode);
+            purchaseOrder.setOrderCode(orderCode);
+            purchaseOrderDao.insertPurchaseOrder(purchaseOrder);
         }
         return "采购清单已生成，清单编号:" + purchaseCode;
     }

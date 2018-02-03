@@ -81,15 +81,15 @@ public class OrderController extends BaseController {
 
     @RequestMapping("/finish")
     @ResponseBody
-    public DWZResult finishOrder(String orderCode) {
-        orderService.finishOrder(orderCode, getCurrentUserCode());
+    public DWZResult finishOrder(String orderCodes) {
+        orderService.finishOrder(orderCodes, getCurrentUserCode());
         return ajaxDone();
     }
 
     @RequestMapping("/delete")
     @ResponseBody
-    public DWZResult deleteOrder(String orderCode) {
-        orderService.deleteOrder(orderCode);
+    public DWZResult deleteOrder(String orderCodes) {
+        orderService.deleteOrder(orderCodes);
         return ajaxDone();
     }
 

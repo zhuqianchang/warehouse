@@ -16,6 +16,7 @@ import indi.zqc.warehouse.model.OrderProduction;
 import indi.zqc.warehouse.model.ProductionMaterial;
 import indi.zqc.warehouse.model.condition.OrderCondition;
 import indi.zqc.warehouse.service.OrderService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,9 +54,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int deleteOrder(String orderCode) {
-        int num = orderDao.deleteOrder(orderCode);
-        orderProductionDao.deleteOrderProduction(orderCode);
+    public int deleteOrder(String orderCodes) {
+        int num = 0;
+        for (String orderCode : orderCodes.split(",")) {
+            orderProductionDao.deleteOrderProduction(orderCode);
+            num += orderDao.deleteOrder(orderCode);
+        }
         return num;
     }
 
@@ -76,15 +80,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int finishOrder(String orderCode, String userCode) {
-        Order order = selectOrder(orderCode);
-        if (order == null) {
-            throw new BusinessException("订单不存在");
+    public int finishOrder(String orderCodes, String userCode) {
+        int num = 0;
+        for (String orderCode : orderCodes.split(",")) {
+            Order order = selectOrder(orderCode);
+            if (order == null) {
+                throw new BusinessException(String.format("订单[%s]不存在", orderCode));
+            }
+            if (StringUtils.equals(order.getOrderStatus(), OrderStatus.FINISHED.getKey())) {
+                throw new BusinessException(String.format("订单[%s]已完成", orderCode));
+            }
+            order.setOrderStatus(OrderStatus.FINISHED.getKey());
+            order.setModifyUser(userCode);
+            order.setModifyDateTime(new Date());
+            num += updateOrder(order);
         }
-        order.setOrderStatus(OrderStatus.FINISHED.getKey());
-        order.setModifyUser(userCode);
-        order.setModifyDateTime(new Date());
-        return updateOrder(order);
+        return num;
     }
 
     @Override

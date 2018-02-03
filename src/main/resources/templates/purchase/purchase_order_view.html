@@ -28,7 +28,7 @@
                 <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
                     <div class="tabsHeader">
                         <div class="tabsHeaderContent">
-                            <ul><li><a href="javascript:;"><span>成品</span></a></li></ul>
+                            <ul><li><a href="javascript:;"><span>订单</span></a></li></ul>
                         </div>
                     </div>
                     <div class="tabsContent">
@@ -36,18 +36,16 @@
                             <table class="table border" width="100%" layoutH="470">
                                 <thead>
                                 <tr>
-                                    <th width="100">成品编号</th>
-                                    <th width="100">成品描述</th>
-                                    <th width="100">数量</th>
+                                    <th width="100">订单编号</th>
+                                    <th width="100">订单描述</th>
                                 </tr>
                                 </thead>
-                                <tbody id="productionTBody">
-                                <#if (productions?? && productions?size>0)>
-                                    <#list productions as production>
+                                <tbody id="orderTBody">
+                                <#if (orders?? && orders?size>0)>
+                                    <#list orders as order>
                                         <tr>
-                                            <td>${production.productionCode!''}</td>
-                                            <td>${production.productionText!''}</td>
-                                            <td>${production.quantity!''}</td>
+                                            <td>${order.orderCode!''}</td>
+                                            <td>${order.orderText!''}</td>
                                         </tr>
                                     </#list>
                                 </#if>
