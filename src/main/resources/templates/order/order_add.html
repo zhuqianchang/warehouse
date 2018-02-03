@@ -153,7 +153,7 @@
             var flag = true;
             $('#productionTBody', $dialog).find('tr').each(function () {
                 var quantity = $(this).find('input[name="quantity"]').val();
-                if (!quantity || isNaN(parseInt(quantity)) || quantity < 1) {
+                if (!quantity || isNaN(parseInt(quantity)) || quantity < 0) {
                     alertMsg.warn('请输入正确的数量');
                     flag = false;
                     return false;
