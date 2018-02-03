@@ -5,7 +5,7 @@
             <div class="pageFormContent">
                 <dl>
                     <dt>采购编号：</dt>
-                    <dd><input type="text" name="purchaseCode" maxlength="40" value="<#if (page.purchaseCode)??>${page.purchaseCode!''}</#if>"/></dd>
+                    <dd><input type="text" name="purchaseCode" class="alphanumeric toUp" maxlength="40" value="<#if (page.purchaseCode)??>${page.purchaseCode!''}</#if>"/></dd>
                 </dl>
                 <dl>
                     <label>采购类型：</label>

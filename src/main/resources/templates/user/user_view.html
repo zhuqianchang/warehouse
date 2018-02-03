@@ -3,7 +3,7 @@
         <div class="pageFormContent">
             <dl>
                 <dt>用户编号：</dt>
-                <dd><input type="text" name="userCode" class="required" maxlength="40" readonly="readonly"
+                <dd><input type="text" name="userCode" class="required alphanumeric toUp" maxlength="40" readonly="readonly"
                        value="<#if (user.userCode)??>${user.userCode!''}</#if>"/>
                 </dd>
             </dl>

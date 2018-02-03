@@ -48,10 +48,10 @@
                 and o.receiptcode like concat(concat('%', #{receiptCode, jdbcType = VARCHAR}), '%')
             </if>
             <if test="warehouseCode != null and warehouseCode != ''">
-                and o.warehousecode like concat(concat('%', #{warehouseCode, jdbcType = VARCHAR}), '%')
+                and o.warehousecode = #{warehouseCode, jdbcType = VARCHAR}
             </if>
             <if test="materialCode != null and materialCode != ''">
-                and o.materialcode like concat(concat('%', #{materialCode, jdbcType = VARCHAR}), '%')
+                and o.materialcode = #{materialCode, jdbcType = VARCHAR}
             </if>
             <if test="operationType != null and operationType != ''">
                 and o.operationtype = #{operationType, jdbcType = VARCHAR}

@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : PurchaseCondition.java
  * Package : indi.zqc.warehouse.model.condition
@@ -21,11 +23,11 @@ public class PurchaseCondition extends Condition {
     private String purchaseStatus;
 
     public String getPurchaseCode() {
-        return purchaseCode;
+        return StringUtils.upperCase(purchaseCode);
     }
 
     public void setPurchaseCode(String purchaseCode) {
-        this.purchaseCode = purchaseCode;
+        this.purchaseCode = StringUtils.upperCase(purchaseCode);
     }
 
     public String getPurchaseType() {

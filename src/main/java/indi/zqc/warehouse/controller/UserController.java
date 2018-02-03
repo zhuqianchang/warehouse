@@ -7,6 +7,7 @@ import indi.zqc.warehouse.model.User;
 import indi.zqc.warehouse.model.condition.UserCondition;
 import indi.zqc.warehouse.service.RoleService;
 import indi.zqc.warehouse.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +80,9 @@ public class UserController extends BaseController {
             setModifyInfo(user);
             userService.updateUser(user);
         }
-        userService.updateUserRole(user.getUserCode(), roleCodes.split(Constants.SEPARATOR));
+        if (StringUtils.isNotBlank(roleCodes)) {
+            userService.updateUserRole(user.getUserCode(), roleCodes);
+        }
         String forwardUrl = getForwardUrl(request) + "/user/list?navTabId=" + navTabId;
         return dialogAjaxDone(navTabId, forwardUrl);
     }

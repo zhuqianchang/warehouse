@@ -4,6 +4,7 @@ import indi.zqc.warehouse.shiro.AuthUtils;
 import indi.zqc.warehouse.shiro.SessionUser;
 import indi.zqc.warehouse.util.EncryptAlgorithm;
 import indi.zqc.warehouse.util.SecurityContextUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,7 @@ public class LoginController extends BaseController {
             model.addAttribute("userCode", userCode);
             model.addAttribute("password", password);
             password = EncryptAlgorithm.hexMD5(password);
-            SessionUser sessionUser = (SessionUser) AuthUtils.login(userCode, password);
+            SessionUser sessionUser = (SessionUser) AuthUtils.login(StringUtils.upperCase(userCode), password);
             sessionUser.setTicket(AuthUtils.getSessionId());
         } catch (Exception e) {
             //登录失败返回登录页面，并附带错误信息

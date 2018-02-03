@@ -5,7 +5,7 @@
             <div class="pageFormContent">
                 <p>
                     <label>仓库编号：</label>
-                    <input type="text" name="warehouseCode" maxlength="40" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>"/>
+                    <input type="text" name="warehouseCode" maxlength="40" class="alphanumeric toUp" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>"/>
                 </p>
                 <p>
                     <label>仓库描述：</label>

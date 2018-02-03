@@ -5,7 +5,7 @@
             <div class="pageFormContent">
                 <dl>
                     <dt>订单编号：</dt>
-                    <dd><input type="text" name="orderCode" maxlength="40" value="<#if (page.orderCode)??>${page.orderCode!''}</#if>"/></dd>
+                    <dd><input type="text" name="orderCode" class="alphanumeric toUp" maxlength="40" value="<#if (page.orderCode)??>${page.orderCode!''}</#if>"/></dd>
                 </dl>
                 <dl>
                     <dt>订单描述：</dt>
@@ -15,7 +15,7 @@
                 <dl>
                     <dt>生产日期</dt>
                     <dd>
-                        <input name="productDateStart" class="date readonly" readonly="readonly" type="text" value="<#if (page.productDateStart)??>${page.productDateStart}</#if>">
+                        <input name="productDateStart" class="date readonly" readonly="readonly" min="2018-02-03" type="text" value="<#if (page.productDateStart)??>${page.productDateStart}</#if>">
                     </dd>
                 </dl>
                 <dl>
@@ -100,3 +100,25 @@
     </table>
     <#include "/common/panelBar.html">
 </div>
+<script>
+
+    var $panel = navTab.getCurrentPanel();
+
+    $(function () {
+        //控制日期控件中选中最大值和最小值
+        var $fromDate = $('input[name="productDateStart"]', $panel);
+        var $toDate = $('input[name="productDateEnd"]', $panel);
+
+        $fromDate.attr('maxDate', $toDate.val());
+        $toDate.attr('minDate', $fromDate.val());
+
+        $fromDate.change(function () {
+            $toDate.attr('minDate', $fromDate.val());
+        });
+
+        $toDate.change(function () {
+            $fromDate.attr('maxDate', $toDate.val());
+        });
+    });
+
+</script>

@@ -30,7 +30,7 @@ public interface UserService {
 
     int resetUser(String userCode) throws Exception;
 
-    int updateUserRole(String userCode, String[] roleCodes);
+    int updateUserRole(String userCode, String roleCodes);
 
     int changePwd(String userCode, String oldPassword, String newPassword) throws UnsupportedEncodingException, NoSuchAlgorithmException, Exception;
 }

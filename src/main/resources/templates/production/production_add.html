@@ -7,9 +7,9 @@
                 <dd>
                     <input type="hidden" name="productionCode">
                     <#if (production.productionCode)??>
-                        <input type="text" name="production.materialCode" class="required" maxlength="40" value="${production.productionCode}" readonly="readonly"/>
+                        <input type="text" name="production.materialCode" class="required alphanumeric toUp" maxlength="40" value="${production.productionCode}" readonly="readonly"/>
                     <#else>
-                        <input type="text" name="production.materialCode" class="required" maxlength="40" value="" readonly="readonly"/>
+                        <input type="text" name="production.materialCode" class="required alphanumeric toUp" maxlength="40" value="" readonly="readonly"/>
                         <a class="btnLook" href="${rc.getContextPath()}/material/production/lookup" warn="请选择成品" lookupGroup="production" callback="production.production_callback" >查找带回</a>
                     </#if>
                 </dd>

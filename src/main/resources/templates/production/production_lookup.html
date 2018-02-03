@@ -5,7 +5,7 @@
             <ul class="searchContent">
                 <li>
                     <label>成品编号：</label>
-                    <input type="text" name="productionCode" maxlength="40" value="<#if (page.productionCode)??>${page.productionCode!''}</#if>"/>
+                    <input type="text" name="productionCode" class="alphanumeric toUp" maxlength="40" value="<#if (page.productionCode)??>${page.productionCode!''}</#if>"/>
                 </li>
                 <li>
                     <label>成品描述：</label>

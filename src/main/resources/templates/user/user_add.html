@@ -6,9 +6,9 @@
                 <dt>用户编号：</dt>
                 <dd>
                     <#if (user.userCode)??>
-                        <input type="text" name="userCode" class="required" maxlength="40" value="${user.userCode}" readonly="readonly"/>
+                        <input type="text" name="userCode" class="required alphanumeric toUp" maxlength="40" value="${user.userCode}" readonly="readonly"/>
                         <#else>
-                        <input type="text" name="userCode" class="required" maxlength="40" value="" alt="请输入用户编号"
+                        <input type="text" name="userCode" class="required alphanumeric toUp" maxlength="40" value="" alt="请输入用户编号"
                                remote="${rc.getContextPath()}/user/verify" warn="用户编号已经存在"/>
                     </#if>
                 </dd>

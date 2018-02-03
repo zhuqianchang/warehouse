@@ -6,9 +6,9 @@
                 <dt>采购编号：</dt>
                 <dd>
                     <#if (purchase.purchaseCode)??>
-                        <input type="text" name="purchaseCode" class="required" maxlength="40" value="${purchase.purchaseCode}" readonly="readonly"/>
+                        <input type="text" name="purchaseCode" class="required alphanumeric toUp" maxlength="40" value="${purchase.purchaseCode}" readonly="readonly"/>
                     <#else>
-                        <input type="text" name="purchaseCode" class="required" maxlength="40" value="" alt="请输入采购编号"
+                        <input type="text" name="purchaseCode" class="required alphanumeric toUp" maxlength="40" value="" alt="请输入采购编号"
                                remote="${rc.getContextPath()}/purchase/verify" warn="采购编号已经存在"/>
                     </#if>
                 </dd>

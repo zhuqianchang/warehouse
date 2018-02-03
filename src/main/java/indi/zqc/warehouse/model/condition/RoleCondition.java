@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : RoleCondition.java
  * Package : indi.zqc.warehouse.model.condition
@@ -18,11 +20,11 @@ public class RoleCondition extends Condition {
     private String roleText;
 
     public String getRoleCode() {
-        return roleCode;
+        return StringUtils.upperCase(roleCode);
     }
 
     public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+        this.roleCode = StringUtils.upperCase(roleCode);
     }
 
     public String getRoleText() {

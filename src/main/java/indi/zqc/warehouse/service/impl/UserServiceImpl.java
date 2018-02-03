@@ -42,6 +42,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int deleteUser(String userCode) {
+        if (StringUtils.equals(Constants.ADMIN, userCode)) {
+            throw new BusinessException("超级管理员不能删除");
+        }
         int del = userDao.deleteUser(userCode);
         userRoleDao.deleteUserRoleByUser(userCode);
         return del;
@@ -74,11 +77,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUserRole(String userCode, String[] roleCodes) {
+    public int updateUserRole(String userCode, String roleCodes) {
         userRoleDao.deleteUserRoleByUser(userCode);
         int num = 0;
-        for (String roleCode : roleCodes) {
-            num += userRoleDao.insertUserRole(userCode, roleCode);
+        for (String roleCode : roleCodes.split(Constants.SEPARATOR)) {
+            if (StringUtils.isNotBlank(roleCode)) {
+                num += userRoleDao.insertUserRole(userCode, roleCode);
+            }
         }
         return num;
     }

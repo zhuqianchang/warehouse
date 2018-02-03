@@ -38,11 +38,11 @@ public class Order extends Common {
     private String orderStatusText;
 
     public String getOrderCode() {
-        return orderCode;
+        return StringUtils.upperCase(orderCode);
     }
 
     public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
+        this.orderCode = StringUtils.upperCase(orderCode);
     }
 
     public String getOrderText() {

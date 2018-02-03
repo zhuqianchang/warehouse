@@ -5,11 +5,11 @@
             <div class="pageFormContent">
                 <p>
                     <label>角色编号：</label>
-                    <input type="text" name="roleCode" value="<#if (role.roleCode)??>${role.roleCode!''}</#if>"/>
+                    <input type="text" name="roleCode" class="alphanumeric toUp" value="<#if (page.roleCode)??>${page.roleCode!''}</#if>"/>
                 </p>
                 <p>
                     <label>角色描述：</label>
-                    <input type="text" name="roleText" value="<#if (role.roleText)??>${role.roleText!''}</#if>"/>
+                    <input type="text" name="roleText" value="<#if (page.roleText)??>${page.roleText!''}</#if>"/>
                 </p>
                 <div class="buttonActive">
                     <div class="buttonContent">

@@ -1,5 +1,5 @@
 <div class="pageContent">
-    <form method="post" action="${rc.getContextPath()}/user/password/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)">
+    <form method="post" action="${rc.getContextPath()}/user/password/save" class="pageForm required-validate" onsubmit="return validateCallback(this, changePwd)">
         <div class="pageFormContent">
             <div class="unit">
                 <label>原密码：</label>
@@ -22,3 +22,21 @@
         </div>
     </form>
 </div>
+<script>
+
+    function changePwd(result) {
+        if(result.statusCode == 200){
+            //关闭弹出框
+            $.pdialog.closeCurrent();
+            alertMsg.info("密码修改成功，请重新登录");
+            // ajax 发送登出请求
+            $.get($('#header .loginOut', $(document)).attr('href'));
+            setTimeout(function () {
+                location.reload(false);
+            }, 2000);
+        }else{
+            alertMsg.error(result.message);
+        }
+    }
+
+</script>

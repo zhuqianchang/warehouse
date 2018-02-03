@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : WarehouseCondition.java
  * Package : indi.zqc.warehouse.model.condition
@@ -18,11 +20,11 @@ public class WarehouseCondition extends Condition {
     private String warehouseText;
 
     public String getWarehouseCode() {
-        return warehouseCode;
+        return StringUtils.upperCase(warehouseCode);
     }
 
     public void setWarehouseCode(String warehouseCode) {
-        this.warehouseCode = warehouseCode;
+        this.warehouseCode = StringUtils.upperCase(warehouseCode);
     }
 
     public String getWarehouseText() {

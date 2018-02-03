@@ -81,11 +81,11 @@
     </select>
 
     <select id="selectMaxOrdinal" resultType="int">
-        select ifnull(max(displayordinal), 0) from w_menu where parentmenucode = #{parentMenuCode, jdbcType = VARCHAR}
+        select nvl(max(displayordinal), 0) from w_menu where parentmenucode = #{parentMenuCode, jdbcType = VARCHAR}
     </select>
 
     <select id="selectRootMaxOrdinal" resultType="int">
-        select ifnull(max(displayordinal), 0) from w_menu where parentMenuCode is null
+        select nvl(max(displayordinal), 0) from w_menu where parentMenuCode is null
     </select>
 
 </mapper>

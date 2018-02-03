@@ -5,7 +5,7 @@
             <ul class="searchContent">
                 <li>
                     <label>角色编号：</label>
-                    <input type="text" name="roleCode" maxlength="40" value="<#if (page.roleCode)??>${page.roleCode!''}</#if>"/>
+                    <input type="text" name="roleCode" class="alphanumeric toUp" maxlength="40" value="<#if (page.roleCode)??>${page.roleCode!''}</#if>"/>
                 </li>
                 <li>
                     <label>角色描述：</label>

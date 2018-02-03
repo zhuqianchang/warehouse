@@ -5,7 +5,7 @@
             <dl>
                 <dt>成品编号：</dt>
                 <dd>
-                    <input type="text" name="productionCode" class="required" maxlength="40" value="<#if (production.productionCode)??>${production.productionCode!''}</#if>" readonly="readonly"/>
+                    <input type="text" name="productionCode" class="required alphanumeric toUp" maxlength="40" value="<#if (production.productionCode)??>${production.productionCode!''}</#if>" readonly="readonly"/>
                 </dd>
             </dl>
             <dl>

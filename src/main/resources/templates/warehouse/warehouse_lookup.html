@@ -5,7 +5,7 @@
             <ul class="searchContent">
                 <li>
                     <label>仓库编号：</label>
-                    <input type="text" name="warehouseCode" maxlength="40" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>"/>
+                    <input type="text" name="warehouseCode" class="alphanumeric toUp" maxlength="40" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>"/>
                 </li>
                 <li>
                     <label>仓库描述：</label>

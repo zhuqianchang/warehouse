@@ -5,7 +5,7 @@
             <div class="pageFormContent">
                 <dl>
                     <dt>单据编号：</dt>
-                    <dd><input type="text" name="receiptCode" value="<#if (page.receiptCode)??>${page.receiptCode!''}</#if>"/></dd>
+                    <dd><input type="text" name="receiptCode" class="alphanumeric toUp" value="<#if (page.receiptCode)??>${page.receiptCode!''}</#if>"/></dd>
                 </dl>
                 <dl>
                     <dt>仓库：</dt>
@@ -14,7 +14,7 @@
                         <input type="hidden" name="warehouseText" value="">
                         <input type="hidden" name="warehouse.warehouseCode" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>">
                         <input type="text" name="warehouse.warehouseText" readonly="readonly" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>"/>
-                        <a class="btnLook" href="${rc.getContextPath()}/${rc.getContextPath()}/warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
+                        <a class="btnLook" href="${rc.getContextPath()}/warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
                     </dd>
                 </dl>
                 <dl class="nowrap"></dl>

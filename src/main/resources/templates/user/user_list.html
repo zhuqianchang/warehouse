@@ -5,7 +5,7 @@
             <div class="pageFormContent">
                 <p>
                     <label>用户编号：</label>
-                    <input type="text" name="userCode" value="<#if (user.userCode)??>${user.userCode!''}</#if>"/>
+                    <input type="text" name="userCode" class="alphanumeric toUp" value="<#if (user.userCode)??>${user.userCode!''}</#if>"/>
                 </p>
                 <p>
                     <label>用户描述：</label>

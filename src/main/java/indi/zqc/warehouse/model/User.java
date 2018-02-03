@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : User.java
  * Package : indi.zqc.warehouse.model
@@ -21,11 +23,11 @@ public class User extends Common {
     private String password;
 
     public String getUserCode() {
-        return userCode;
+        return StringUtils.upperCase(userCode);
     }
 
     public void setUserCode(String userCode) {
-        this.userCode = userCode;
+        this.userCode = StringUtils.upperCase(userCode);
     }
 
     public String getUserText() {

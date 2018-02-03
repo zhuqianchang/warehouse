@@ -28,11 +28,11 @@ public class Material extends Common{
     private String materialTypeText;
 
     public String getMaterialCode() {
-        return materialCode;
+        return StringUtils.upperCase(materialCode);
     }
 
     public void setMaterialCode(String materialCode) {
-        this.materialCode = materialCode;
+        this.materialCode = StringUtils.upperCase(materialCode);
     }
 
     public String getMaterialText() {

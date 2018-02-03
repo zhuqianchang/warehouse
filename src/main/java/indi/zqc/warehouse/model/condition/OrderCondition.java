@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : OrderCondition.java
  * Package : indi.zqc.warehouse.model.condition
@@ -27,11 +29,11 @@ public class OrderCondition extends Condition {
     private String orderStatus;
 
     public String getOrderCode() {
-        return orderCode;
+        return StringUtils.upperCase(orderCode);
     }
 
     public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
+        this.orderCode = StringUtils.upperCase(orderCode);
     }
 
     public String getOrderText() {

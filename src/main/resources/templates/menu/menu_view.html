@@ -3,7 +3,7 @@
         <div class="pageFormContent">
             <dl class="nowrap">
                 <dt>菜单编号：</dt>
-                <dd><input type="text" name="menuCode" class="required" maxlength="40" readonly="readonly"
+                <dd><input type="text" name="menuCode" class="required alphanumeric toUp" maxlength="40" readonly="readonly"
                            value="<#if (menu.menuCode)??>${menu.menuCode!''}</#if>"/>
                 </dd>
             </dl>

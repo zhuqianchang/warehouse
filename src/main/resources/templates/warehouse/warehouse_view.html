@@ -3,7 +3,7 @@
         <div class="pageFormContent">
             <p>
                 <label>仓库编号：</label>
-                <input type="text" name="warehouseCode" class="required" maxlength="40" readonly="readonly"
+                <input type="text" name="warehouseCode" class="required alphanumeric toUp" maxlength="40" readonly="readonly"
                        value="<#if (warehouse.warehouseCode)??>${warehouse.warehouseCode!''}</#if>"/>
             </p>
             <p>

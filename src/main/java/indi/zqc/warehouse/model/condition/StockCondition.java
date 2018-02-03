@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : StockCondition.java
  * Package : indi.zqc.warehouse.model.condition
@@ -27,11 +29,11 @@ public class StockCondition extends Condition {
     private String warehouseText;
 
     public String getMaterialCode() {
-        return materialCode;
+        return StringUtils.upperCase(materialCode);
     }
 
     public void setMaterialCode(String materialCode) {
-        this.materialCode = materialCode;
+        this.materialCode = StringUtils.upperCase(materialCode);
     }
 
     public String getMaterialText() {
@@ -51,11 +53,11 @@ public class StockCondition extends Condition {
     }
 
     public String getWarehouseCode() {
-        return warehouseCode;
+        return StringUtils.upperCase(warehouseCode);
     }
 
     public void setWarehouseCode(String warehouseCode) {
-        this.warehouseCode = warehouseCode;
+        this.warehouseCode = StringUtils.upperCase(warehouseCode);
     }
 
     public String getWarehouseText() {

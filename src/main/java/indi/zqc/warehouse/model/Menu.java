@@ -42,11 +42,11 @@ public class Menu extends Common implements TreeInterface{
     private List<Menu> children = new ArrayList<>();
 
     public String getMenuCode() {
-        return menuCode;
+        return StringUtils.upperCase(menuCode);
     }
 
     public void setMenuCode(String menuCode) {
-        this.menuCode = menuCode;
+        this.menuCode = StringUtils.upperCase(menuCode);
     }
 
     public String getMenuText() {

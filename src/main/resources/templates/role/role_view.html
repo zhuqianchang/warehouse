@@ -3,7 +3,7 @@
         <div class="pageFormContent">
             <dl>
                 <dt>角色编号：</dt>
-                <dd><input type="text" name="roleCode" class="required" maxlength="40" readonly="readonly"
+                <dd><input type="text" name="roleCode" class="required alphanumeric toUp" maxlength="40" readonly="readonly"
                            value="<#if (role.roleCode)??>${role.roleCode!''}</#if>"/>
                 </dd>
             </dl>

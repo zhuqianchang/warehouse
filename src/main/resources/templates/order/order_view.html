@@ -6,7 +6,7 @@
                 <dt>订单编号：</dt>
                 <dd>
                 <dd>
-                    <input type="text" name="orderCode" class="required" maxlength="40" readonly="readonly"
+                    <input type="text" name="orderCode" class="required alphanumeric toUp" maxlength="40" readonly="readonly"
                            value="<#if (order.orderCode)??>${order.orderCode!''}</#if>" alt="请输入订单编号"/>
                 </dd>
                 </dd>

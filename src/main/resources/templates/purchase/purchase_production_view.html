@@ -5,7 +5,7 @@
             <dl>
                 <dt>采购编号：</dt>
                 <dd>
-                    <input type="text" name="purchaseCode" class="required" maxlength="40" readonly="readonly"
+                    <input type="text" name="purchaseCode" class="required alphanumeric toUp" maxlength="40" readonly="readonly"
                            value="<#if (purchase.purchaseCode)??>${purchase.purchaseCode!''}</#if>"/>
                 </dd>
             </dl>

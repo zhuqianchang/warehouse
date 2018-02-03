@@ -4,9 +4,9 @@
             <p>
                 <label>仓库编号：</label>
                 <#if (warehouse.warehouseCode)??>
-                    <input type="text" name="warehouseCode" class="required" maxlength="40" value="${warehouse.warehouseCode}" readonly="readonly"/>
+                    <input type="text" name="warehouseCode" class="required alphanumeric toUp" maxlength="40" value="${warehouse.warehouseCode}" readonly="readonly"/>
                 <#else>
-                    <input type="text" name="warehouseCode" class="required" maxlength="40" value="" alt="请输入仓库编号"
+                    <input type="text" name="warehouseCode" class="required alphanumeric toUp" maxlength="40" value="" alt="请输入仓库编号"
                            remote="${rc.getContextPath()}/warehouse/verify" warn="仓库编号已经存在"/>
                 </#if>
             </p>

@@ -31,11 +31,11 @@ public class Purchase extends Common {
     private String purchaseStatusText;
 
     public String getPurchaseCode() {
-        return purchaseCode;
+        return StringUtils.upperCase(purchaseCode);
     }
 
     public void setPurchaseCode(String purchaseCode) {
-        this.purchaseCode = purchaseCode;
+        this.purchaseCode = StringUtils.upperCase(purchaseCode);
     }
 
     public String getPurchaseType() {

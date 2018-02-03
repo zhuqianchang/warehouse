@@ -5,7 +5,7 @@
             <div class="pageFormContent">
                 <dl>
                     <dt>成品编号：</dt>
-                    <dd><input type="text" name="productionCode" maxlength="40" value="<#if (page.productionCode)??>${page.productionCode!''}</#if>"/></dd>
+                    <dd><input type="text" name="productionCode" class="alphanumeric toUp" maxlength="40" value="<#if (page.productionCode)??>${page.productionCode!''}</#if>"/></dd>
                 </dl>
                 <dl>
                     <dt>成品描述：</dt>

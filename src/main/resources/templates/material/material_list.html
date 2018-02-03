@@ -5,7 +5,7 @@
             <div class="pageFormContent">
                 <dl>
                     <dt>物料编号：</dt>
-                    <dd><input type="text" name="materialCode" maxlength="40" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>"/></dd>
+                    <dd><input type="text" name="materialCode" class="alphanumeric toUp" maxlength="40" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>"/></dd>
                 </dl>
                 <dl>
                     <dt>物料描述：</dt>

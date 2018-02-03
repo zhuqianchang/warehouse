@@ -4,9 +4,9 @@
             <p>
                 <label>角色编号：</label>
                 <#if (role.roleCode)??>
-                    <input type="text" name="roleCode" class="required" maxlength="40" value="${role.roleCode}" readonly="readonly"/>
+                    <input type="text" name="roleCode" class="required alphanumeric toUp" maxlength="40" value="${role.roleCode}" readonly="readonly"/>
                     <#else>
-                        <input type="text" name="roleCode" class="required" maxlength="40" value="" alt="请输入角色编号"
+                        <input type="text" name="roleCode" class="required alphanumeric toUp" maxlength="40" value="" alt="请输入角色编号"
                                remote="${rc.getContextPath()}/role/verify" warn="角色编号已经存在"/>
                 </#if>
             </p>

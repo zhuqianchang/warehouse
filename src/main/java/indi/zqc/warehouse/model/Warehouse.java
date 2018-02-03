@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : Warehouse.java
  * Package : indi.zqc.warehouse.model
@@ -18,11 +20,11 @@ public class Warehouse extends Common {
     private String warehouseText;
 
     public String getWarehouseCode() {
-        return warehouseCode;
+        return StringUtils.upperCase(warehouseCode);
     }
 
     public void setWarehouseCode(String warehouseCode) {
-        this.warehouseCode = warehouseCode;
+        this.warehouseCode = StringUtils.upperCase(warehouseCode);
     }
 
     public String getWarehouseText() {

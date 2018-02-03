@@ -4833,3 +4833,7 @@ a.btnAttach {
 .createInfo .time {
     width: 180px
 }
+
+input.toUp {
+    text-transform: uppercase;
+}

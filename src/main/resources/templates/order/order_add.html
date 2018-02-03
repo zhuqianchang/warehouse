@@ -6,9 +6,9 @@
                 <dt>订单编号：</dt>
                 <dd>
                     <#if (order.orderCode)??>
-                        <input type="text" name="orderCode" class="required" maxlength="40" value="${order.orderCode}" readonly="readonly"/>
+                        <input type="text" name="orderCode" class="required alphanumeric toUp" maxlength="40" value="${order.orderCode}" readonly="readonly"/>
                     <#else>
-                        <input type="text" name="orderCode" class="required" maxlength="40" value="" alt="请输入订单编号"
+                        <input type="text" name="orderCode" class="required alphanumeric toUp" maxlength="40" value="" alt="请输入订单编号"
                                remote="${rc.getContextPath()}/order/verify" warn="订单编号已经存在"/>
                     </#if>
                 </dd>

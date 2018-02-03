@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 /**
@@ -26,11 +28,11 @@ public class MaterialCondition extends Condition {
     private List<String> materialTypes;
 
     public String getMaterialCode() {
-        return materialCode;
+        return StringUtils.upperCase(materialCode);
     }
 
     public void setMaterialCode(String materialCode) {
-        this.materialCode = materialCode;
+        this.materialCode = StringUtils.upperCase(materialCode);
     }
 
     public String getMaterialText() {

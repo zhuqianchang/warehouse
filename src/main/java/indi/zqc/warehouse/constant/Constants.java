@@ -15,7 +15,7 @@ public class Constants {
     public static final String BASE_URL = "warehouse";
 
     //管理员
-    public static final String ADMIN = "admin";
+    public static final String ADMIN = "ADMIN";
 
     //初始密码
     public static final String DEFAULT_PASSWORD = "a1234567";

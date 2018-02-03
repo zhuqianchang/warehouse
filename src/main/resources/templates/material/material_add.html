@@ -4,9 +4,9 @@
             <p>
                 <label>物料编号：</label>
                 <#if (material.materialCode)??>
-                    <input type="text" name="materialCode" class="required" maxlength="40" value="${material.materialCode}" readonly="readonly"/>
+                    <input type="text" name="materialCode" class="required alphanumeric toUp" maxlength="40" value="${material.materialCode}" readonly="readonly"/>
                 <#else>
-                    <input type="text" name="materialCode" class="required" maxlength="40" value="" alt="请输入物料编号"
+                    <input type="text" name="materialCode" class="required alphanumeric toUp" maxlength="40" value="" alt="请输入物料编号"
                            remote="${rc.getContextPath()}/material/verify" warn="物料编号已经存在"/>
                 </#if>
             </p>

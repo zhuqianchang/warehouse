@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.model.condition;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Title : ProductionCondition.java
  * Package : indi.zqc.warehouse.model.condition
@@ -18,11 +20,11 @@ public class ProductionCondition extends Condition {
     private String productionText;
 
     public String getProductionCode() {
-        return productionCode;
+        return StringUtils.upperCase(productionCode);
     }
 
     public void setProductionCode(String productionCode) {
-        this.productionCode = productionCode;
+        this.productionCode = StringUtils.upperCase(productionCode);
     }
 
     public String getProductionText() {

@@ -61,9 +61,9 @@ INSERT INTO `W_MENU` VALUES ('OUTPUT_STOCK', '出库', 'OPERATION_STOCK', '/oper
 INSERT INTO `W_MENU` VALUES ('STOCK_RECORD', '出入库查询', 'OPERATION_STOCK', '/operationStock/record', 'FORM', '3', 'ADMIN', sysdate(), 'ADMIN', sysdate());
 INSERT INTO `W_MENU` VALUES ('BASIC_DATA', '主数据管理', null, null, 'MODULE', '3', 'ADMIN', sysdate(), 'ADMIN', sysdate());
 INSERT INTO `W_MENU` VALUES ('MATERIAL_MANAGE', '物料管理', 'BASIC_DATA', '/material/list', 'FORM', '1', 'ADMIN', sysdate(), 'ADMIN', sysdate());
-INSERT INTO `W_MENU` VALUES ('WAREHOUSE_MANAGE', '仓库管理', 'BASIC_DATA', '/warehouse/list', 'FORM', '2', 'ADMIN', sysdate(), 'ADMIN', sysdate());
-INSERT INTO `W_MENU` VALUES ('STOCK_MANAGE', '库存管理', 'BASIC_DATA', '/stock/list', 'FORM', '3', 'ADMIN', sysdate(), 'ADMIN', sysdate());
-INSERT INTO `W_MENU` VALUES ('PRODUCTION_MANAGE', '成品管理', 'BASIC_DATA', '/production/list', 'FORM', '4', 'ADMIN', sysdate(), 'ADMIN', sysdate());
+INSERT INTO `W_MENU` VALUES ('PRODUCTION_MANAGE', '成品管理', 'BASIC_DATA', '/production/list', 'FORM', '2', 'ADMIN', sysdate(), 'ADMIN', sysdate());
+INSERT INTO `W_MENU` VALUES ('WAREHOUSE_MANAGE', '仓库管理', 'BASIC_DATA', '/warehouse/list', 'FORM', '3', 'ADMIN', sysdate(), 'ADMIN', sysdate());
+INSERT INTO `W_MENU` VALUES ('STOCK_MANAGE', '库存管理', 'BASIC_DATA', '/stock/list', 'FORM', '4', 'ADMIN', sysdate(), 'ADMIN', sysdate());
 INSERT INTO `W_MENU` VALUES ('SYSTEM_MANAGE', '系统管理', null, null, 'MODULE', '4', 'ADMIN', sysdate(), 'ADMIN', sysdate());
 INSERT INTO `W_MENU` VALUES ('USER_MANAGE', '用户管理', 'SYSTEM_MANAGE', '/user/list', 'FORM', '1', 'ADMIN', sysdate(), 'ADMIN', sysdate());
 INSERT INTO `W_MENU` VALUES ('ROLE_MANAGE', '角色管理', 'SYSTEM_MANAGE', '/role/list', 'FORM', '2', 'ADMIN', sysdate(), 'ADMIN', sysdate());
