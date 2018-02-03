@@ -32,7 +32,7 @@ public interface PurchaseService {
 
     String producePurchase(String orderCode, String userCode);
 
-    int finishPurchase(String purchaseCode, String currentUserCode);
+    int finishPurchase(String purchaseCode, String userCode);
 
     void exportPurchase(String purchaseCode, HttpServletResponse response);
 }

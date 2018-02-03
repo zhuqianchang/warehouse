@@ -104,8 +104,8 @@ public class PurchaseController extends BaseController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public DWZResult deletePurchase(String purchaseCodes) {
-        purchaseService.deletePurchase(purchaseCodes);
+    public DWZResult deletePurchase(String purchaseCode) {
+        purchaseService.deletePurchase(purchaseCode);
         return ajaxDone();
     }
 
@@ -117,8 +117,8 @@ public class PurchaseController extends BaseController {
 
     @RequestMapping("/finish")
     @ResponseBody
-    public DWZResult finishPurchase(String purchaseCodes) {
-        purchaseService.finishPurchase(purchaseCodes, getCurrentUserCode());
+    public DWZResult finishPurchase(String purchaseCode) {
+        purchaseService.finishPurchase(purchaseCode, getCurrentUserCode());
         return ajaxDone();
     }
 
