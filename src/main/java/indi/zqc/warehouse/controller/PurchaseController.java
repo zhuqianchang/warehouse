@@ -8,7 +8,6 @@ import indi.zqc.warehouse.model.Purchase;
 import indi.zqc.warehouse.model.condition.PurchaseCondition;
 import indi.zqc.warehouse.service.PurchaseMaterialService;
 import indi.zqc.warehouse.service.PurchaseOrderService;
-import indi.zqc.warehouse.service.PurchaseProductionService;
 import indi.zqc.warehouse.service.PurchaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
