@@ -75,6 +75,15 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public int deletePurchase(String purchaseCode) {
         purchaseMaterialDao.deletePurchaseMaterial(purchaseCode);
+        List<PurchaseOrder> purchaseOrders = purchaseOrderDao.selectPurchaseOrder(purchaseCode);
+        //删除采购订单时，修改订单的状态为创建
+        for (PurchaseOrder purchaseOrder : purchaseOrders) {
+            Order order = orderDao.selectOrder(purchaseOrder.getOrderCode());
+            if (!StringUtils.equals(order.getOrderStatus(), OrderStatus.CREATED.getKey())) {
+                order.setOrderStatus(OrderStatus.CREATED.getKey());
+                orderDao.updateOrder(order);
+            }
+        }
         purchaseOrderDao.deletePurchaseOrder(purchaseCode);
         return purchaseDao.deletePurchase(purchaseCode);
     }
