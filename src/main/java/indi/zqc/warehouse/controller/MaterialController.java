@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +70,7 @@ public class MaterialController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveMaterial(Material material, String navTabId, HttpServletRequest request) {
+    public DWZResult saveMaterial(Material material) {
         Material oldMaterial = materialService.selectMaterial(material.getMaterialCode());
         if (oldMaterial == null) {
             setCreateInfo(material);
@@ -80,8 +79,7 @@ public class MaterialController extends BaseController {
             setModifyInfo(material);
             materialService.updateMaterial(material);
         }
-        String forwardUrl = getForwardUrl(request) + "/material/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
     }
 
     @RequestMapping("/delete")

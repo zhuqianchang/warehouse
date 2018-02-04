@@ -12,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Title : ProductionController.java
  * Package : indi.zqc.warehouse.controller
@@ -67,11 +65,10 @@ public class ProductionController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveProduction(Production production, String materials, String navTabId, HttpServletRequest request) {
+    public DWZResult saveProduction(Production production, String materials) {
         setCreateInfo(production);
         productionService.saveProduction(production, materials);
-        String forwardUrl = getForwardUrl(request) + "/production/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
     }
 
     @RequestMapping("/delete")

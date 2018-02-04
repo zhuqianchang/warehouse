@@ -94,11 +94,10 @@ public class PurchaseController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult savePurchase(Purchase purchase, String materials, String navTabId, HttpServletRequest request) {
+    public DWZResult savePurchase(Purchase purchase, String materials) {
         setCreateInfo(purchase);
         purchaseService.savePurchase(purchase, materials);
-        String forwardUrl = getForwardUrl(request) + "/purchase/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
     }
 
     @RequestMapping("/delete")
@@ -111,7 +110,7 @@ public class PurchaseController extends BaseController {
     @RequestMapping("/produce")
     @ResponseBody
     public DWZResult producePurchase(String orderCodes) {
-        return ajaxDone(purchaseService.producePurchase(orderCodes, getCurrentUserCode()));
+        return dialogAjaxDone(purchaseService.producePurchase(orderCodes, getCurrentUserCode()));
     }
 
     @RequestMapping("/finish")

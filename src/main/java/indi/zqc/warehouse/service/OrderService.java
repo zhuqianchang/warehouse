@@ -33,4 +33,8 @@ public interface OrderService {
     List<OrderMaterial> selectOrderMaterial(String orderCode);
 
     int finishOrder(String orderCodes, String userCode);
+
+    List<Order> selectOrders(String orderCodes);
+
+    List<OrderMaterial> selectOrderMaterials(String orderCodes);
 }

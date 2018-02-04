@@ -58,7 +58,7 @@
         <tbody>
         <#if (page?? && page.data?size>0)>
             <#list page.data as stock>
-                <tr target="stockCode" rel="${stock.warehouseCode + '@zqc@' + stock.materialCode!''}">
+                <tr target="stockCode" rel="${stock.warehouseCode + ',' + stock.materialCode!''}">
                     <td>${stock.warehouseCode!''}</td>
                     <td>${stock.warehouseText!''}</td>
                     <td>${stock.materialCode!''}</td>

@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Title : OrderController.java
  * Package : indi.zqc.warehouse.controller
@@ -72,11 +70,19 @@ public class OrderController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveOrder(Order order, String productions, String navTabId, HttpServletRequest request) {
+    public DWZResult saveOrder(Order order, String productions) {
         setCreateInfo(order);
         orderService.saveOrder(order, productions);
-        String forwardUrl = getForwardUrl(request) + "/order/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
+    }
+
+    @RequestMapping("/calculate")
+    public String calculateOrder(Model model, String orderCodes, String navTabId) {
+        model.addAttribute("orderCodes", orderCodes);
+        model.addAttribute("orders", orderService.selectOrders(orderCodes));
+        model.addAttribute("materials", orderService.selectOrderMaterials(orderCodes));
+        model.addAttribute(NAVTABID, navTabId);
+        return "order/order_calculate";
     }
 
     @RequestMapping("/finish")

@@ -53,7 +53,6 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public int updateMaterial(Material material) {
-        //TODO 若有外键关联不能修改类型
         return materialDao.updateMaterial(material);
     }
 

@@ -139,7 +139,7 @@
             $('#roletbody', $dialog).find('tr').each(function () {
                 roleCodes.push($(this).attr("id").replace('role_', ''));
             });
-            $('#role', $dialog).val(roleCodes.join('@zqc@'));
+            $('#role', $dialog).val(roleCodes.join(','));
         }
     }
 

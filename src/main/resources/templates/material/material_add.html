@@ -17,14 +17,20 @@
             </p>
             <p>
                 <label>物料类型：</label>
-                <select name="materialType" class="required">
-                    <option value="">请选择</option>
-                    <#if materialTypes??>
-                        <#list materialTypes as materialType>
-                            <option value="${materialType.eCode!''}" <#if (material.materialType)?? && material.materialType == materialType.eCode>selected="selected"</#if>>${materialType.eCodeText!''}</option>
-                        </#list>
-                    </#if>
-                </select>
+                <#if (material.materialCode)??>
+                    <input type="hidden" name="materialType" value="<#if (material.materialType)??>${material.materialType!''}</#if>">
+                    <input type="text" name="materialTypeText" class="required" maxlength="20" readonly="readonly"
+                           value="<#if (material.materialTypeText)??>${material.materialTypeText!''}</#if>"/>
+                <#else>
+                    <select name="materialType" class="required">
+                        <option value="">请选择</option>
+                        <#if materialTypes??>
+                            <#list materialTypes as materialType>
+                                <option value="${materialType.eCode!''}" <#if (material.materialType)?? && material.materialType == materialType.eCode>selected="selected"</#if>>${materialType.eCodeText!''}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </#if>
             </p>
         </div>
         <#if (material.materialCode)??>

@@ -69,7 +69,7 @@ public class RoleController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveRole(Role role, String navTabId, HttpServletRequest request) {
+    public DWZResult saveRole(Role role) {
         Role oldRole = roleService.selectRole(role.getRoleCode());
         if (oldRole == null) {
             setCreateInfo(role);
@@ -78,8 +78,7 @@ public class RoleController extends BaseController {
             setModifyInfo(role);
             roleService.updateRole(role);
         }
-        String forwardUrl = getForwardUrl(request) + "/role/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
     }
 
     @RequestMapping("/delete")

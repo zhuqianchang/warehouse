@@ -1,9 +1,9 @@
 package indi.zqc.warehouse.service;
 
 import indi.zqc.warehouse.model.OrderProduction;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Title : OrderProductionService.java
@@ -16,5 +16,9 @@ import java.util.List;
  */
 public interface OrderProductionService {
 
-    List<OrderProduction> selectOrderProduction(@Param("orderCode") String orderCode);
+    List<OrderProduction> selectOrderProduction(String orderCode);
+
+    Map<String, Integer> selectOrderMaterialMap(String orderCode);
+
+    Map<String, Integer> selectOrderMaterialMap(String[] orderCodes);
 }

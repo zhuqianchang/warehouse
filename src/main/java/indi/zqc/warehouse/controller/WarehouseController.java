@@ -61,7 +61,7 @@ public class WarehouseController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveWarehouse(Warehouse warehouse, String navTabId, HttpServletRequest request) {
+    public DWZResult saveWarehouse(Warehouse warehouse) {
         Warehouse oldWarehouse = warehouseService.selectWarehouse(warehouse.getWarehouseCode());
         if (oldWarehouse == null) {
             setCreateInfo(warehouse);
@@ -70,8 +70,7 @@ public class WarehouseController extends BaseController {
             setModifyInfo(warehouse);
             warehouseService.updateWarehouse(warehouse);
         }
-        String forwardUrl = getForwardUrl(request) + "/warehouse/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
     }
 
     @RequestMapping("/delete")

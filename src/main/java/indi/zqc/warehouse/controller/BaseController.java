@@ -120,12 +120,8 @@ public abstract class BaseController {
         return getDWZJsonObject(DWZStatusCode.OK, "操作成功", null, DWZCallbackType.CLOSECURRENT, null);
     }
 
-    public DWZResult dialogAjaxDone(String navTabId) {
-        return getDWZJsonObject(DWZStatusCode.OK, "操作成功", navTabId, DWZCallbackType.CLOSECURRENT, null);
-    }
-
-    public DWZResult dialogAjaxDone(String navTabId, String forwardUrl) {
-        return getDWZJsonObject(DWZStatusCode.OK, "操作成功", navTabId, DWZCallbackType.CLOSECURRENT, forwardUrl);
+    public DWZResult dialogAjaxDone(String message) {
+        return getDWZJsonObject(DWZStatusCode.OK, message, null, DWZCallbackType.CLOSECURRENT, null);
     }
 
     private DWZResult getDWZJsonObject(DWZStatusCode statusCode, String message, String navTabId,

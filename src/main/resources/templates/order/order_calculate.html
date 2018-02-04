@@ -1,0 +1,99 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/purchase/produce" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <input type="hidden" name="orderCodes" value="${orderCodes!''}">
+            <dl style="height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>订单</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 200px">
+                            <table class="table border" width="100%" layoutH="375">
+                                <thead>
+                                <tr>
+                                    <th width="100">订单编号</th>
+                                    <th width="100">订单描述</th>
+                                </tr>
+                                </thead>
+                                <tbody id="orderTBody">
+                                <#if (orders?? && orders?size>0)>
+                                    <#list orders as order>
+                                        <tr>
+                                            <td>${order.orderCode!''}</td>
+                                            <td>${order.orderText!''}</td>
+                                        </tr>
+                                    </#list>
+                                </#if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+            <dl style="height: auto;">
+                <dt>
+                <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
+                    <div class="tabsHeader">
+                        <div class="tabsHeaderContent">
+                            <ul><li><a href="javascript:;"><span>物料</span></a></li></ul>
+                        </div>
+                    </div>
+                    <div class="tabsContent">
+                        <div style="height: 200px">
+                            <table class="table border" width="100%" layoutH="375">
+                                <thead>
+                                <tr>
+                                    <th width="100">物料编号</th>
+                                    <th width="100">物料描述</th>
+                                    <th width="100">数量</th>
+                                </tr>
+                                </thead>
+                                <tbody id="materialTBody">
+                                <#if (materials?? && materials?size>0)>
+                                    <#list materials as material>
+                                        <tr>
+                                            <td>${material.materialCode!''}</td>
+                                            <td>${material.materialText!''}</td>
+                                            <td>${material.quantity!''}</td>
+                                        </tr>
+                                    </#list>
+                                </#if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="order_calculate.produce()">生成</button></div></div></li>
+                <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+            </ul>
+        </div>
+    </form>
+</div>
+<script>
+
+    var $dialog = $.pdialog.getCurrent();
+
+    var order_calculate = {
+
+        //生成采购清单
+        produce: function () {
+            alertMsg.confirm("确定要生成采购清单？", {
+                okCall: function () {
+                    $('form', $dialog).submit();
+                }
+            });
+        }
+
+    }
+
+</script>

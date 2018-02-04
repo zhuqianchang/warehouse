@@ -14,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Title : UserController.java
  * Package : indi.zqc.warehouse.controller
@@ -71,7 +69,7 @@ public class UserController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveUser(User user, String roleCodes, String navTabId, HttpServletRequest request) throws Exception {
+    public DWZResult saveUser(User user, String roleCodes) throws Exception {
         User oldUser = userService.selectUser(user.getUserCode());
         if (oldUser == null) {
             setCreateInfo(user);
@@ -83,8 +81,7 @@ public class UserController extends BaseController {
         if (StringUtils.isNotBlank(roleCodes)) {
             userService.updateUserRole(user.getUserCode(), roleCodes);
         }
-        String forwardUrl = getForwardUrl(request) + "/user/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
     }
 
     @RequestMapping("/delete")

@@ -1,16 +1,25 @@
 package indi.zqc.warehouse.service.impl;
 
-import indi.zqc.warehouse.dao.*;
+import indi.zqc.warehouse.dao.MaterialDao;
+import indi.zqc.warehouse.dao.PurchaseDao;
+import indi.zqc.warehouse.dao.PurchaseMaterialDao;
+import indi.zqc.warehouse.dao.PurchaseOrderDao;
 import indi.zqc.warehouse.enums.PurchaseType;
 import indi.zqc.warehouse.exception.BusinessException;
-import indi.zqc.warehouse.model.*;
+import indi.zqc.warehouse.model.Purchase;
+import indi.zqc.warehouse.model.PurchaseMaterial;
+import indi.zqc.warehouse.model.PurchaseOrder;
+import indi.zqc.warehouse.service.OrderProductionService;
 import indi.zqc.warehouse.service.PurchaseMaterialService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Title : PurchaseMaterialServiceImpl.java
@@ -35,13 +44,10 @@ public class PurchaseMaterialServiceImpl implements PurchaseMaterialService {
     private PurchaseOrderDao purchaseOrderDaoDao;
 
     @Autowired
-    private ProductionMaterialDao productionMaterialDao;
-
-    @Autowired
-    private OrderProductionDao orderProductionDao;
-
-    @Autowired
     private MaterialDao materialDao;
+
+    @Autowired
+    private OrderProductionService orderProductionService;
 
     @Override
     public List<PurchaseMaterial> selectPurchaseMaterial(String purchaseCode) {
@@ -53,23 +59,11 @@ public class PurchaseMaterialServiceImpl implements PurchaseMaterialService {
             List<PurchaseMaterial> purchaseMaterials = new ArrayList<>();
             //订单
             List<PurchaseOrder> purchaseOrders = purchaseOrderDaoDao.selectPurchaseOrder(purchaseCode);
-            Map<String, Integer> materialMap = new HashMap<>();
+            List<String> orderCodes = new ArrayList<>();
             for (PurchaseOrder purchaseOrder : purchaseOrders) {
-                //成品
-                List<OrderProduction> orderProductions = orderProductionDao.selectOrderProduction(purchaseOrder.getOrderCode());
-                for (OrderProduction orderProduction : orderProductions) {
-                    //成品中的物料
-                    List<ProductionMaterial> productionMaterials = productionMaterialDao.selectProductionMaterial(orderProduction.getProductionCode());
-                    for (ProductionMaterial productionMaterial : productionMaterials) {
-                        String materialCode = productionMaterial.getMaterialCode();
-                        if (materialMap.containsKey(materialCode)) {
-                            materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * productionMaterial.getQuantity());
-                        } else {
-                            materialMap.put(materialCode, productionMaterial.getQuantity() * productionMaterial.getQuantity());
-                        }
-                    }
-                }
+                orderCodes.add(purchaseOrder.getOrderCode());
             }
+            Map<String, Integer> materialMap = orderProductionService.selectOrderMaterialMap(orderCodes.toArray(new String[orderCodes.size()]));
             Iterator<Map.Entry<String, Integer>> it = materialMap.entrySet().iterator();
             while (it.hasNext()) {
                 PurchaseMaterial purchaseMaterial = new PurchaseMaterial();

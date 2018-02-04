@@ -4,17 +4,17 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import indi.zqc.warehouse.constant.Constants;
 import indi.zqc.warehouse.dao.MaterialDao;
 import indi.zqc.warehouse.dao.OrderDao;
 import indi.zqc.warehouse.dao.OrderProductionDao;
-import indi.zqc.warehouse.dao.ProductionMaterialDao;
 import indi.zqc.warehouse.enums.OrderStatus;
 import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.Order;
 import indi.zqc.warehouse.model.OrderMaterial;
 import indi.zqc.warehouse.model.OrderProduction;
-import indi.zqc.warehouse.model.ProductionMaterial;
 import indi.zqc.warehouse.model.condition.OrderCondition;
+import indi.zqc.warehouse.service.OrderProductionService;
 import indi.zqc.warehouse.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +43,10 @@ public class OrderServiceImpl implements OrderService {
     private OrderProductionDao orderProductionDao;
 
     @Autowired
-    private ProductionMaterialDao productionMaterialDao;
+    private MaterialDao materialDao;
 
     @Autowired
-    private MaterialDao materialDao;
+    private OrderProductionService orderProductionService;
 
     @Override
     public int insertOrder(Order order) {
@@ -136,21 +136,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderMaterial> selectOrderMaterial(String orderCode) {
         List<OrderMaterial> orderMaterials = new ArrayList<>();
-        //订单中的成品
-        List<OrderProduction> orderProductions = orderProductionDao.selectOrderProduction(orderCode);
-        Map<String, Integer> materialMap = new HashMap<>();
-        for (OrderProduction orderProduction : orderProductions) {
-            //成品中的物料
-            List<ProductionMaterial> productionMaterials = productionMaterialDao.selectProductionMaterial(orderProduction.getProductionCode());
-            for (ProductionMaterial productionMaterial : productionMaterials) {
-                String materialCode = productionMaterial.getMaterialCode();
-                if (materialMap.containsKey(materialCode)) {
-                    materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * orderProduction.getQuantity());
-                } else {
-                    materialMap.put(materialCode, productionMaterial.getQuantity() * orderProduction.getQuantity());
-                }
-            }
-        }
+        Map<String, Integer> materialMap = orderProductionService.selectOrderMaterialMap(orderCode);
         Iterator<Map.Entry<String, Integer>> it = materialMap.entrySet().iterator();
         while (it.hasNext()) {
             OrderMaterial orderMaterial = new OrderMaterial();
@@ -160,6 +146,38 @@ public class OrderServiceImpl implements OrderService {
             orderMaterial.setMaterialText(materialDao.selectMaterial(entry.getKey()).getMaterialText());
             orderMaterial.setQuantity(entry.getValue());
             orderMaterials.add(orderMaterial);
+        }
+        return orderMaterials;
+    }
+
+    @Override
+    public List<Order> selectOrders(String orderCodes) {
+        List<Order> orders = new ArrayList<>();
+        if (StringUtils.isNotBlank(orderCodes)) {
+            for (String orderCode : orderCodes.split(Constants.SEPARATOR)) {
+                Order order = selectOrder(orderCode);
+                if (order != null) {
+                    orders.add(order);
+                }
+            }
+        }
+        return orders;
+    }
+
+    @Override
+    public List<OrderMaterial> selectOrderMaterials(String orderCodes) {
+        List<OrderMaterial> orderMaterials = new ArrayList<>();
+        if (StringUtils.isNotBlank(orderCodes)) {
+            Map<String, Integer> materialMap = orderProductionService.selectOrderMaterialMap(orderCodes.split(Constants.SEPARATOR));
+            Iterator<Map.Entry<String, Integer>> it = materialMap.entrySet().iterator();
+            while (it.hasNext()) {
+                OrderMaterial orderMaterial = new OrderMaterial();
+                Map.Entry<String, Integer> entry = it.next();
+                orderMaterial.setMaterialCode(entry.getKey());
+                orderMaterial.setMaterialText(materialDao.selectMaterial(entry.getKey()).getMaterialText());
+                orderMaterial.setQuantity(entry.getValue());
+                orderMaterials.add(orderMaterial);
+            }
         }
         return orderMaterials;
     }

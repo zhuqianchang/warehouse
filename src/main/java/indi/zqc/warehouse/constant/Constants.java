@@ -21,7 +21,7 @@ public class Constants {
     public static final String DEFAULT_PASSWORD = "a1234567";
 
     //分隔符
-    public static final String SEPARATOR = "@zqc@";
+    public static final String SEPARATOR = ",";
 
     //单据前缀
     public static final String DJ_PREFIX = "DJ";

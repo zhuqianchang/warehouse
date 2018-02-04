@@ -12,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Title : StockController.java
  * Package : indi.zqc.warehouse.controller
@@ -62,7 +60,7 @@ public class StockController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public DWZResult saveStock(Stock stock, String navTabId, HttpServletRequest request) {
+    public DWZResult saveStock(Stock stock) {
         Stock oldStock = stockService.selectStock(stock.getWarehouseCode(), stock.getMaterialCode());
         if (oldStock == null) {
             setCreateInfo(stock);
@@ -71,8 +69,7 @@ public class StockController extends BaseController {
             setModifyInfo(stock);
             stockService.updateStock(stock);
         }
-        String forwardUrl = getForwardUrl(request) + "/stock/list?navTabId=" + navTabId;
-        return dialogAjaxDone(navTabId, forwardUrl);
+        return dialogAjaxDone();
     }
 
     @RequestMapping("/delete")
