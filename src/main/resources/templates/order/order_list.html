@@ -15,13 +15,13 @@
                 <dl>
                     <dt>生产日期</dt>
                     <dd>
-                        <input name="productDateStart" class="date readonly" readonly="readonly" min="2018-02-03" type="text" value="<#if (page.productDateStart)??>${page.productDateStart}</#if>">
+                        <input name="productDateStart" class="date readonly" readonly="readonly" value="<#if (page.productDateStart)??>${page.productDateStart}</#if>">
                     </dd>
                 </dl>
                 <dl>
                     <dt>至</dt>
                     <dd>
-                        <input name="productDateEnd" class="date readonly" readonly="readonly" type="text" value="<#if (page.productDateEnd)??>${page.productDateEnd}</#if>">
+                        <input name="productDateEnd" class="date readonly" readonly="readonly" value="<#if (page.productDateEnd)??>${page.productDateEnd}</#if>">
                     </dd>
                 </dl>
                 <dl class="nowrap"></dl>
@@ -50,7 +50,7 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add" target="dialog" mask="true" width="440" height="520" rel="addOrder" title="新增订单"
+            <li><a class="add" target="dialog" mask="true" width="440" height="490" rel="addOrder" title="新增订单"
                    href="${rc.getContextPath()}/order/add?navTabId=${navTabId}"><span>新增</span></a></li>
             <li><a class="edit" target="dialog" mask="true" width="440" height="590" rel="editOrder" title="编辑订单"
                    href="${rc.getContextPath()}/order/edit?orderCode={orderCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
@@ -115,11 +115,11 @@
         $toDate.attr('minDate', $fromDate.val());
 
         $fromDate.change(function () {
-            $toDate.attr('minDate', $fromDate.val());
+            $toDate.datepicker({minDate: $fromDate.val()});
         });
 
         $toDate.change(function () {
-            $fromDate.attr('maxDate', $toDate.val());
+            $fromDate.datepicker({maxDate: $toDate.val()});
         });
     });
 

@@ -13,19 +13,16 @@
                     </#if>
                 </dd>
             </dl>
-            <dl>
-                <dt>采购状态：</dt>
-                <dd>
-                    <select name="purchaseStatus" class="required">
-                        <option value="">请选择</option>
-                        <#if purchaseStatus??>
-                            <#list purchaseStatus as status>
-                                <option value="${status.key!''}" <#if (purchase.purchaseStatus)?? && purchase.purchaseStatus == status.key>selected="selected"</#if>>${status.value!''}</option>
-                            </#list>
-                        </#if>
-                    </select>
-                </dd>
-            </dl>
+            <#if (purchase.purchaseCode)??>
+                <dl>
+                    <dt>采购状态：</dt>
+                    <dd>
+                        <input type="hidden" name="purchaseStatus" value="<#if (purchase.purchaseStatus)??>${purchase.purchaseStatus!''}</#if>">
+                        <input type="text" name="purchaseStatusText" class="required" maxlength="60" readonly="readonly"
+                               value="<#if (purchase.purchaseStatusText)??>${purchase.purchaseStatusText!''}</#if>"/>
+                    </dd>
+                </dl>
+            </#if>
             <dl style="width:auto;height: auto;">
                 <dt>
                 <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
@@ -41,11 +38,11 @@
                                     <input id="materials" name="materials" type="hidden">
                                     <input id="materialCode" name="materialLookup.materialCode" type="hidden">
                                     <input id="materialText" name="materialLookup.materialText" type="hidden">
-                                    <li><a class="add" href="${rc.getContextPath()}/material/lookup?navTabId=${navTabId!''}" lookupGroup="materialLookup" callback="purchase.material_callback" title="新增物料"><span>新增</span></a>
-                                    <li><a class="delete" href="javascript:" onclick="purchase.delMaterial()"><span>删除</span></a></li>
+                                    <li><a class="add" href="${rc.getContextPath()}/material/lookup?navTabId=${navTabId!''}" lookupGroup="materialLookup" callback="purchase_add.material_callback" title="新增物料"><span>新增</span></a>
+                                    <li><a class="delete" href="javascript:" onclick="purchase_add.delMaterial()"><span>删除</span></a></li>
                                 </ul>
                             </div>
-                            <table class="table border" width="100%" <#if (purchase.purchaseCode)??>layoutH="290"<#else>layoutH="230"</#if>>
+                            <table class="table border" width="100%" <#if (purchase.purchaseCode)??>layoutH="300"<#else>layoutH="190"</#if>>
                             <thead>
                             <tr>
                                 <th width="20"><input type="checkbox" group="materialCodes" class="checkboxCtrl">
@@ -79,7 +76,7 @@
         </#if>
         <div class="formBar">
             <ul>
-                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="purchase.save();">保存</button></div></div></li>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="purchase_add.save();">保存</button></div></div></li>
                 <li>
                     <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
                 </li>
@@ -91,7 +88,7 @@
 
     var $dialog = $.pdialog.getCurrent();
 
-    var purchase = {
+    var purchase_add = {
 
         //查找带回
         material_callback: function () {

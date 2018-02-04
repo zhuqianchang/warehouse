@@ -43,8 +43,8 @@
                                         <input id="role" name="roleCodes" type="hidden">
                                         <input id="roleCodes" name="roleLookup.roleCode" type="hidden">
                                         <input id="roleTexts" name="roleLookup.roleText" type="hidden">
-                                        <li><a class="add" href="${rc.getContextPath()}/role/lookup?navTabId=${navTabId!''}" lookupGroup="roleLookup" callback="user.role_callback" title="新增角色"><span>新增</span></a>
-                                        <li><a class="delete" href="javascript:" onclick="user.delRole()"><span>删除</span></a></li>
+                                        <li><a class="add" href="${rc.getContextPath()}/role/lookup?navTabId=${navTabId!''}" lookupGroup="roleLookup" callback="user_add.role_callback" title="新增角色"><span>新增</span></a>
+                                        <li><a class="delete" href="javascript:" onclick="user_add.delRole()"><span>删除</span></a></li>
                                     </ul>
                                 </div>
                                 <table class="table border" width="100%" <#if (user.userCode)??>layoutH="295"<#else>layoutH="255"</#if>>
@@ -79,7 +79,7 @@
         </#if>
         <div class="formBar">
             <ul>
-                <li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="user.save();">保存</button></div></div></li>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="user_add.save();">保存</button></div></div></li>
                 <li>
                     <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
                 </li>
@@ -91,7 +91,7 @@
 
     var $dialog = $.pdialog.getCurrent();
 
-    var user = {
+    var user_add = {
 
         //查找带回
         role_callback: function () {

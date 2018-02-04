@@ -38,9 +38,4 @@ public class IndexController extends BaseController {
         }
         return "index";
     }
-
-    @RequestMapping(value = "right")
-    public String right() {
-        return "copyright";
-    }
 }

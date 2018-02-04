@@ -96,7 +96,6 @@ public class PurchaseController extends BaseController {
     @ResponseBody
     public DWZResult savePurchase(Purchase purchase, String materials, String navTabId, HttpServletRequest request) {
         setCreateInfo(purchase);
-        purchase.setPurchaseType(PurchaseType.MANUAL.getKey());
         purchaseService.savePurchase(purchase, materials);
         String forwardUrl = getForwardUrl(request) + "/purchase/list?navTabId=" + navTabId;
         return dialogAjaxDone(navTabId, forwardUrl);

@@ -29,8 +29,9 @@
             //关闭弹出框
             $.pdialog.closeCurrent();
             alertMsg.info("密码修改成功，请重新登录");
-            // ajax 发送登出请求
+            //ajax 发送登出请求
             $.get($('#header .loginOut', $(document)).attr('href'));
+            //两秒后刷新页面
             setTimeout(function () {
                 location.reload(false);
             }, 2000);

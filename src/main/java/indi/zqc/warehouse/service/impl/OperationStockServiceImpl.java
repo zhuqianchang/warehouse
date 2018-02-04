@@ -83,7 +83,7 @@ public class OperationStockServiceImpl implements OperationStockService {
         if (StringUtils.equals(operationStock.getOperationType(), OperationType.INPUT.getKey())) {
             //入库
             if (stock == null) {
-                throw new BusinessException(String.format("[%s]与[%s]的关系不存在，请先维护", operationStock.getWarehouseText(), operationStock.getMaterialText()));
+                throw new BusinessException(String.format("仓库[%s]与物料[%s]的关系不存在，请先维护", operationStock.getWarehouseCode(), operationStock.getMaterialCode()));
             } else {
                 stock.setStock(stock.getStock() + operationStock.getQuantity());
                 stock.setModifyUser(operationStock.getModifyUser());
@@ -113,9 +113,9 @@ public class OperationStockServiceImpl implements OperationStockService {
         if (StringUtils.equals(operationStock.getOperationType(), OperationType.OUTPUT.getKey())) {
             //出库
             if (stock == null) {
-                throw new BusinessException(String.format("[%s]与[%s]的关系不存在，请先维护", operationStock.getWarehouseText(), operationStock.getMaterialText()));
+                throw new BusinessException(String.format("仓库[%s]与物料[%s]的关系不存在，请先维护", operationStock.getWarehouseCode(), operationStock.getMaterialCode()));
             } else if (stock.getStock() < operationStock.getQuantity()) {
-                throw new BusinessException(String.format("[%s]中的[%s]库存不足", operationStock.getWarehouseText(), operationStock.getMaterialText()));
+                throw new BusinessException(String.format("仓库[%s]中的物料[%s]库存不足", operationStock.getWarehouseCode(), operationStock.getMaterialCode()));
             } else {
                 stock.setStock(stock.getStock() - operationStock.getQuantity());
                 stock.setModifyUser(operationStock.getModifyUser());

@@ -46,13 +46,12 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add" target="dialog" mask="true" width="440" height="530" rel="addPurchase" title="新增采购清单"
+            <li><a class="add" target="dialog" mask="true" width="440" height="490" rel="addPurchase" title="新增采购清单"
                    href="${rc.getContextPath()}/purchase/add?navTabId=${navTabId}"><span>新增</span></a></li>
             <li><a class="edit" target="dialog" mask="true" width="440" height="600" rel="editPurchase" title="编辑采购清单"
                    href="${rc.getContextPath()}/purchase/edit?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
             <li><a class="icon" target="dialog" mask="true" width="440" height="600" rel="viewPurchase" title="采购清单详情"
                    href="${rc.getContextPath()}/purchase/view?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>详情</span></a></li>
-            <li><a class="edit" href="javascript:purchase_list.export();"><span>导出</span></a></li>
             <li><a class="edit" target="ajaxTodo" rel="finishPurchase" title="确定要完成选择的采购清单吗?"
                    href="${rc.getContextPath()}/purchase/finish?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>完成</span></a></li>
             <li><a class="delete" target="ajaxTodo" rel="deletePurchase" title="确定要删除选择的采购清单吗?"
@@ -93,25 +92,3 @@
     </table>
     <#include "/common/panelBar.html">
 </div>
-<script>
-
-    var $panel = navTab.getCurrentPanel();
-
-    var purchase_list = {
-
-        //导出
-        export: function () {
-            var purchaseCode = $('#purchaseTBody', $panel).find('tr.selected').attr('purchaseCode');
-            if (!purchaseCode) {
-                alertMsg.error("请选择信息");
-                return;
-            }
-            alertMsg.confirm('确定要导出选择的采购清单吗', {
-                okCall: function () {
-                    window.open('${rc.getContextPath()}/purchase/export?purchaseCode=' + purchaseCode + '&navTabId=${navTabId}');
-                }
-            });
-        }
-    }
-
-</script>

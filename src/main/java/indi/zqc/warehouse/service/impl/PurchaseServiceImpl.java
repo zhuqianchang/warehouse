@@ -121,6 +121,8 @@ public class PurchaseServiceImpl implements PurchaseService {
         Purchase oldPurchase = selectPurchase(purchase.getPurchaseCode());
         int num;
         if (oldPurchase == null) {
+            purchase.setPurchaseType(PurchaseType.MANUAL.getKey());
+            purchase.setPurchaseStatus(PurchaseStatus.CREATED.getKey());
             num = insertPurchase(purchase);
         } else {
             num = updatePurchase(purchase);

@@ -114,38 +114,3 @@
         </div>
     </form>
 </div>
-<script>
-
-    var $dialog = $.pdialog.getCurrent();
-
-    var order_purchase = {
-
-        //保存
-        save: function () {
-            var count = $('#productionTBody', $dialog).find('tr').length;
-            if (count == 0) {
-                alertMsg.warn('请添加成品');
-                return false;
-            }
-            var productions = [];
-            var flag = true;
-            $('#productionTBody', $dialog).find('tr').each(function () {
-                var quantity = $(this).find('input[name="quantity"]').val();
-                if (!quantity || isNaN(parseInt(quantity)) || quantity < 1) {
-                    alertMsg.warn('请输入正确的数量');
-                    flag = false;
-                    return false;
-                }
-                var production = {};
-                production.productionCode = $(this).attr('id').replace("production_","");
-                production.quantity = quantity;
-                productions.push(production);
-            });
-            if (flag) {
-                $('#productions', $dialog).val(JSON.stringify(productions));
-                $('form', $dialog).submit();
-            }
-        }
-    }
-
-</script>

@@ -66,9 +66,30 @@
         <div class="formBar">
             <ul>
                 <li>
+                    <div class="buttonActive"><div class="buttonContent"><button type="button" onclick="purchase_material_view.export()">导出</button></div></div>
+                </li>
+                <li>
                     <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
                 </li>
             </ul>
         </div>
     </form>
 </div>
+<script>
+
+    var $dialog = $.pdialog.getCurrent();
+
+    var purchase_material_view = {
+
+        //导出
+        export: function () {
+            var purchaseCode = $('input[name="purchaseCode"]', $dialog).val();
+            alertMsg.confirm('确定要导出采购清单吗', {
+                okCall: function () {
+                    window.open('${rc.getContextPath()}/purchase/export?purchaseCode=' + purchaseCode);
+                }
+            });
+        }
+    }
+
+</script>

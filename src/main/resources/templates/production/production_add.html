@@ -10,7 +10,7 @@
                         <input type="text" name="production.materialCode" class="required alphanumeric toUp" maxlength="40" value="${production.productionCode}" readonly="readonly"/>
                     <#else>
                         <input type="text" name="production.materialCode" class="required alphanumeric toUp" maxlength="40" value="" readonly="readonly"/>
-                        <a class="btnLook" href="${rc.getContextPath()}/material/production/lookup" warn="请选择成品" lookupGroup="production" callback="production.production_callback" >查找带回</a>
+                        <a class="btnLook" href="${rc.getContextPath()}/material/production/lookup" warn="请选择成品" lookupGroup="production" callback="production_add.production_callback" >查找带回</a>
                     </#if>
                 </dd>
             </dl>
@@ -35,8 +35,8 @@
                                     <input id="materials" name="materials" type="hidden">
                                     <input id="materialCode" name="materialLookup.materialCode" type="hidden">
                                     <input id="materialText" name="materialLookup.materialText" type="hidden">
-                                    <li><a class="add" href="${rc.getContextPath()}/material/production/not/lookup?navTabId=${navTabId!''}" lookupGroup="materialLookup" callback="production.material_callback" title="新增物料"><span>新增</span></a>
-                                    <li><a class="delete" href="javascript:" onclick="production.delMaterial()"><span>删除</span></a></li>
+                                    <li><a class="add" href="${rc.getContextPath()}/material/production/not/lookup?navTabId=${navTabId!''}" lookupGroup="materialLookup" callback="production_add.material_callback" title="新增物料"><span>新增</span></a>
+                                    <li><a class="delete" href="javascript:" onclick="production_add.delMaterial()"><span>删除</span></a></li>
                                 </ul>
                             </div>
                             <table class="table border" width="100%" <#if (production.productionCode)??>layoutH="290"<#else>layoutH="225"</#if>>
@@ -73,7 +73,7 @@
         </#if>
         <div class="formBar">
             <ul>
-                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="production.save();">保存</button></div></div></li>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="production_add.save();">保存</button></div></div></li>
                 <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
             </ul>
         </div>
@@ -83,7 +83,7 @@
 
     var $dialog = $.pdialog.getCurrent();
 
-    var production = {
+    var production_add = {
 
         //成品带回
         production_callback : function(){

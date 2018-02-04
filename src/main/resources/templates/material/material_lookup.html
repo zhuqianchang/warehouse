@@ -50,7 +50,7 @@
         <tbody>
         <#if (page?? && page.data?size>0)>
             <#list page.data as material>
-                <tr ondblclick="material.bringBack('${material.materialCode!''}','${material.materialText!''}')">
+                <tr ondblclick="material_lookup.bringBack('${material.materialCode!''}','${material.materialText!''}')">
                     <td>${material.materialCode!''}</td>
                     <td>${material.materialText!''}</td>
                     <td>${material.materialTypeText!''}</td>
@@ -58,7 +58,7 @@
                     <td>${material.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${material.modifyUserText!''}</td>
                     <td>${material.modifyDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
-                    <td><a class="btnSelect" href="javascript:void(0);" onclick="material.bringBack('${material.materialCode!''}','${material.materialText!''}')" title="查找带回">选择</a></td>
+                    <td><a class="btnSelect" href="javascript:void(0);" onclick="material_lookup.bringBack('${material.materialCode!''}','${material.materialText!''}')" title="查找带回">选择</a></td>
                 </tr>
             </#list>
         <#else>
@@ -72,7 +72,7 @@
 </div>
 <script>
 
-    var material = {
+    var material_lookup = {
 
         //查找带回
         bringBack: function (materialCode, materialText) {

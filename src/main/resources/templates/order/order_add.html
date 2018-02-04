@@ -27,19 +27,16 @@
                            value="<#if (order.productDateStr)??>${order.productDateStr!''}</#if>">
                 </dd>
             </dl>
-            <dl>
-                <dt>采购状态：</dt>
-                <dd>
-                    <select name="orderStatus" class="required">
-                        <option value="">请选择</option>
-                        <#if orderStatus??>
-                            <#list orderStatus as status>
-                                <option value="${status.key!''}" <#if (order.orderStatus)?? && order.orderStatus == status.key>selected="selected"</#if>>${status.value!''}</option>
-                            </#list>
-                        </#if>
-                    </select>
-                </dd>
-            </dl>
+            <#if (order.orderCode)??>
+                <dl>
+                    <dt>采购状态：</dt>
+                    <dd>
+                        <input type="hidden" name="orderStatus" value="<#if (order.orderStatus)??>${order.orderStatus!''}</#if>">
+                        <input type="text" name="orderStatusText" class="required" maxlength="60" readonly="readonly"
+                               value="<#if (order.orderStatusText)??>${order.orderStatusText!''}</#if>" alt="请输入订单描述"/>
+                    </dd>
+                </dl>
+            </#if>
             <dl style="width:auto;height: auto;">
                 <dt>
                 <div class="tabs" currentIndex="0" eventType="click" style="width: 400px">
@@ -55,11 +52,11 @@
                                     <input id="productions" name="productions" type="hidden">
                                     <input id="productionCode" name="productionLookup.productionCode" type="hidden">
                                     <input id="productionText" name="productionLookup.productionText" type="hidden">
-                                    <li><a class="add" href="${rc.getContextPath()}/production/lookup?navTabId=${navTabId!''}" lookupGroup="productionLookup" callback="order.production_callback" title="新增成品"><span>新增</span></a>
-                                    <li><a class="delete" href="javascript:" onclick="order.delProduction()"><span>删除</span></a></li>
+                                    <li><a class="add" href="${rc.getContextPath()}/production/lookup?navTabId=${navTabId!''}" lookupGroup="productionLookup" callback="order_add.production_callback" title="新增成品"><span>新增</span></a>
+                                    <li><a class="delete" href="javascript:" onclick="order_add.delProduction()"><span>删除</span></a></li>
                                 </ul>
                             </div>
-                            <table class="table border" width="100%" <#if (order.orderCode)??>layoutH="350"<#else>layoutH="285"</#if>>
+                            <table class="table border" width="100%" <#if (order.orderCode)??>layoutH="350"<#else>layoutH="255"</#if>>
                             <thead>
                             <tr>
                                 <th width="20"><input type="checkbox" group="productionCodes" class="checkboxCtrl">
@@ -93,7 +90,7 @@
         </#if>
         <div class="formBar">
             <ul>
-                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="order.save();">保存</button></div></div></li>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="order_add.save();">保存</button></div></div></li>
                 <li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
             </ul>
         </div>
@@ -103,7 +100,7 @@
 
     var $dialog = $.pdialog.getCurrent();
 
-    var order = {
+    var order_add = {
 
         //成品带回
         production_callback: function () {
