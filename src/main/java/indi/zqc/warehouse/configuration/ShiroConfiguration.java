@@ -49,6 +49,8 @@ public class ShiroConfiguration {
 
         //拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        //管理页面不拦截
+        filterChainDefinitionMap.put("/manage/**", "anon");
         //登录登出不拦截
         filterChainDefinitionMap.put("/doLogin", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
@@ -58,7 +60,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/login/**", "anon");
         filterChainDefinitionMap.put("/themes/**", "anon");
-        filterChainDefinitionMap.put("/themes/dwz.frag.xml", "anon");
+        filterChainDefinitionMap.put("/dwz.frag.xml", "anon");
         filterChainDefinitionMap.put("/favicon.ico", "anon");
         //其它页面均拦截
         filterChainDefinitionMap.put("/**", "authc");

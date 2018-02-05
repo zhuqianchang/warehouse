@@ -34,4 +34,7 @@ public class Constants {
 
     //采购清单模板
     public static final String TEMPLATE_PURCHASE = "/static/template/purchase.xlsx";
+
+    //加密KEY
+    public static final String KEY = "@ZZP@";
 }

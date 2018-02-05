@@ -37,7 +37,6 @@ public abstract class BaseController {
 
     @ExceptionHandler
     public String exp(HttpServletResponse response, Exception ex) {
-        logger.error(ex.getMessage(), ex);
         String jsonObject;
         if (ex instanceof BusinessException) {
             //业务异常
@@ -48,6 +47,8 @@ public abstract class BaseController {
         }else {
             //其它异常
             jsonObject = JSONObject.toJSONString(ajaxError(ex.getMessage()));
+            //记录日志
+            logger.error(ex.getMessage(), ex);
         }
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         response.setContentType("application/json;charset=UTF-8");

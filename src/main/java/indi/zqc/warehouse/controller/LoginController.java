@@ -1,5 +1,7 @@
 package indi.zqc.warehouse.controller;
 
+import indi.zqc.warehouse.exception.BusinessException;
+import indi.zqc.warehouse.service.LicenseService;
 import indi.zqc.warehouse.shiro.AuthUtils;
 import indi.zqc.warehouse.shiro.SessionUser;
 import indi.zqc.warehouse.util.EncryptAlgorithm;
@@ -7,6 +9,7 @@ import indi.zqc.warehouse.util.SecurityContextUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,9 @@ public class LoginController extends BaseController {
 
     private static final String MESSAGE = "message";
 
+    @Autowired
+    private LicenseService licenseService;
+
     @RequestMapping("/login")
     public String login() {
         SessionUser sessionUser = SecurityContextUtils.getCurrentUser();
@@ -43,15 +49,19 @@ public class LoginController extends BaseController {
 
     @Valid
     @RequestMapping(value = "/doLogin")
-    public String doLogin(Model model, @NotNull String userCode, @NotNull String password) throws Exception {
+    public String doLogin(Model model, @NotNull String userCode, @NotNull String password) {
         try {
+            licenseService.validateLicense();
             model.addAttribute("userCode", userCode);
             model.addAttribute("password", password);
             password = EncryptAlgorithm.hexMD5(password);
             SessionUser sessionUser = (SessionUser) AuthUtils.login(StringUtils.upperCase(userCode), password);
             sessionUser.setTicket(AuthUtils.getSessionId());
+        } catch (BusinessException e) {
+            logger.error(e.getMessage(), e);
+            model.addAttribute(MESSAGE, e.getMessage());
+            return "login";
         } catch (Exception e) {
-            //登录失败返回登录页面，并附带错误信息
             logger.error(e.getCause().getMessage(), e.getCause());
             model.addAttribute(MESSAGE, e.getCause().getMessage());
             return "login";

@@ -1,0 +1,56 @@
+<#include "common/header.html">
+<div id="layout">
+    <div id="header">
+        <div class="headerNav">
+            <a class="logo" href="${rc.getContextPath()}/index">标志</a>
+            <ul class="nav">
+                <li><a class="loginOut" href="${rc.getContextPath()}/index">退出</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="leftside">
+        <div id="sidebar_s">
+            <div class="collapse">
+                <div class="toggleCollapse"><div></div></div>
+            </div>
+        </div>
+        <div id="sidebar">
+            <div class="toggleCollapse"><h2>主菜单</h2><div>收缩</div></div>
+            <div class="accordion" fillSpace="sidebar">
+                <div class="accordionHeader">
+                    <h2><span>Folder</span>部署管理</h2>
+                </div>
+                <div class="accordionContent">
+                    <ul class="tree treeFolder">
+                        <li><a href="/manage/license/index" target="navTab" rel="LICENSE_MANAGE">认证管理</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div id="navTab" class="tabsPage">
+            <div class="tabsPageHeader">
+                <div class="tabsPageHeaderContent">
+                    <!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
+                    <ul class="navTab-tab">
+                        <li tabid="main" class="main"><a href="javascript:;"><span><span class="home_icon">我的主页</span></span></a></li>
+                    </ul>
+                </div>
+                <div class="tabsLeft">left</div>
+                <!-- 禁用只需要添加一个样式 class="tabsLeft tabsLeftDisabled" -->
+                <div class="tabsRight">right</div>
+                <!-- 禁用只需要添加一个样式 class="tabsRight tabsRightDisabled" -->
+                <div class="tabsMore">more</div>
+            </div>
+            <ul class="tabsMoreList">
+                <li><a href="javascript:;">我的主页</a></li>
+            </ul>
+            <div class="navTab-panel tabsPageContent layoutBox">
+                <div class="page unitBox">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<#include "common/footer.html">

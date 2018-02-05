@@ -1,0 +1,90 @@
+<div class="pageHeader">
+    <div class="searchBar">
+        <div class="pageFormContent">
+            <fieldset>
+                <legend>当前认证</legend>
+                <dl>
+                    <dt>过期日期：</dt>
+                    <dd>
+                        <#if (license.limitDate)??>${license.limitDate?string('yyyy-MM-dd')}</#if>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>MAC地址：</dt>
+                    <dd>
+                        <#if (license.macAddress)??>
+                            ${license.macAddress}
+                            <#if (license.macAddressText)??>（${license.macAddressText}）</#if>
+                        </#if>
+                    </dd>
+                </dl>
+            </fieldset>
+            <fieldset>
+                <legend>修改认证</legend>
+                <dl>
+                    <dt>过期日期：</dt>
+                    <dd>
+                        <input type="text" name="limitDate" class="date required"/>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>密码：</dt>
+                    <dd>
+                        <input type="text" name="key" class="required">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="button" onclick="license.save();">保存</button>
+                        </div>
+                    </div>
+                    </dt>
+                </dl>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<script>
+
+    var $panel = navTab.getCurrentPanel();
+
+    var license = {
+
+        save: function () {
+            //过期时间
+            var limitDate = $('input[name="limitDate"]', $panel).val();
+            var key = $('input[name="key"]', $panel).val();
+            if (!limitDate) {
+                alertMsg.warn("过期时间不能为空");
+                return;
+            }
+            if (!key) {
+                alertMsg.warn("密码不能为空");
+                return;
+            }
+            alertMsg.confirm('确定要修改系统认证吗？', {
+                okCall: function () {
+                    $.ajax({
+                        url: contextPath + "/manage/license/save",
+                        data: {
+                            limitDate: limitDate,
+                            key: key
+                        },
+                        dataType: "json",
+                        success: function (result) {
+                            if (result.statusCode == 200) {
+                                navTab.reload(contextPath + "/manage/license/index?navTabId=${navTabId!''}");
+                                alertMsg.info("修改系统认证成功");
+                            } else {
+                                alertMsg.error(result.message);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+</script>
