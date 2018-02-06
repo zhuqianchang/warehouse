@@ -2,7 +2,13 @@
 <div id="layout">
     <div id="header">
         <div class="headerNav">
-            <a class="logo" href="${rc.getContextPath()}/index">标志</a>
+            <!--<a class="logo" href="${rc.getContextPath()}/index">标志</a>-->
+            <a href="${rc.getContextPath()}/index" style="text-decoration: none;">
+                <div style="color: #FFF;margin: 8px 0px 0px 30px">
+                    <div><strong style="font-size: 20px">豪英轴承</strong></div>
+                    <div style="font-size: 12px;margin:4px 0px 0px 23px;">HYZC</div>
+                </div>
+            </a>
             <ul class="nav">
                 <li><a href="#">${user.userText!''}</a></li>
                 <li><a class="add" target="dialog" mask="true" width="400" height="180" rel="changePwd" title="修改密码"
