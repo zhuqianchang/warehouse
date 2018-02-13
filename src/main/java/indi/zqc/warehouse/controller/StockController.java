@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
+
 /**
  * Title : StockController.java
  * Package : indi.zqc.warehouse.controller
@@ -64,10 +66,14 @@ public class StockController extends BaseController {
         Stock oldStock = stockService.selectStock(stock.getWarehouseCode(), stock.getMaterialCode());
         if (oldStock == null) {
             setCreateInfo(stock);
+            stock.setEditor(getCurrentUserCode());
+            stock.setEditTime(new Date());
             stockService.insertStock(stock);
         } else {
-            setModifyInfo(stock);
-            stockService.updateStock(stock);
+            oldStock.setEditor(getCurrentUserCode());
+            oldStock.setEditTime(new Date());
+            oldStock.setStock(stock.getStock());
+            stockService.updateStock(oldStock);
         }
         return dialogAjaxDone();
     }

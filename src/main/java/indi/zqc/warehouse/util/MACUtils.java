@@ -74,9 +74,4 @@ public class MACUtils {
     private static String getOsName() {
         return System.getProperty("os.name");
     }
-
-    public static void main(String[] args) {
-        System.out.println("Operation System = " + getOsName());
-        System.out.println("Mac Address = " + getMACAddress());
-    }
 }

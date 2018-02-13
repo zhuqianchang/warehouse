@@ -57,8 +57,8 @@
             <li><a class="icon" target="dialog" mask="true" width="440" height="690" rel="viewOrder" title="订单详情"
                    href="${rc.getContextPath()}/order/view?orderCode={orderCode}&navTabId=${navTabId}"><span>详情</span></a></li>
             <li><a class="edit" href="javascript:order_list.calculate();"><span>计算</span></a></li>
-            <li><a class="edit" target="selectedTodo" postType="string" rel="orderCodes" title="确定要完成勾选的订单吗?"
-                   href="${rc.getContextPath()}/order/finish?navTabId=${navTabId}"><span>完成</span></a></li>
+<!--            <li><a class="edit" target="selectedTodo" postType="string" rel="orderCodes" title="确定要完成勾选的订单吗?"
+                   href="${rc.getContextPath()}/order/finish?navTabId=${navTabId}"><span>完成</span></a></li>-->
             <li><a class="delete" target="selectedTodo" postType="string" rel="orderCodes"  title="确定要删除勾选的订单吗?"
                    href="${rc.getContextPath()}/order/delete?navTabId=${navTabId}"><span>删除</span></a></li>
         </ul>

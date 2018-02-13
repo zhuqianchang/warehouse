@@ -74,9 +74,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public int deletePurchase(String purchaseCode) {
+        Purchase purchase = selectPurchase(purchaseCode);
+        if (purchase == null) {
+            throw new BusinessException("采购清单不存在");
+        }
+        if (StringUtils.equals(purchase.getPurchaseStatus(), PurchaseStatus.FINISHED.getKey())) {
+            throw new BusinessException("采购清单已完成，不能删除");
+        }
+        //删除采购清单与物料的关系
         purchaseMaterialDao.deletePurchaseMaterial(purchaseCode);
+        //删除采购清单时，修改订单的状态为创建
         List<PurchaseOrder> purchaseOrders = purchaseOrderDao.selectPurchaseOrder(purchaseCode);
-        //删除采购订单时，修改订单的状态为创建
         for (PurchaseOrder purchaseOrder : purchaseOrders) {
             Order order = orderDao.selectOrder(purchaseOrder.getOrderCode());
             if (!StringUtils.equals(order.getOrderStatus(), OrderStatus.CREATED.getKey())) {
@@ -84,7 +92,9 @@ public class PurchaseServiceImpl implements PurchaseService {
                 orderDao.updateOrder(order);
             }
         }
+        //删除采购清单与订单的关系
         purchaseOrderDao.deletePurchaseOrder(purchaseCode);
+        //删除采购清单
         return purchaseDao.deletePurchase(purchaseCode);
     }
 
@@ -110,10 +120,26 @@ public class PurchaseServiceImpl implements PurchaseService {
         if (purchase == null) {
             throw new BusinessException("采购清单不存在");
         }
+        if (StringUtils.equals(purchase.getPurchaseStatus(), PurchaseStatus.FINISHED.getKey())) {
+            throw new BusinessException("采购清单已完成");
+        }
         purchase.setPurchaseStatus(PurchaseStatus.FINISHED.getKey());
         purchase.setModifyUser(userCode);
         purchase.setModifyDateTime(new Date());
-        return updatePurchase(purchase);
+        //完成采购清单
+        int num = updatePurchase(purchase);
+        //完成采购清单的同时完成关联的订单
+        List<PurchaseOrder> purchaseOrders = purchaseOrderDao.selectPurchaseOrder(purchaseCode);
+        for (PurchaseOrder purchaseOrder : purchaseOrders) {
+            Order order = orderDao.selectOrder(purchaseOrder.getOrderCode());
+            if (order != null) {
+                order.setOrderStatus(OrderStatus.FINISHED.getKey());
+                order.setModifyUser(userCode);
+                order.setModifyDateTime(new Date());
+                orderDao.updateOrder(order);
+            }
+        }
+        return num;
     }
 
     @Override
@@ -125,7 +151,9 @@ public class PurchaseServiceImpl implements PurchaseService {
             purchase.setPurchaseStatus(PurchaseStatus.CREATED.getKey());
             num = insertPurchase(purchase);
         } else {
-            num = updatePurchase(purchase);
+            oldPurchase.setModifyUser(purchase.getModifyUser());
+            oldPurchase.setModifyDateTime(purchase.getModifyDateTime());
+            num = updatePurchase(oldPurchase);
         }
         purchaseMaterialDao.deletePurchaseMaterial(purchase.getPurchaseCode());
         List<PurchaseMaterial> purchaseMaterials = getPurchaseMaterialList(materials, purchase.getPurchaseCode());

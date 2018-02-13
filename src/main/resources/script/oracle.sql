@@ -288,6 +288,8 @@ create table W_STOCK
   WAREHOUSECODE  NVARCHAR2(40) not null,
   MATERIALCODE   NVARCHAR2(60) not null,
   STOCK          NUMBER(11) not null,
+  EDITOR         NVARCHAR2(40) not null,
+  EDITTIME       DATE not null,
   CREATEUSER     NVARCHAR2(40) not null,
   CREATEDATETIME DATE not null,
   MODIFYUSER     NVARCHAR2(40) not null,
@@ -302,6 +304,10 @@ comment on column W_STOCK.MATERIALCODE
   is '物料编号';
 comment on column W_STOCK.STOCK
   is '库存';
+comment on column W_STOCK.EDITOR
+  is '编辑人';
+comment on column W_STOCK.EDITTIME
+  is '编辑时间';
 comment on column W_STOCK.CREATEUSER
   is '创建人';
 comment on column W_STOCK.CREATEDATETIME

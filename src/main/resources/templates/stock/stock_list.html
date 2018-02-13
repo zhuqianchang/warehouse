@@ -44,11 +44,13 @@
     <table class="table" width="100%" layoutH="140">
         <thead>
         <tr>
-            <th width="120" orderField="warehouseCode" <#if (page.orderField?? && page.orderField=='warehouseCode')>class="${page.orderDirection!''}"</#if>>仓库编号</th>
-            <th width="150" orderField="warehouseText" <#if (page.orderField?? && page.orderField=='warehouseText')>class="${page.orderDirection!''}"</#if>>仓库描述</th>
-            <th width="120" orderField="materialCode" <#if (page.orderField?? && page.orderField=='materialCode')>class="${page.orderDirection!''}"</#if>>物料编号</th>
-            <th width="150" orderField="materialText" <#if (page.orderField?? && page.orderField=='materialText')>class="${page.orderDirection!''}"</#if>>物料描述</th>
-            <th width="120" orderField="stock" <#if (page.orderField?? && page.orderField=='stock')>class="${page.orderDirection!''}"</#if>>库存</th>
+            <th width="80" orderField="warehouseCode" <#if (page.orderField?? && page.orderField=='warehouseCode')>class="${page.orderDirection!''}"</#if>>仓库编号</th>
+            <th width="120" orderField="warehouseText" <#if (page.orderField?? && page.orderField=='warehouseText')>class="${page.orderDirection!''}"</#if>>仓库描述</th>
+            <th width="80" orderField="materialCode" <#if (page.orderField?? && page.orderField=='materialCode')>class="${page.orderDirection!''}"</#if>>物料编号</th>
+            <th width="120" orderField="materialText" <#if (page.orderField?? && page.orderField=='materialText')>class="${page.orderDirection!''}"</#if>>物料描述</th>
+            <th width="80" orderField="stock" <#if (page.orderField?? && page.orderField=='stock')>class="${page.orderDirection!''}"</#if>>库存</th>
+            <th width="80" orderField="editor" <#if (page.orderField?? && page.orderField=='editor')>class="${page.orderDirection!''}"</#if>>编辑人</th>
+            <th width="120" orderField="editTime" <#if (page.orderField?? && page.orderField=='editTime')>class="${page.orderDirection!''}"</#if>>编辑时间</th>
             <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
             <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
             <th width="80" orderField="modifyUser" <#if (page.orderField?? && page.orderField=='modifyUser')>class="${page.orderDirection!''}"</#if>>修改人</th>
@@ -64,6 +66,8 @@
                     <td>${stock.materialCode!''}</td>
                     <td>${stock.materialText!''}</td>
                     <td>${stock.stock!''}</td>
+                    <td>${stock.editorText!''}</td>
+                    <td>${stock.editTime?string("yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${stock.createUserText!''}</td>
                     <td>${stock.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${stock.modifyUserText!''}</td>

@@ -2,7 +2,10 @@ package indi.zqc.warehouse.model;
 
 import indi.zqc.warehouse.enums.ECodeType;
 import indi.zqc.warehouse.util.ECodeUtils;
+import indi.zqc.warehouse.util.UserUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Date;
 
 /**
  * Title : Stock.java
@@ -35,6 +38,15 @@ public class Stock extends Common {
 
     //库存
     private Integer stock;
+
+    //编辑人
+    private String editor;
+
+    //编辑人描述
+    private String editorText;
+
+    //编辑时间
+    private Date editTime;
 
     public String getMaterialCode() {
         return materialCode;
@@ -93,5 +105,32 @@ public class Stock extends Common {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
+
+    public String getEditorText() {
+        if (StringUtils.isBlank(editorText)) {
+            editorText = UserUtils.selectUserText(editor);
+        }
+        return editorText;
+    }
+
+    public void setEditorText(String editorText) {
+        this.editorText = editorText;
+    }
+
+    public Date getEditTime() {
+        return editTime;
+    }
+
+    public void setEditTime(Date editTime) {
+        this.editTime = editTime;
     }
 }

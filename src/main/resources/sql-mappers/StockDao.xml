@@ -9,6 +9,8 @@
           (warehousecode,
            materialcode,
            stock,
+           editor,
+           edittime,
            createuser,
            createdatetime,
            modifyuser,
@@ -17,6 +19,8 @@
           (#{warehouseCode, jdbcType = VARCHAR},
            #{materialCode, jdbcType = VARCHAR},
            #{stock, jdbcType = NUMERIC},
+           #{editor, jdbcType = VARCHAR},
+           #{editTime, jdbcType = TIMESTAMP},
            #{createUser, jdbcType = VARCHAR},
            #{createDateTime, jdbcType = TIMESTAMP},
            #{modifyUser, jdbcType = VARCHAR},
@@ -32,6 +36,8 @@
     <update id="updateStock" parameterType="indi.zqc.warehouse.model.Stock">
         update w_stock
            set stock          = #{stock, jdbcType = NUMERIC},
+               editor         = #{editor, jdbcType = VARCHAR},
+               edittime       = #{editTime, jdbcType = TIMESTAMP},
                modifyuser     = #{modifyUser, jdbcType = VARCHAR},
                modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
          where warehousecode = #{warehouseCode, jdbcType = VARCHAR}
@@ -45,6 +51,8 @@
                m.materialtext,
                m.materialtype,
                s.stock,
+               s.editor,
+               s.edittime,
                s.createuser,
                s.createdatetime,
                s.modifyuser,
@@ -74,6 +82,8 @@
                m.materialtext,
                m.materialtype,
                s.stock,
+               s.editor,
+               s.edittime,
                s.createuser,
                s.createdatetime,
                s.modifyuser,

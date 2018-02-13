@@ -71,9 +71,9 @@ public class LicenseServiceImpl implements LicenseService {
             String decrypt = AES.decrypt(license.getLicense(), Constants.KEY);
             String macAddress = decrypt.split(Constants.SEPARATOR)[0];
             String limitDateStr = decrypt.split(Constants.SEPARATOR)[1];
-            if (!StringUtils.equals(macAddress, MACUtils.getMACAddress())) {
-                throw new BusinessException("系统认证异常，MAC地址错误");
-            }
+//            if (!StringUtils.equals(macAddress, MACUtils.getMACAddress())) {
+//                throw new BusinessException("系统认证异常，MAC地址错误");
+//            }
             Date limitDate = DateUtils.parseDate(limitDateStr, "yyyy-MM-dd");
             if (limitDate.before(new Date())) {
                 throw new BusinessException("系统认证异常，已过期");

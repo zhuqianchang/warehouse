@@ -47,9 +47,9 @@ public class OrderProductionServiceImpl implements OrderProductionService {
             for (ProductionMaterial productionMaterial : productionMaterials) {
                 String materialCode = productionMaterial.getMaterialCode();
                 if (materialMap.containsKey(materialCode)) {
-                    materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * productionMaterial.getQuantity());
+                    materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * orderProduction.getQuantity());
                 } else {
-                    materialMap.put(materialCode, productionMaterial.getQuantity() * productionMaterial.getQuantity());
+                    materialMap.put(materialCode, productionMaterial.getQuantity() * orderProduction.getQuantity());
                 }
             }
         }
@@ -67,9 +67,9 @@ public class OrderProductionServiceImpl implements OrderProductionService {
                 for (ProductionMaterial productionMaterial : productionMaterials) {
                     String materialCode = productionMaterial.getMaterialCode();
                     if (materialMap.containsKey(materialCode)) {
-                        materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * productionMaterial.getQuantity());
+                        materialMap.put(materialCode, materialMap.get(materialCode) + productionMaterial.getQuantity() * orderProduction.getQuantity());
                     } else {
-                        materialMap.put(materialCode, productionMaterial.getQuantity() * productionMaterial.getQuantity());
+                        materialMap.put(materialCode, productionMaterial.getQuantity() * orderProduction.getQuantity());
                     }
                 }
             }
