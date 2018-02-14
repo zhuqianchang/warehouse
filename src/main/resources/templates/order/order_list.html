@@ -57,8 +57,6 @@
             <li><a class="icon" target="dialog" mask="true" width="440" height="690" rel="viewOrder" title="订单详情"
                    href="${rc.getContextPath()}/order/view?orderCode={orderCode}&navTabId=${navTabId}"><span>详情</span></a></li>
             <li><a class="edit" href="javascript:order_list.calculate();"><span>计算</span></a></li>
-<!--            <li><a class="edit" target="selectedTodo" postType="string" rel="orderCodes" title="确定要完成勾选的订单吗?"
-                   href="${rc.getContextPath()}/order/finish?navTabId=${navTabId}"><span>完成</span></a></li>-->
             <li><a class="delete" target="selectedTodo" postType="string" rel="orderCodes"  title="确定要删除勾选的订单吗?"
                    href="${rc.getContextPath()}/order/delete?navTabId=${navTabId}"><span>删除</span></a></li>
         </ul>
@@ -81,7 +79,7 @@
         <#if (page?? && page.data?size>0)>
             <#list page.data as order>
                 <tr target="orderCode" rel="${order.orderCode!''}">
-                    <td><input type="checkbox" name="orderCodes" value="${order.orderCode!''}"></td>
+                    <td><input type="checkbox" name="orderCodes" value="${order.orderCode!''}" orderStatus="${order.orderStatus!''}"></td>
                     <td>${order.orderCode!''}</td>
                     <td>${order.orderText!''}</td>
                     <td>${order.productDate?string("yyyy-MM-dd")}</td>
@@ -103,12 +101,10 @@
 </div>
 <script>
 
-    var $panel = navTab.getCurrentPanel();
-
     $(function () {
         //控制日期控件中选中最大值和最小值
-        var $fromDate = $('input[name="productDateStart"]', $panel);
-        var $toDate = $('input[name="productDateEnd"]', $panel);
+        var $fromDate = $('input[name="productDateStart"]', navTab.getCurrentPanel());
+        var $toDate = $('input[name="productDateEnd"]', navTab.getCurrentPanel());
 
         $fromDate.attr('maxDate', $toDate.val());
         $toDate.attr('minDate', $fromDate.val());
@@ -124,14 +120,27 @@
 
     var order_list = {
 
+        $panel : navTab.getCurrentPanel(),
+
         //计算
         calculate: function () {
             var orderCodes = [];
-            $('tbody input[type="checkbox"]:checked', $panel).each(function () {
-                if ($(this).val()) {
-                    orderCodes.push($(this).val());
+            var flag = true;
+            $('tbody input[type="checkbox"]:checked', this.$panel).each(function () {
+                var orderCode = $(this).val();
+                if (orderCode) {
+                    orderCodes.push(orderCode);
+                    var orderStatus = $(this).attr('orderStatus');
+                    if (orderStatus == 'produced' || orderStatus == 'finished') {
+                        alertMsg.warn("订单[" + orderCode + "]已生成或已完成，不能计算");
+                        flag = false;
+                        return;
+                    }
                 }
             });
+            if (!flag) {
+                return;
+            }
             if (orderCodes.length == 0) {
                 alertMsg.warn("请勾选需要计算的订单");
                 return;

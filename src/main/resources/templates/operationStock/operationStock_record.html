@@ -91,16 +91,16 @@
 </div>
 <script>
 
-    var $panel = navTab.getCurrentPanel();
-
     var record = {
+
+        $panel : navTab.getCurrentPanel(),
 
         //查询
         query: function () {
-            $('input[name="warehouseCode"]', $panel).val($('input[name="warehouse.warehouseCode"]', $panel).val());
-            $('input[name="warehouseText"]', $panel).val($('input[name="warehouse.warehouseText"]', $panel).val());
-            $('input[name="materialCode"]', $panel).val($('input[name="material.materialCode"]', $panel).val());
-            $('input[name="materialText"]', $panel).val($('input[name="material.materialText"]', $panel).val());
+            $('input[name="warehouseCode"]', this.$panel).val($('input[name="warehouse.warehouseCode"]', this.$panel).val());
+            $('input[name="warehouseText"]', this.$panel).val($('input[name="warehouse.warehouseText"]', this.$panel).val());
+            $('input[name="materialCode"]', this.$panel).val($('input[name="material.materialCode"]', this.$panel).val());
+            $('input[name="materialText"]', this.$panel).val($('input[name="material.materialText"]', this.$panel).val());
         }
     };
 

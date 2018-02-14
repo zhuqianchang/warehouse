@@ -115,13 +115,13 @@
         alertMsg.warn(message);
     }
 
-    var $dialog = $.pdialog.getCurrent();
-
     var purchase_order_view = {
+
+        $dialog : $.pdialog.getCurrent(),
 
         //导出
         export: function () {
-            var purchaseCode = $('input[name="purchaseCode"]', $dialog).val();
+            var purchaseCode = $('input[name="purchaseCode"]', this.$dialog).val();
             alertMsg.confirm('确定要导出采购清单吗', {
                 okCall: function () {
                     window.open('${rc.getContextPath()}/purchase/export?purchaseCode=' + purchaseCode);

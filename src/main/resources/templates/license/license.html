@@ -48,14 +48,14 @@
 </div>
 <script>
 
-    var $panel = navTab.getCurrentPanel();
-
     var license = {
+
+        $panel : navTab.getCurrentPanel(),
 
         save: function () {
             //过期时间
-            var limitDate = $('input[name="limitDate"]', $panel).val();
-            var key = $('input[name="key"]', $panel).val();
+            var limitDate = $('input[name="limitDate"]', this.$panel).val();
+            var key = $('input[name="key"]', this.$panel).val();
             if (!limitDate) {
                 alertMsg.warn("过期时间不能为空");
                 return;

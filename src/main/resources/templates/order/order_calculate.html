@@ -81,15 +81,15 @@
 </div>
 <script>
 
-    var $dialog = $.pdialog.getCurrent();
-
     var order_calculate = {
+
+        $dialog : $.pdialog.getCurrent();
 
         //生成采购清单
         produce: function () {
             alertMsg.confirm("确定要生成采购清单？", {
                 okCall: function () {
-                    $('form', $dialog).submit();
+                    $('form', this.$dialog).submit();
                 }
             });
         }

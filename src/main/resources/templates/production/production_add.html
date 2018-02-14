@@ -81,14 +81,14 @@
 </div>
 <script>
 
-    var $dialog = $.pdialog.getCurrent();
-
     var production_add = {
+
+        $dialog : $.pdialog.getCurrent(),
 
         //成品带回
         production_callback : function(){
             //校验成品唯一
-            var productionCode = $('input[name="production.materialCode"]', $dialog).val();
+            var productionCode = $('input[name="production.materialCode"]', this.$dialog).val();
             $.ajax({
                 url: '${rc.getContextPath()}/production/verify',
                 data: {
@@ -98,8 +98,8 @@
                 success: function (json) {
                     if (json === false) {
                         alertMsg.error("成品已存在");
-                        $('input[name="production.materialCode"]', $dialog).val('');
-                        $('input[name="production.materialText"]', $dialog).val('');
+                        $('input[name="production.materialCode"]', this.$dialog).val('');
+                        $('input[name="production.materialText"]', this.$dialog).val('');
                     }
                 }
             });
@@ -107,10 +107,10 @@
 
         //物料带回
         material_callback: function () {
-            var materialCode = $("#materialCode", $dialog).val();
-            var materialText = $("#materialText", $dialog).val();
+            var materialCode = $("#materialCode", this.$dialog).val();
+            var materialText = $("#materialText", this.$dialog).val();
             var html = "";
-            var element = $("#material_" + materialCode, $dialog);
+            var element = $("#material_" + materialCode, this.$dialog);
             if (element.length == 0) {
                 html += "<tr id='material_" + materialCode + "'>" +
                         "<td><input name='materialCodes' value='" + materialCode + "' type='checkbox'/></td>" +
@@ -118,8 +118,8 @@
                         "<td>" + materialText + "</td>" +
                         "<td><input type='text' name='quantity' style='width: 100px;' min='0' maxlength='9'/></td>" +
                         "</tr>";
-                $("#materialTBody", $dialog).append(html);
-                $.jTableTool.initGridColumnWidth($("#materialTBody", $dialog).parents(".grid"));
+                $("#materialTBody", this.$dialog).append(html);
+                $.jTableTool.initGridColumnWidth($("#materialTBody", this.$dialog).parents(".grid"));
             } else {
                 alertMsg.warn('物料已存在');
             }
@@ -127,31 +127,31 @@
 
         //删除物料
         delMaterial: function () {
-            var count = $('input[name="materialCodes"]:checked', $dialog).length;
+            var count = $('input[name="materialCodes"]:checked', this.$dialog).length;
             if (count == 0) {
                 alertMsg.warn('请勾选物料');
                 return false;
             }
             alertMsg.confirm("确定要删除选中的物料吗？", {
                 okCall: function () {
-                    $('input[name="materialCodes"]:checked', $dialog).each(function (i, e) {
+                    $('input[name="materialCodes"]:checked', this.$dialog).each(function (i, e) {
                         $("#material_" + e.value).remove();
                     });
-                    $.jTableTool.initGridColumnWidth($("#materialTBody", $dialog).parents(".grid"));
+                    $.jTableTool.initGridColumnWidth($("#materialTBody", this.$dialog).parents(".grid"));
                 }
             });
         },
 
         //保存
         save: function () {
-            var count = $('#materialTBody', $dialog).find('tr').length;
+            var count = $('#materialTBody', this.$dialog).find('tr').length;
             if (count == 0) {
                 alertMsg.warn('请添加物料');
                 return false;
             }
             var materials = [];
             var flag = true;
-            $('#materialTBody', $dialog).find('tr').each(function () {
+            $('#materialTBody', this.$dialog).find('tr').each(function () {
                 var quantity = $(this).find('input[name="quantity"]').val();
                 if (!quantity || isNaN(parseInt(quantity)) || quantity < 1) {
                     alertMsg.warn('请输入正确的数量');
@@ -164,9 +164,9 @@
                 materials.push(material);
             });
             if (flag) {
-                $('#materials', $dialog).val(JSON.stringify(materials));
-                $('input[name="productionCode"]', $dialog).val($('input[name="production.materialCode"]', $dialog).val());
-                $('form', $dialog).submit();
+                $('#materials', this.$dialog).val(JSON.stringify(materials));
+                $('input[name="productionCode"]', this.$dialog).val($('input[name="production.materialCode"]', this.$dialog).val());
+                $('form', this.$dialog).submit();
             }
         }
     }
