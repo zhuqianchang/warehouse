@@ -89,7 +89,7 @@
         produce: function () {
             alertMsg.confirm("确定要生成采购清单？", {
                 okCall: function () {
-                    $('form', this.$dialog).submit();
+                    $('form', order_calculate.$dialog).submit();
                 }
             });
         }

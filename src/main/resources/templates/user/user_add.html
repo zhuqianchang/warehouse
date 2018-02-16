@@ -95,13 +95,13 @@
 
         //查找带回
         role_callback: function () {
-            var roleCodeArr = $("#roleCodes", this.$dialog).val().split(',');
-            var roleTextArr = $("#roleTexts", this.$dialog).val().split(',');
+            var roleCodeArr = $("#roleCodes", user_add.$dialog).val().split(',');
+            var roleTextArr = $("#roleTexts", user_add.$dialog).val().split(',');
             var ht = "";
             for (var i = 0; i < roleCodeArr.length; i++) {
                 var roleCode = roleCodeArr[i];
                 var roleText = roleTextArr[i];
-                var my_element = $("#role_" + roleCode, this.$dialog);
+                var my_element = $("#role_" + roleCode, user_add.$dialog);
                 if (my_element.length == 0) {
                     ht += "<tr id='role_" + roleCode + "'>" +
                         "<td><input name='roleCodes' value='" + roleCode + "' type='checkbox'/></td>" +
@@ -110,14 +110,14 @@
                         "</tr>";
                 }
             }
-            $("#roletbody", this.$dialog).append(ht);
-            $.jTableTool.initGridColumnWidth($("#roletbody", this.$dialog).parents(".grid"));
+            $("#roletbody", user_add.$dialog).append(ht);
+            $.jTableTool.initGridColumnWidth($("#roletbody", user_add.$dialog).parents(".grid"));
         },
 
         //删除角色
         delRole: function () {
             var count = 0;
-            $('input[name="roleCodes"]:checked', this.$dialog).each(function () {
+            $('input[name="roleCodes"]:checked', user_add.$dialog).each(function () {
                 count++;
             });
             if (count == 0) {
@@ -125,7 +125,7 @@
             } else {
                 alertMsg.confirm("确定要删除选中的角色吗？", {
                     okCall: function () {
-                        $('input[name="roleCodes"]:checked', this.$dialog).each(function (i, e) {
+                        $('input[name="roleCodes"]:checked', user_add.$dialog).each(function (i, e) {
                             $("#role_" + e.value).remove();
                         });
                     }
@@ -136,10 +136,10 @@
         //保存
         save: function () {
             var roleCodes = [];
-            $('#roletbody', this.$dialog).find('tr').each(function () {
+            $('#roletbody', user_add.$dialog).find('tr').each(function () {
                 roleCodes.push($(this).attr("id").replace('role_', ''));
             });
-            $('#role', this.$dialog).val(roleCodes.join(','));
+            $('#role', user_add.$dialog).val(roleCodes.join(','));
         }
     }
 

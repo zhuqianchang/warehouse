@@ -126,7 +126,7 @@
         calculate: function () {
             var orderCodes = [];
             var flag = true;
-            $('tbody input[type="checkbox"]:checked', this.$panel).each(function () {
+            $('tbody input[type="checkbox"]:checked', order_list.$panel).each(function () {
                 var orderCode = $(this).val();
                 if (orderCode) {
                     orderCodes.push(orderCode);

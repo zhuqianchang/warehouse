@@ -67,11 +67,11 @@
 
         //添加库存记录
         addStock : function () {
-            var warehouseCode = $('input[name="warehouse.warehouseCode"]', this.$panel).val();
-            var warehouseText = $('input[name="warehouse.warehouseText"]', this.$panel).val();
-            var materialCode = $('input[name="material.materialCode"]', this.$panel).val();
-            var materialText = $('input[name="material.materialText"]', this.$panel).val();
-            var quantity = $('input[name="quantity"]', this.$panel).val();
+            var warehouseCode = $('input[name="warehouse.warehouseCode"]', input.$panel).val();
+            var warehouseText = $('input[name="warehouse.warehouseText"]', input.$panel).val();
+            var materialCode = $('input[name="material.materialCode"]', input.$panel).val();
+            var materialText = $('input[name="material.materialText"]', input.$panel).val();
+            var quantity = $('input[name="quantity"]', input.$panel).val();
             if (!warehouseCode) {
                 alertMsg.warn('请选择仓库');
                 return;
@@ -81,10 +81,10 @@
                 return;
             }
             if (!quantity || quantity < 1) {
-                alertMsg.warn('请输入正确的数量')
+                alertMsg.warn('请输入正确的数量');
                 return;
             }
-            var element = $('#stock_' + warehouseCode + '_' + materialCode, this.$panel);
+            var element = $('#stock_' + warehouseCode + '_' + materialCode, input.$panel);
             if (element.length == 0) {
                 var id = 'stock_' + warehouseCode + '_' + materialCode;
                 var stock = {
@@ -102,9 +102,9 @@
                     "<td>" + materialText + "</td>" +
                     "<td>" + quantity + "</td>" +
                     "</tr>";
-                $('#stockTBody', this.$panel).append(html);
-                $.jTableTool.initGridColumnWidth($("#stockTBody", this.$panel).parents(".grid"));
-                this.clear();
+                $('#stockTBody', input.$panel).append(html);
+                $.jTableTool.initGridColumnWidth($("#stockTBody", input.$panel).parents(".grid"));
+                input.clear();
             } else {
                 alertMsg.warn('入库记录已存在');
             }
@@ -112,23 +112,23 @@
 
         //清除
         clear: function () {
-            $('input[name="warehouse.warehouseCode"]', this.$panel).val('');
-            $('input[name="warehouse.warehouseText"]', this.$panel).val('');
-            $('input[name="material.materialCode"]', this.$panel).val('');
-            $('input[name="material.materialText"]', this.$panel).val('');
-            $('input[name="quantity"]', this.$panel).val('');
+            $('input[name="warehouse.warehouseCode"]', input.$panel).val('');
+            $('input[name="warehouse.warehouseText"]', input.$panel).val('');
+            $('input[name="material.materialCode"]', input.$panel).val('');
+            $('input[name="material.materialText"]', input.$panel).val('');
+            $('input[name="quantity"]', input.$panel).val('');
         },
 
         //删除库存记录
         delStock: function (warehouseCode, materialCode) {
-            $('#stock_' + warehouseCode + '_' + materialCode, this.$panel).remove();
-            $.jTableTool.initGridColumnWidth($("#stockTBody", this.$panel).parents(".grid"));
+            $('#stock_' + warehouseCode + '_' + materialCode, input.$panel).remove();
+            $.jTableTool.initGridColumnWidth($("#stockTBody", input.$panel).parents(".grid"));
         },
 
         //入库
         saveStock: function () {
             var stock = [];
-            $('#stockTBody', this.$panel).find('tr').each(function () {
+            $('#stockTBody', input.$panel).find('tr').each(function () {
                 stock.push(JSON.parse($(this).attr('stock')));
             });
             if (stock.length == 0) {

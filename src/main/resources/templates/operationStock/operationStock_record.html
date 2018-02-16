@@ -97,10 +97,10 @@
 
         //查询
         query: function () {
-            $('input[name="warehouseCode"]', this.$panel).val($('input[name="warehouse.warehouseCode"]', this.$panel).val());
-            $('input[name="warehouseText"]', this.$panel).val($('input[name="warehouse.warehouseText"]', this.$panel).val());
-            $('input[name="materialCode"]', this.$panel).val($('input[name="material.materialCode"]', this.$panel).val());
-            $('input[name="materialText"]', this.$panel).val($('input[name="material.materialText"]', this.$panel).val());
+            $('input[name="warehouseCode"]', record.$panel).val($('input[name="warehouse.warehouseCode"]', record.$panel).val());
+            $('input[name="warehouseText"]', record.$panel).val($('input[name="warehouse.warehouseText"]', record.$panel).val());
+            $('input[name="materialCode"]', record.$panel).val($('input[name="material.materialCode"]', record.$panel).val());
+            $('input[name="materialText"]', record.$panel).val($('input[name="material.materialText"]', record.$panel).val());
         }
     };
 

@@ -92,15 +92,15 @@
         $dialog : $.pdialog.getCurrent(),
 
         authorize: function () {
-            $('#menuTree .indeterminate', this.$dialog).each(function () {
+            $('#menuTree .indeterminate', authorize.$dialog).each(function () {
                 $(this).find('input[type="checkbox"]').attr('checked', 'checked');
             });
 
             var menuCodes = [];
-            $('#menuTree input[type="checkbox"]:checked', this.$dialog).each(function (i, e) {
+            $('#menuTree input[type="checkbox"]:checked', authorize.$dialog).each(function (i, e) {
                 menuCodes.push(e.value);
             });
-            $("#menuCodes", this.$dialog).val(menuCodes.join(','));
+            $("#menuCodes", authorize.$dialog).val(menuCodes.join(','));
         }
     }
 </script>

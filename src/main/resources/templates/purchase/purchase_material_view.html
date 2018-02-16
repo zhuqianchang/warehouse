@@ -83,7 +83,7 @@
 
         //导出
         export: function () {
-            var purchaseCode = $('input[name="purchaseCode"]', this.$dialog).val();
+            var purchaseCode = $('input[name="purchaseCode"]', purchase_material_view.$dialog).val();
             alertMsg.confirm('确定要导出采购清单吗', {
                 okCall: function () {
                     window.open('${rc.getContextPath()}/purchase/export?purchaseCode=' + purchaseCode);

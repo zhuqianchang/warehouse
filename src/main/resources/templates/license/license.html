@@ -54,8 +54,8 @@
 
         save: function () {
             //过期时间
-            var limitDate = $('input[name="limitDate"]', this.$panel).val();
-            var key = $('input[name="key"]', this.$panel).val();
+            var limitDate = $('input[name="limitDate"]', license.$panel).val();
+            var key = $('input[name="key"]', license.$panel).val();
             if (!limitDate) {
                 alertMsg.warn("过期时间不能为空");
                 return;

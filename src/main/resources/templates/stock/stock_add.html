@@ -48,10 +48,10 @@
 
         //保存
         save: function () {
-            var warehouseCode = $('input[name="warehouse.warehouseCode"]', this.$dialog).val();
-            var materialCode = $('input[name="material.materialCode"]', this.$dialog).val();
-            $('input[name="warehouseCode"]', this.$dialog).val(warehouseCode);
-            $('input[name="materialCode"]', this.$dialog).val(materialCode);
+            var warehouseCode = $('input[name="warehouse.warehouseCode"]', stock_add.$dialog).val();
+            var materialCode = $('input[name="material.materialCode"]', stock_add.$dialog).val();
+            $('input[name="warehouseCode"]', stock_add.$dialog).val(warehouseCode);
+            $('input[name="materialCode"]', stock_add.$dialog).val(materialCode);
 
             //校验唯一
             $.ajax({
@@ -63,7 +63,7 @@
                 dataType: "json",
                 success: function (json) {
                     if (json === true) {
-                        $('form', this.$dialog).submit();
+                        $('form', stock_add.$dialog).submit();
                     } else {
                         alertMsg.error("库存已存在");
                     }

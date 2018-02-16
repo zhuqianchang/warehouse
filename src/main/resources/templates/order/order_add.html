@@ -104,10 +104,10 @@
 
         //成品带回
         production_callback: function () {
-            var productionCode = $("#productionCode", this.$dialog).val();
-            var productionText = $("#productionText", this.$dialog).val();
+            var productionCode = $("#productionCode", order_add.$dialog).val();
+            var productionText = $("#productionText", order_add.$dialog).val();
             var html = "";
-            var element = $("#production_" + productionCode, this.$dialog);
+            var element = $("#production_" + productionCode, order_add.$dialog);
             if (element.length == 0) {
                 html += "<tr id='production_" + productionCode + "'>" +
                         "<td><input name='productionCodes' value='" + productionCode + "' type='checkbox'/></td>" +
@@ -115,8 +115,8 @@
                         "<td>" + productionText + "</td>" +
                         "<td><input type='text' name='quantity' style='width: 100px;' min='0' maxlength='9'/></td>" +
                         "</tr>";
-                $("#productionTBody", this.$dialog).append(html);
-                $.jTableTool.initGridColumnWidth($("#productionTBody", this.$dialog).parents(".grid"));
+                $("#productionTBody", order_add.$dialog).append(html);
+                $.jTableTool.initGridColumnWidth($("#productionTBody", order_add.$dialog).parents(".grid"));
             } else {
                 alertMsg.warn('成品已存在');
             }
@@ -124,32 +124,32 @@
 
         //删除成品
         delProduction: function () {
-            var count = $('input[name="productionCodes"]:checked', this.$dialog).length;
+            var count = $('input[name="productionCodes"]:checked', order_add.$dialog).length;
             if (count == 0) {
                 alertMsg.warn('请勾选成品');
                 return false;
             }
             alertMsg.confirm("确定要删除选中的成品吗？", {
                 okCall: function () {
-                    $('input[name="productionCodes"]:checked', this.$dialog).each(function (i, e) {
+                    $('input[name="productionCodes"]:checked', order_add.$dialog).each(function (i, e) {
                         $("#production_" + e.value).remove();
                     });
-                    $.jTableTool.initGridColumnWidth($("#productionTBody", this.$dialog).parents(".grid"));
+                    $.jTableTool.initGridColumnWidth($("#productionTBody", order_add.$dialog).parents(".grid"));
                 }
             });
         },
 
         //保存
         save: function () {
-            var count = $('#productionTBody', this.$dialog).find('tr').length;
+            var count = $('#productionTBody', order_add.$dialog).find('tr').length;
             if (count == 0) {
                 alertMsg.warn('请添加成品');
                 return false;
             }
             var productions = [];
             var flag = true;
-            $('#productionTBody', this.$dialog).find('tr').each(function () {
-                var quantity = $(this).find('input[name="quantity"]', this.$dialog).val();
+            $('#productionTBody', order_add.$dialog).find('tr').each(function () {
+                var quantity = $(this).find('input[name="quantity"]', order_add.$dialog).val();
                 if (!quantity || isNaN(parseInt(quantity)) || quantity < 0) {
                     alertMsg.warn('请输入正确的数量');
                     flag = false;
@@ -161,8 +161,8 @@
                 productions.push(production);
             });
             if (flag) {
-                $('#productions', this.$dialog).val(JSON.stringify(productions));
-                $('form', this.$dialog).submit();
+                $('#productions', order_add.$dialog).val(JSON.stringify(productions));
+                $('form', order_add.$dialog).submit();
             }
         }
     }

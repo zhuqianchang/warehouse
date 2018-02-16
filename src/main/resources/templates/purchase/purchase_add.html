@@ -92,10 +92,10 @@
 
         //查找带回
         material_callback: function () {
-            var materialCode = $("#materialCode", this.$dialog).val();
-            var materialText = $("#materialText", this.$dialog).val();
+            var materialCode = $("#materialCode", purchase_add.$dialog).val();
+            var materialText = $("#materialText", purchase_add.$dialog).val();
             var html = "";
-            var element = $("#material_" + materialCode, this.$dialog);
+            var element = $("#material_" + materialCode, purchase_add.$dialog);
             if (element.length == 0) {
                 html += "<tr id='material_" + materialCode + "'>" +
                         "<td><input name='materialCodes' value='" + materialCode + "' type='checkbox'/></td>" +
@@ -103,8 +103,8 @@
                         "<td>" + materialText + "</td>" +
                         "<td><input type='text' name='quantity' style='width: 100px;' min='0' maxlength='9'/></td>" +
                         "</tr>";
-                $("#materialTBody", this.$dialog).append(html);
-                $.jTableTool.initGridColumnWidth($("#materialTBody", this.$dialog).parents(".grid"));
+                $("#materialTBody", purchase_add.$dialog).append(html);
+                $.jTableTool.initGridColumnWidth($("#materialTBody", purchase_add.$dialog).parents(".grid"));
             } else {
                 alertMsg.warn('物料已存在');
             }
@@ -113,7 +113,7 @@
         //删除物料
         delMaterial: function () {
             var count = 0;
-            $('input[name="materialCodes"]:checked', this.$dialog).each(function () {
+            $('input[name="materialCodes"]:checked', purchase_add.$dialog).each(function () {
                 count++;
             });
             if (count == 0) {
@@ -121,10 +121,10 @@
             } else {
                 alertMsg.confirm("确定要删除选中的物料吗？", {
                     okCall: function () {
-                        $('input[name="materialCodes"]:checked', this.$dialog).each(function (i, e) {
+                        $('input[name="materialCodes"]:checked', purchase_add.$dialog).each(function (i, e) {
                             $("#material_" + e.value).remove();
                         });
-                        $.jTableTool.initGridColumnWidth($("#materialTBody", this.$dialog).parents(".grid"));
+                        $.jTableTool.initGridColumnWidth($("#materialTBody", purchase_add.$dialog).parents(".grid"));
                     }
                 });
             }
@@ -134,7 +134,7 @@
         save: function () {
             var materials = [];
             var flag = true;
-            $('#materialTBody', this.$dialog).find('tr').each(function () {
+            $('#materialTBody', purchase_add.$dialog).find('tr').each(function () {
                 var quantity = $(this).find('input[name="quantity"]').val();
                 if (!quantity || isNaN(parseInt(quantity)) || quantity < 1) {
                     alertMsg.warn('请输入正确的数量');
@@ -147,8 +147,8 @@
                 materials.push(material);
             });
             if (flag) {
-                $('#materials', this.$dialog).val(JSON.stringify(materials));
-                $('form', this.$dialog).submit();
+                $('#materials', purchase_add.$dialog).val(JSON.stringify(materials));
+                $('form', purchase_add.$dialog).submit();
             }
         }
     }
