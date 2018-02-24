@@ -35,6 +35,12 @@ public class Constants {
     //采购清单模板
     public static final String TEMPLATE_PURCHASE = "/static/template/purchase.xlsx";
 
+    //库存模板
+    public static final String TEMPLATE_STOCK = "/static/template/stock.xlsx";
+
+    //出入库模板
+    public static final String TEMPLATE_OPERATION_STOCK = "/static/template/operation_stock.xlsx";
+
     //加密KEY
     public static final String KEY = "@ZZP@";
 }

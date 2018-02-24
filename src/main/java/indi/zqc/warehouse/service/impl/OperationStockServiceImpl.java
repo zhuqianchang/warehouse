@@ -13,12 +13,21 @@ import indi.zqc.warehouse.model.OperationStock;
 import indi.zqc.warehouse.model.Stock;
 import indi.zqc.warehouse.model.condition.OperationStockCondition;
 import indi.zqc.warehouse.service.OperationStockService;
+import indi.zqc.warehouse.util.ExcelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -160,4 +169,53 @@ public class OperationStockServiceImpl implements OperationStockService {
         return Constants.DJ_PREFIX + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
     }
 
+    @Override
+    public void exportRecord(OperationStockCondition condition, HttpServletResponse response) {
+        Page<OperationStock> operationStocks = operationStockDao.selectOperationStockPage(condition);
+        OutputStream os = null;
+        InputStream is = null;
+        XSSFWorkbook workbook;
+        XSSFSheet sheet;
+        try {
+            response.setContentType("application/vnd.ms-excel");
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(("出入库清单").getBytes(), "ISO8859-1") + ".xlsx");
+            os = response.getOutputStream();
+            is = new ClassPathResource(Constants.TEMPLATE_OPERATION_STOCK).getInputStream();
+            workbook = new XSSFWorkbook(is);
+            sheet = workbook.getSheetAt(0);
+            XSSFRow styleRow = sheet.getRow(1);
+            //出入库信息
+            for (int i = 0; i < operationStocks.size(); i++) {
+                OperationStock operationStock = operationStocks.get(i);
+                XSSFRow row = sheet.createRow(i + 2);
+                ExcelUtils.setCell(row, 0, styleRow.getCell(0).getCellStyle(), i + 1);
+                ExcelUtils.setCell(row, 1, styleRow.getCell(1).getCellStyle(), operationStock.getReceiptCode());
+                ExcelUtils.setCell(row, 2, styleRow.getCell(2).getCellStyle(), operationStock.getWarehouseCode());
+                ExcelUtils.setCell(row, 3, styleRow.getCell(3).getCellStyle(), operationStock.getWarehouseText());
+                ExcelUtils.setCell(row, 4, styleRow.getCell(4).getCellStyle(), operationStock.getMaterialCode());
+                ExcelUtils.setCell(row, 5, styleRow.getCell(5).getCellStyle(), operationStock.getMaterialText());
+                ExcelUtils.setCell(row, 6, styleRow.getCell(6).getCellStyle(), operationStock.getQuantity());
+                ExcelUtils.setCell(row, 7, styleRow.getCell(7).getCellStyle(), operationStock.getOperationTypeText());
+                ExcelUtils.setCell(row, 8, styleRow.getCell(8).getCellStyle(), operationStock.getCreateUserText());
+                ExcelUtils.setCell(row, 9, styleRow.getCell(9).getCellStyle(), operationStock.getCreateDateTime());
+            }
+            workbook.write(os);
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                }
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
 }

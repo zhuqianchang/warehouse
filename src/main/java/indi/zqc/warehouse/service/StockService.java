@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import indi.zqc.warehouse.model.Stock;
 import indi.zqc.warehouse.model.condition.StockCondition;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Title : StockService.java
  * Package : indi.zqc.warehouse.service
@@ -24,4 +26,6 @@ public interface StockService {
     Stock selectStock(String warehouseCode, String materialCode);
 
     Page<Stock> selectStockPage(StockCondition condition);
+
+    void exportStock(StockCondition condition, HttpServletResponse response);
 }

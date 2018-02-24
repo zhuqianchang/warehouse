@@ -1,8 +1,10 @@
 package indi.zqc.warehouse.configuration;
 
 import indi.zqc.warehouse.service.ECodeService;
+import indi.zqc.warehouse.service.MenuService;
 import indi.zqc.warehouse.service.UserService;
 import indi.zqc.warehouse.util.ECodeUtils;
+import indi.zqc.warehouse.util.MenuUtils;
 import indi.zqc.warehouse.util.SpringBeanUtils;
 import indi.zqc.warehouse.util.UserUtils;
 import org.springframework.context.annotation.Bean;
@@ -33,5 +35,10 @@ public class BaseConfiguration {
     @Bean
     public UserUtils userUtils(UserService userService) {
         return new UserUtils(userService);
+    }
+
+    @Bean
+    public MenuUtils menuUtils(MenuService menuService) {
+        return new MenuUtils(menuService);
     }
 }

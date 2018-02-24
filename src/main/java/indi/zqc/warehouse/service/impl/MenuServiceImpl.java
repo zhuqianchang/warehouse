@@ -85,6 +85,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public Menu selectMenuByCodeAndUser(String menuCode, String userCode) {
+        return menuDao.selectMenuByCodeAndUser(menuCode, userCode);
+    }
+
+    @Override
     public void upMenu(String menuCode) {
         Menu menu = menuDao.selectMenu(menuCode);
         //重置同级别的菜单序号

@@ -37,8 +37,10 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
+            <@buttonRight menuCode="INPUT_STOCK">
             <li><a class="add" target="dialog" mask="true" width="400" height="190" rel="addMaterial" title="新增物料"
                    href="${rc.getContextPath()}/material/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
             <li><a class="edit" target="dialog" mask="true" width="400" height="265" rel="editMaterial" title="编辑物料"
                    href="${rc.getContextPath()}/material/edit?materialCode={materialCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
             <li><a class="icon" target="dialog" mask="true" width="400" height="265" rel="viewMaterial" title="物料详情"

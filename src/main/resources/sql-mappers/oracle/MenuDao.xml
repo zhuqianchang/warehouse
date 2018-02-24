@@ -72,6 +72,17 @@
          order by displayordinal
     </select>
 
+    <select id="selectMenuByCodeAndUser" resultType="indi.zqc.warehouse.model.Menu">
+        select distinct m.*
+          from w_menu m
+          join w_rolemenu rm on rm.menucode = m.menucode
+          join w_role r on r.rolecode = rm.rolecode
+          join w_userrole ur on ur.rolecode = r.rolecode
+          join w_user u on u.usercode = ur.usercode
+         where m.menucode = #{menuCode, jdbcType = VARCHAR}
+           and u.usercode = #{userCode, jdbcType = VARCHAR}
+    </select>
+
     <select id="selectMenuByParent" resultType="indi.zqc.warehouse.model.Menu">
         select * from w_menu where parentmenucode = #{parentMenuCode, jdbcType = VARCHAR} order by displayordinal
     </select>

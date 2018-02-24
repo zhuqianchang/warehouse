@@ -37,4 +37,6 @@ public interface MenuDao {
     List<Menu> selectMenuByRole(@Param("roleCode") String roleCode);
 
     List<Menu> selectMenuByUser(@Param("userCode") String userCode);
+
+    Menu selectMenuByCodeAndUser(@Param("menuCode") String menuCode, @Param("userCode") String userCode);
 }

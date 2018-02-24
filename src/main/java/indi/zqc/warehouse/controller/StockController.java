@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -89,5 +90,11 @@ public class StockController extends BaseController {
     @ResponseBody
     public boolean verifyStockCode(String warehouseCode, String materialCode) {
         return stockService.selectStock(warehouseCode, materialCode) == null;
+    }
+
+    @RequestMapping("/export")
+    @ResponseBody
+    public void exportStock(StockCondition condition, HttpServletResponse response) {
+        stockService.exportStock(condition, response);
     }
 }

@@ -10,8 +10,8 @@
                 <dl>
                     <dt>仓库：</dt>
                     <dd>
-                        <input type="hidden" name="warehouseCode" value="">
-                        <input type="hidden" name="warehouseText" value="">
+                        <input type="hidden" name="warehouseCode" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>">
+                        <input type="hidden" name="warehouseText" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>">
                         <input type="hidden" name="warehouse.warehouseCode" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>">
                         <input type="text" name="warehouse.warehouseText" readonly="readonly" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>"/>
                         <a class="btnLook" href="${rc.getContextPath()}/warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
@@ -21,8 +21,8 @@
                 <dl>
                     <dt>物料：</dt>
                     <dd>
-                        <input type="hidden" name="materialCode" value="">
-                        <input type="hidden" name="materialText" value="">
+                        <input type="hidden" name="materialCode" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>">
+                        <input type="hidden" name="materialText" value="<#if (page.materialText)??>${page.materialText!''}</#if>">
                         <input type="hidden" name="material.materialCode" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>">
                         <input type="text" name="material.materialText" readonly="readonly" value="<#if (page.materialText)??>${page.materialText!''}</#if>"/>
                         <a class="btnLook" href="${rc.getContextPath()}/material/lookup" warn="请选择物料" lookupGroup="material">查找带回</a>
@@ -44,6 +44,11 @@
                 <div class="buttonActive">
                     <div class="buttonContent">
                         <button type="submit" onclick="record.query();">查询</button>
+                    </div>
+                </div>
+                <div class="button" style="margin-left: 10px;">
+                    <div class="buttonContent">
+                        <button type="button" onclick="record.export();">导出</button>
                     </div>
                 </div>
             </div>
@@ -101,6 +106,24 @@
             $('input[name="warehouseText"]', record.$panel).val($('input[name="warehouse.warehouseText"]', record.$panel).val());
             $('input[name="materialCode"]', record.$panel).val($('input[name="material.materialCode"]', record.$panel).val());
             $('input[name="materialText"]', record.$panel).val($('input[name="material.materialText"]', record.$panel).val());
+        },
+
+        //导出
+        export: function () {
+            this.query();
+            alertMsg.confirm('确定要导出查询结果吗', {
+                okCall: function () {
+                    var data = {
+                        receiptCode: $('input[name="receiptCode"]', record.$panel).val(),
+                        warehouseCode: $('input[name="warehouseCode"]', record.$panel).val(),
+                        materialCode: $('input[name="materialCode"]', record.$panel).val(),
+                        operationType: $('select[name="operationType"]', record.$panel).val(),
+                        orderField: $('input[name="orderField"]', record.$panel).val(),
+                        orderDirection: $('input[name="orderDirection"]', record.$panel).val()
+                    };
+                    window.open('${rc.getContextPath()}/operationStock/record/export?' + $.param(data));
+                }
+            });
         }
     };
 

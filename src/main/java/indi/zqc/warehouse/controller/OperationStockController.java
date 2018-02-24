@@ -5,12 +5,15 @@ import indi.zqc.warehouse.enums.OperationType;
 import indi.zqc.warehouse.model.DWZResult;
 import indi.zqc.warehouse.model.OperationStock;
 import indi.zqc.warehouse.model.condition.OperationStockCondition;
+import indi.zqc.warehouse.model.condition.StockCondition;
 import indi.zqc.warehouse.service.OperationStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Title : OperationStockController.java
@@ -63,4 +66,9 @@ public class OperationStockController extends BaseController {
         return "operationStock/operationStock_record";
     }
 
+    @RequestMapping("/record/export")
+    @ResponseBody
+    public void exportRecord(OperationStockCondition condition, HttpServletResponse response) {
+        operationStockService.exportRecord(condition, response);
+    }
 }

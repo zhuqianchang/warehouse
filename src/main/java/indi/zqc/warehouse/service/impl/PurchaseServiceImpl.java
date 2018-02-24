@@ -17,9 +17,9 @@ import indi.zqc.warehouse.model.PurchaseOrder;
 import indi.zqc.warehouse.model.condition.PurchaseCondition;
 import indi.zqc.warehouse.service.PurchaseMaterialService;
 import indi.zqc.warehouse.service.PurchaseService;
+import indi.zqc.warehouse.util.ExcelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -251,18 +251,10 @@ public class PurchaseServiceImpl implements PurchaseService {
             for (int i = 0; i < purchaseMaterials.size(); i++) {
                 PurchaseMaterial purchaseMaterial = purchaseMaterials.get(i);
                 row = sheet.createRow(i + 3);
-                XSSFCell cell = row.createCell(0);
-                cell.setCellStyle(styleRow.getCell(0).getCellStyle());
-                cell.setCellValue(i + 1);
-                cell = row.createCell(1);
-                cell.setCellStyle(styleRow.getCell(1).getCellStyle());
-                cell.setCellValue(purchaseMaterial.getMaterialCode());
-                cell = row.createCell(2);
-                cell.setCellStyle(styleRow.getCell(2).getCellStyle());
-                cell.setCellValue(purchaseMaterial.getMaterialText());
-                cell = row.createCell(3);
-                cell.setCellStyle(styleRow.getCell(3).getCellStyle());
-                cell.setCellValue(purchaseMaterial.getQuantity());
+                ExcelUtils.setCell(row, 0, styleRow.getCell(0).getCellStyle(), i + 1);
+                ExcelUtils.setCell(row, 1, styleRow.getCell(1).getCellStyle(), purchaseMaterial.getMaterialCode());
+                ExcelUtils.setCell(row, 2, styleRow.getCell(2).getCellStyle(), purchaseMaterial.getMaterialText());
+                ExcelUtils.setCell(row, 3, styleRow.getCell(3).getCellStyle(), purchaseMaterial.getQuantity());
             }
             workbook.write(os);
             os.flush();

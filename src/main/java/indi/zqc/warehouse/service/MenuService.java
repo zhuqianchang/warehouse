@@ -37,4 +37,6 @@ public interface MenuService {
     void downMenu(String menuCode);
 
     List<TreeInterface> selectMenuByUser(String userCode);
+
+    Menu selectMenuByCodeAndUser(String menuCode, String userCode);
 }

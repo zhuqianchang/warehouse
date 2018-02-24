@@ -5,16 +5,16 @@
             <div class="pageFormContent">
                 <p>
                     <label>仓库：</label>
-                    <input type="hidden" name="warehouseCode" value="">
-                    <input type="hidden" name="warehouseText" value="">
+                    <input type="hidden" name="warehouseCode" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>">
+                    <input type="hidden" name="warehouseText" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>">
                     <input type="hidden" name="warehouse.warehouseCode" value="<#if (page.warehouseCode)??>${page.warehouseCode!''}</#if>">
                     <input type="text" name="warehouse.warehouseText" readonly="readonly" value="<#if (page.warehouseText)??>${page.warehouseText!''}</#if>"/>
                     <a class="btnLook" href="${rc.getContextPath()}/warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
                 </p>
                 <p>
                     <label>物料：</label>
-                    <input type="hidden" name="materialCode" value="">
-                    <input type="hidden" name="materialText" value="">
+                    <input type="hidden" name="materialCode" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>">
+                    <input type="hidden" name="materialText" value="<#if (page.materialText)??>${page.materialText!''}</#if>">
                     <input type="hidden" name="material.materialCode" value="<#if (page.materialCode)??>${page.materialCode!''}</#if>">
                     <input type="text" name="material.materialText" readonly="readonly" value="<#if (page.materialText)??>${page.materialText!''}</#if>"/>
                     <a class="btnLook" href="${rc.getContextPath()}/material/lookup" warn="请选择物料" lookupGroup="material">查找带回</a>
@@ -39,6 +39,7 @@
                    href="${rc.getContextPath()}/stock/view?stockCode={stockCode}&navTabId=${navTabId}"><span>详情</span></a></li>
             <li><a class="delete" target="ajaxTodo" rel="deleteStock" title="确定要删除选择的库存吗?"
                    href="${rc.getContextPath()}/stock/delete?stockCode={stockCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            <li><a class="edit" href="javascript:;" onclick="stock_list.export()"><span>导出</span></a></li>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="140">
@@ -95,6 +96,22 @@
             $('input[name="warehouseText"]', stock_list.$panel).val($('input[name="warehouse.warehouseText"]', stock_list.$panel).val());
             $('input[name="materialCode"]', stock_list.$panel).val($('input[name="material.materialCode"]', stock_list.$panel).val());
             $('input[name="materialText"]', stock_list.$panel).val($('input[name="material.materialText"]', stock_list.$panel).val());
+        },
+
+        //导出
+        export: function () {
+            this.query();
+            alertMsg.confirm('确定要导出查询结果吗', {
+                okCall: function () {
+                    var data = {
+                        warehouseCode: $('input[name="warehouseCode"]', stock_list.$panel).val(),
+                        materialCode: $('input[name="materialCode"]', stock_list.$panel).val(),
+                        orderField: $('input[name="orderField"]', stock_list.$panel).val(),
+                        orderDirection: $('input[name="orderDirection"]', stock_list.$panel).val()
+                    };
+                    window.open('${rc.getContextPath()}/stock/export?' + $.param(data));
+                }
+            });
         }
     }
 

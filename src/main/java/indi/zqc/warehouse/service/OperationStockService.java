@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import indi.zqc.warehouse.model.OperationStock;
 import indi.zqc.warehouse.model.condition.OperationStockCondition;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Title : OperationStockService.java
  * Package : indi.zqc.warehouse.service
@@ -20,4 +22,6 @@ public interface OperationStockService {
     String inputStock(String stocks, String userCode);
 
     String outputStock(String stocks, String userCode);
+
+    void exportRecord(OperationStockCondition condition, HttpServletResponse response);
 }
