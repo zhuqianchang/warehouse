@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Title : IndexController.java
  * Package : indi.zqc.warehouse.controller
- * Description : 测试
+ * Description : 首页
  * Create on : 2018/1/22 9:30
  *
  * @author Zhu.Qianchang
@@ -31,6 +31,7 @@ public class IndexController extends BaseController {
     public String index(Model model) {
         SessionUser user = SecurityContextUtils.getCurrentUser();
         model.addAttribute("user", user);
+        //ADMIN拥有所有菜单权限
         if (StringUtils.equals(Constants.ADMIN, user.getUserCode())) {
             model.addAttribute("menuTree", menuService.selectMenuTree());
         } else {

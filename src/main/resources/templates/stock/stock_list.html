@@ -31,15 +31,25 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
+            <@buttonRight menuCode="STOCK_ADD">
             <li><a class="add" target="dialog" mask="true" width="400" height="190" rel="addStock" title="新增库存"
                    href="${rc.getContextPath()}/stock/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="STOCK_EDIT">
             <li><a class="edit" target="dialog" mask="true" width="400" height="265" rel="editStock" title="编辑库存"
                    href="${rc.getContextPath()}/stock/edit?stockCode={stockCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="STOCK_VIEW">
             <li><a class="icon" target="dialog" mask="true" width="400" height="265" rel="viewStock" title="库存详情"
                    href="${rc.getContextPath()}/stock/view?stockCode={stockCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="STOCK_DELETE">
             <li><a class="delete" target="ajaxTodo" rel="deleteStock" title="确定要删除选择的库存吗?"
                    href="${rc.getContextPath()}/stock/delete?stockCode={stockCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="STOCK_EXPORT">
             <li><a class="edit" href="javascript:;" onclick="stock_list.export()"><span>导出</span></a></li>
+            </@buttonRight>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="140">

@@ -13,7 +13,7 @@
                 </dl>
                 <dl class="nowrap"></dl>
                 <dl>
-                    <dt>生产日期</dt>
+                    <dt>生产日期：</dt>
                     <dd>
                         <input name="productDateStart" class="date readonly" readonly="readonly" value="<#if (page.productDateStart)??>${page.productDateStart}</#if>">
                     </dd>
@@ -50,16 +50,26 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
+            <@buttonRight menuCode="ORDER_ADD">
             <li><a class="add" target="dialog" mask="true" width="440" height="490" rel="addOrder" title="新增订单"
                    href="${rc.getContextPath()}/order/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ORDER_EDIT">
             <li><a class="edit" target="dialog" mask="true" width="440" height="590" rel="editOrder" title="编辑订单"
                    href="${rc.getContextPath()}/order/edit?orderCode={orderCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ORDER_VIEW">
             <li><a class="icon" target="dialog" mask="true" width="440" height="690" rel="viewOrder" title="订单详情"
                    href="${rc.getContextPath()}/order/view?orderCode={orderCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ORDER_CALCULATE">
             <li><a class="edit" href="javascript:order_list.calculate();"><span>计算</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ORDER_DELETE">
             <li><a class="delete" target="selectedTodo" postType="string" rel="orderCodes"  title="确定要删除勾选的订单吗?"
                    href="${rc.getContextPath()}/order/delete?navTabId=${navTabId}"><span>删除</span></a></li>
-        </ul>
+            </@buttonRight>
+</ul>
     </div>
     <table class="table" width="100%" layoutH="222">
         <thead>

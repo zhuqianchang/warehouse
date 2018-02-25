@@ -38,6 +38,21 @@ public class OperationStock extends Common{
     //数量
     private Integer quantity;
 
+    //单价
+    private Double price;
+
+    //炉号
+    private String stoveCode;
+
+    //批号
+    private String batchCode;
+
+    //生产编号
+    private String productCode;
+
+    //经办人
+    private String operator;
+
     public String getReceiptCode() {
         return receiptCode;
     }
@@ -103,5 +118,52 @@ public class OperationStock extends Common{
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getStoveCode() {
+        return stoveCode;
+    }
+
+    public void setStoveCode(String stoveCode) {
+        this.stoveCode = stoveCode;
+    }
+
+    public String getBatchCode() {
+        return batchCode;
+    }
+
+    public void setBatchCode(String batchCode) {
+        this.batchCode = batchCode;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public Double getTotalPrice() {
+        if (price != null) {
+            return price * quantity;
+        }
+        return null;
     }
 }

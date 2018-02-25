@@ -5,7 +5,9 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+import indi.zqc.warehouse.constant.Constants;
 import indi.zqc.warehouse.util.MenuUtils;
+import indi.zqc.warehouse.util.SecurityContextUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -30,6 +32,11 @@ public class ButtonDirective implements TemplateDirectiveModel {
     public void execute(Environment env, Map map, TemplateModel[] templateModels, TemplateDirectiveBody body)
             throws TemplateException, IOException {
         Writer out = env.getOut();
+        //ADMIN拥有所有权限
+        if (StringUtils.equals(Constants.ADMIN, SecurityContextUtils.getCurrentUserCode())) {
+            body.render(out);
+            return;
+        }
         String menuCode = null;
         if (map.containsKey(MENU_CODE) && map.get(MENU_CODE) != null) {
             menuCode = String.valueOf(map.get(MENU_CODE));

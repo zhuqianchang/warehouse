@@ -1,5 +1,6 @@
 package indi.zqc.warehouse.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -27,12 +28,28 @@ public class ExcelUtils {
         cell.setCellValue(cellValue);
     }
 
-    public static void setCell(XSSFRow row, int columnIndex, XSSFCellStyle cellStyle, int cellValue) {
-        setCell(row, columnIndex, cellStyle, String.valueOf(cellValue));
+    public static void setCell(XSSFRow row, int columnIndex, XSSFCellStyle cellStyle, Integer cellValue) {
+        if (cellValue != null) {
+            setCell(row, columnIndex, cellStyle, String.valueOf(cellValue));
+        } else {
+            setCell(row, columnIndex, cellStyle, StringUtils.EMPTY);
+        }
+    }
+
+    public static void setCell(XSSFRow row, int columnIndex, XSSFCellStyle cellStyle, Double cellValue) {
+        if (cellValue != null) {
+            setCell(row, columnIndex, cellStyle, String.valueOf(cellValue));
+        } else {
+            setCell(row, columnIndex, cellStyle, StringUtils.EMPTY);
+        }
     }
 
     public static void setCell(XSSFRow row, int columnIndex, XSSFCellStyle cellStyle, Date cellValue) {
-        setCell(row, columnIndex, cellStyle, DateFormatUtils.format(cellValue, "yyyy-MM-dd HH:mm:ss"));
+        if (cellValue != null) {
+            setCell(row, columnIndex, cellStyle, DateFormatUtils.format(cellValue, "yyyy-MM-dd HH:mm:ss"));
+        } else {
+            setCell(row, columnIndex, cellStyle, StringUtils.EMPTY);
+        }
     }
 
 }

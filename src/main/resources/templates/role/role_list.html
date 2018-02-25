@@ -23,16 +23,26 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
+            <@buttonRight menuCode="ROLE_ADD">
             <li><a class="add" target="dialog" mask="true" width="400" height="160" rel="addRole" title="新增角色"
                    href="${rc.getContextPath()}/role/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ROLE_EDIT">
             <li><a class="edit" target="dialog" mask="true" width="400" height="235" rel="editRole" title="编辑角色"
                    href="${rc.getContextPath()}/role/edit?roleCode={roleCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ROLE_AUTHORIZE">
             <li><a class="edit" target="dialog" mask="true" width="425" height="485" rel="authorize" title="角色授权"
                    href="${rc.getContextPath()}/role/authorize?roleCode={roleCode}&navTabId=${navTabId}"><span>授权</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ROLE_VIEW">
             <li><a class="icon" target="dialog" mask="true" width="425" height="485" rel="viewRole" title="角色详情"
                    href="${rc.getContextPath()}/role/view?roleCode={roleCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="ROLE_DELETE">
             <li><a class="delete" target="ajaxTodo" rel="deleteRole" title="确定要删除选择的角色吗?"
                    href="${rc.getContextPath()}/role/delete?roleCode={roleCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            </@buttonRight>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="140">

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.OperationStockDao">
+
+    <insert id="insertOperationStock" parameterType="indi.zqc.warehouse.model.OperationStock">
+        insert into w_operationstock
+          (receiptcode,
+           warehousecode,
+           materialcode,
+           quantity,
+           operationtype,
+           price,
+           stovecode,
+           batchcode,
+           productcode,
+           operator,
+           createuser,
+           createdatetime,
+           modifyuser,
+           modifydatetime)
+        values
+          (#{receiptCode, jdbcType = VARCHAR},
+           #{warehouseCode, jdbcType = VARCHAR},
+           #{materialCode, jdbcType = VARCHAR},
+           #{quantity, jdbcType = NUMERIC},
+           #{operationType, jdbcType = VARCHAR},
+           #{price, jdbcType = NUMERIC},
+           #{stoveCode, jdbcType = VARCHAR},
+           #{batchCode, jdbcType = VARCHAR},
+           #{productCode, jdbcType = VARCHAR},
+           #{operator, jdbcType = VARCHAR},
+           #{createUser, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyUser, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <select id="selectOperationStockPage" parameterType="indi.zqc.warehouse.model.condition.OperationStockCondition"
+            resultType="indi.zqc.warehouse.model.OperationStock">
+        select o.receiptcode,
+               o.warehousecode,
+               w.warehousetext,
+               o.materialcode,
+               m.materialtext,
+               o.operationtype,
+               o.quantity,
+               o.price,
+               o.stovecode,
+               o.batchcode,
+               o.productcode,
+               o.operator,
+               o.createuser,
+               o.createdatetime,
+               o.modifyuser,
+               o.modifydatetime
+          from w_operationstock o
+          left join w_material m on o.materialcode = m.materialcode
+          left join w_warehouse w on o.warehousecode = w.warehousecode
+        <where>
+            <if test="receiptCode != null and receiptCode != ''">
+                and o.receiptcode like concat(concat('%', #{receiptCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="warehouseCode != null and warehouseCode != ''">
+                and o.warehousecode = #{warehouseCode, jdbcType = VARCHAR}
+            </if>
+            <if test="materialCode != null and materialCode != ''">
+                and o.materialcode = #{materialCode, jdbcType = VARCHAR}
+            </if>
+            <if test="operationType != null and operationType != ''">
+                and o.operationtype = #{operationType, jdbcType = VARCHAR}
+            </if>
+            <if test="createDateStart != null and createDateStart != ''">
+                and to_char(createdatetime, 'yyyy-mm-dd') >= #{createDateStart, jdbcType = VARCHAR}
+            </if>
+            <if test="createDateEnd != null and createDateEnd != ''">
+                and to_char(createdatetime, 'yyyy-mm-dd') &lt;= #{createDateEnd, jdbcType = VARCHAR}
+            </if>
+            <if test="stoveCode != null and stoveCode != ''">
+                and o.stovecode like concat(concat('%', #{stoveCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="batchCode != null and batchCode != ''">
+                and o.batchcode like concat(concat('%', #{batchCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="productCode != null and productCode != ''">
+                and o.productcode like concat(concat('%', #{productCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="operator != null and operator != ''">
+                and o.operator like concat(concat('%', #{operator, jdbcType = VARCHAR}), '%')
+            </if>
+        </where>
+        <if test="orderField != null and orderField != ''">
+            order by ${orderField} ${orderDirection}
+        </if>
+    </select>
+
+</mapper>

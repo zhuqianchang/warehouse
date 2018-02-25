@@ -11,6 +11,11 @@
            materialcode,
            quantity,
            operationtype,
+           price,
+           stovecode,
+           batchcode,
+           productcode,
+           operator,
            createuser,
            createdatetime,
            modifyuser,
@@ -21,6 +26,11 @@
            #{materialCode, jdbcType = VARCHAR},
            #{quantity, jdbcType = NUMERIC},
            #{operationType, jdbcType = VARCHAR},
+           #{price, jdbcType = NUMERIC},
+           #{stoveCode, jdbcType = VARCHAR},
+           #{batchCode, jdbcType = VARCHAR},
+           #{productCode, jdbcType = VARCHAR},
+           #{operator, jdbcType = VARCHAR},
            #{createUser, jdbcType = VARCHAR},
            #{createDateTime, jdbcType = TIMESTAMP},
            #{modifyUser, jdbcType = VARCHAR},
@@ -36,6 +46,11 @@
                m.materialtext,
                o.operationtype,
                o.quantity,
+               o.price,
+               o.stovecode,
+               o.batchcode,
+               o.productcode,
+               o.operator,
                o.createuser,
                o.createdatetime,
                o.modifyuser,
@@ -55,6 +70,24 @@
             </if>
             <if test="operationType != null and operationType != ''">
                 and o.operationtype = #{operationType, jdbcType = VARCHAR}
+            </if>
+            <if test="createDateStart != null and createDateStart != ''">
+                and date_format(o.createdatetime, '%Y-%m-%d') >= #{createDateStart, jdbcType = VARCHAR}
+            </if>
+            <if test="createDateEnd != null and createDateEnd != ''">
+                and date_format(o.createdatetime, '%Y-%m-%d') &lt;= #{createDateEnd, jdbcType = VARCHAR}
+            </if>
+            <if test="stoveCode != null and stoveCode != ''">
+                and o.stovecode like concat(concat('%', #{stoveCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="batchCode != null and batchCode != ''">
+                and o.batchcode like concat(concat('%', #{batchCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="productCode != null and productCode != ''">
+                and o.productcode like concat(concat('%', #{productCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="operator != null and operator != ''">
+                and o.operator like concat(concat('%', #{operator, jdbcType = VARCHAR}), '%')
             </if>
         </where>
         <if test="orderField != null and orderField != ''">

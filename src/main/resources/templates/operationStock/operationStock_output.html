@@ -25,26 +25,52 @@
                 </dd>
             </dl>
             <dl>
-                <dt>
-                    <div class="buttonActive">
-                        <div class="buttonContent">
-                            <button type="button" onclick="output.addStock();">添加</button>
-                        </div>
-                    </div>
-                </dt>
+                <dt>单价：</dt>
                 <dd>
-                    <div class="buttonActive">
-                        <div class="buttonContent">
-                            <button type="button" onclick="output.saveStock()">出库</button>
-                        </div>
-                    </div>
+                    <input type="text" name="price" class="number" min="0" maxlength="9"/>
                 </dd>
             </dl>
+            <dl class="nowrap"></dl>
+            <dl>
+                <dt>炉号：</dt>
+                <dd>
+                    <input type="text" name="stoveCode" maxlength="40"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>批号：</dt>
+                <dd>
+                    <input type="text" name="batchCode" maxlength="40"/>
+                </dd>
+            </dl>
+            <dl class="nowrap"></dl>
+            <dl>
+                <dt>生产编号：</dt>
+                <dd>
+                    <input type="text" name="productCode" maxlength="40"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>经办人：</dt>
+                <dd>
+                    <input type="text" name="operator" maxlength="40"/>
+                </dd>
+            </dl>
+            <div class="buttonActive">
+                <div class="buttonContent">
+                    <button type="button" onclick="output.addStock();">添加</button>
+                </div>
+            </div>
+            <div class="buttonActive" style="margin-left: 10px;">
+                <div class="buttonContent">
+                    <button type="button" onclick="output.saveStock()">出库</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <div class="pageContent">
-    <table class="table" width="100%" layoutH="120">
+    <table class="table" width="100%" layoutH="210">
         <thead>
         <tr>
             <th width="30">操作</th>
@@ -53,6 +79,12 @@
             <th width="120">物料编号</th>
             <th width="150">物料描述</th>
             <th width="120">数量</th>
+            <th width="120">单价</th>
+            <th width="120">总价</th>
+            <th width="120">炉号</th>
+            <th width="120">批号</th>
+            <th width="120">生产编号</th>
+            <th width="120">经办人</th>
         </tr>
         </thead>
         <tbody id="stockTBody">
@@ -72,6 +104,11 @@
             var materialCode = $('input[name="material.materialCode"]', output.$panel).val();
             var materialText = $('input[name="material.materialText"]', output.$panel).val();
             var quantity = $('input[name="quantity"]', output.$panel).val();
+            var price = $('input[name="price"]', output.$panel).val();
+            var stoveCode = $('input[name="stoveCode"]', output.$panel).val();
+            var batchCode = $('input[name="batchCode"]', output.$panel).val();
+            var productCode = $('input[name="productCode"]', output.$panel).val();
+            var operator = $('input[name="operator"]', output.$panel).val();
             if (!warehouseCode) {
                 alertMsg.warn('请选择仓库');
                 return;
@@ -84,6 +121,15 @@
                 alertMsg.warn('请输入正确的数量');
                 return;
             }
+            var pattern = /^(([1-9]\d*)|\d)(\.\d{1,2})?$/;
+            if (price && !pattern.test(price)) {
+                alertMsg.warn('请输入正确的单价');
+                return;
+            }
+            var totalPrice = '';
+            if (price) {
+                totalPrice = quantity * price;
+            }
             var element = $('#stock_' + warehouseCode + '_' + materialCode, output.$panel);
             if (element.length == 0) {
                 var id = 'stock_' + warehouseCode + '_' + materialCode;
@@ -92,7 +138,12 @@
                     warehouseText: warehouseText,
                     materialCode: materialCode,
                     materialText: materialText,
-                    quantity: quantity
+                    quantity : quantity,
+                    price : price,
+                    stoveCode : stoveCode,
+                    batchCode : batchCode,
+                    productCode : productCode,
+                    operator : operator
                 };
                 var html = "<tr id='" + id + "' stock='" + JSON.stringify(stock) + "'>" +
                     "<td><a class='btnDel' title='' href=\"javascript:output.delStock('" + warehouseCode + "','" + materialCode + "');\"></a></td>" +
@@ -101,6 +152,12 @@
                     "<td>" + materialCode + "</td>" +
                     "<td>" + materialText + "</td>" +
                     "<td>" + quantity + "</td>" +
+                    "<td>" + price + "</td>" +
+                    "<td>" + totalPrice + "</td>" +
+                    "<td>" + stoveCode + "</td>" +
+                    "<td>" + batchCode + "</td>" +
+                    "<td>" + productCode + "</td>" +
+                    "<td>" + operator + "</td>" +
                     "</tr>";
                 $('#stockTBody', output.$panel).append(html);
                 $.jTableTool.initGridColumnWidth($("#stockTBody", output.$panel).parents(".grid"));
@@ -117,6 +174,11 @@
             $('input[name="material.materialCode"]', output.$panel).val('');
             $('input[name="material.materialText"]', output.$panel).val('');
             $('input[name="quantity"]', output.$panel).val('');
+            $('input[name="price"]', output.$panel).val('');
+            $('input[name="stoveCode"]', output.$panel).val('');
+            $('input[name="batchCode"]', output.$panel).val('');
+            $('input[name="productCode"]', output.$panel).val('');
+            $('input[name="operator"]', output.$panel).val('');
         },
 
         //删除库存记录

@@ -23,16 +23,26 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
+            <@buttonRight menuCode="USER_ADD">
             <li><a class="add" target="dialog" mask="true" width="440" height="490" rel="addUser" title="新增用户"
                    href="${rc.getContextPath()}/user/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="USER_EDIT">
             <li><a class="edit" target="dialog" mask="true" width="440" height="530" rel="editUser" title="编辑用户"
                    href="${rc.getContextPath()}/user/edit?userCode={userCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="USER_VIEW">
             <li><a class="icon" target="dialog" mask="true" width="440" height="530" rel="viewUser" title="用户详情"
                    href="${rc.getContextPath()}/user/view?userCode={userCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="USER_DELETE">
             <li><a class="delete" target="ajaxTodo" rel="deleteUser" title="确定要删除选中的用户吗?"
                    href="${rc.getContextPath()}/user/delete?userCode={userCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="USER_RESET">
             <li><a class="edit" target="ajaxTodo" rel="resetPassword" title="确定要重置选中的用户密码吗？重置后密码为${defaultPassword}"
                    href="${rc.getContextPath()}/user/reset?userCode={userCode}&navTabId=${navTabId}"><span>重置密码</span></a></li>
+            </@buttonRight>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="140">

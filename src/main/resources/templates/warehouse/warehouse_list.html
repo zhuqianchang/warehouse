@@ -23,14 +23,22 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
+            <@buttonRight menuCode="WAREHOUSE_ADD">
             <li><a class="add" target="dialog" mask="true" width="400" height="160" rel="addWarehouse" title="新增仓库"
                    href="${rc.getContextPath()}/warehouse/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="WAREHOUSE_EDIT">
             <li><a class="edit" target="dialog" mask="true" width="400" height="235" rel="editWarehouse" title="编辑仓库"
                    href="${rc.getContextPath()}/warehouse/edit?warehouseCode={warehouseCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="WAREHOUSE_VIEW">
             <li><a class="icon" target="dialog" mask="true" width="400" height="235" rel="viewWarehouse" title="仓库详情"
                    href="${rc.getContextPath()}/warehouse/view?warehouseCode={warehouseCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="WAREHOUSE_DELETE">
             <li><a class="delete" target="ajaxTodo" rel="deleteWarehouse" title="确定要删除选择的仓库吗?"
                    href="${rc.getContextPath()}/warehouse/delete?warehouseCode={warehouseCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            </@buttonRight>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="140">

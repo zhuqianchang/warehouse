@@ -31,6 +31,24 @@ public class OperationStockCondition extends Condition{
     //出入库类型
     private String operationType;
 
+    //创建开始时间
+    private String createDateStart;
+
+    //创建结束时间
+    private String createDateEnd;
+
+    //炉号
+    private String stoveCode;
+
+    //批号
+    private String batchCode;
+
+    //生产编号
+    private String productCode;
+
+    //经办人
+    private String operator;
+
     public String getReceiptCode() {
         return StringUtils.upperCase(receiptCode);
     }
@@ -77,5 +95,53 @@ public class OperationStockCondition extends Condition{
 
     public void setOperationType(String operationType) {
         this.operationType = operationType;
+    }
+
+    public String getCreateDateStart() {
+        return createDateStart;
+    }
+
+    public void setCreateDateStart(String createDateStart) {
+        this.createDateStart = createDateStart;
+    }
+
+    public String getCreateDateEnd() {
+        return createDateEnd;
+    }
+
+    public void setCreateDateEnd(String createDateEnd) {
+        this.createDateEnd = createDateEnd;
+    }
+
+    public String getStoveCode() {
+        return stoveCode;
+    }
+
+    public void setStoveCode(String stoveCode) {
+        this.stoveCode = stoveCode;
+    }
+
+    public String getBatchCode() {
+        return batchCode;
+    }
+
+    public void setBatchCode(String batchCode) {
+        this.batchCode = batchCode;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 }

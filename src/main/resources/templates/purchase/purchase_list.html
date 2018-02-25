@@ -46,16 +46,26 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
+            <@buttonRight menuCode="PURCHASE_ADD">
             <li><a class="add" target="dialog" mask="true" width="440" height="490" rel="addPurchase" title="新增采购清单"
                    href="${rc.getContextPath()}/purchase/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="PURCHASE_EDIT">
             <li><a class="edit" target="dialog" mask="true" width="440" height="600" rel="editPurchase" title="编辑采购清单"
                    href="${rc.getContextPath()}/purchase/edit?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="PURCHASE_VIEW">
             <li><a class="icon" target="dialog" mask="true" width="440" height="600" rel="viewPurchase" title="采购清单详情"
                    href="${rc.getContextPath()}/purchase/view?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>详情</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="PURCHASE_FINISH">
             <li><a class="edit" target="ajaxTodo" rel="finishPurchase" title="确定要完成选择的采购清单吗?"
                    href="${rc.getContextPath()}/purchase/finish?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>完成</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="PURCHASE_DELETE">
             <li><a class="delete" target="ajaxTodo" rel="deletePurchase" title="确定要删除选择的采购清单吗?"
                    href="${rc.getContextPath()}/purchase/delete?purchaseCode={purchaseCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            </@buttonRight>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="181">

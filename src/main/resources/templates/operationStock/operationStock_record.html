@@ -41,22 +41,63 @@
                         </select>
                     </dd>
                 </dl>
+                <dl class="nowrap"></dl>
+                <dl>
+                    <dt>操作时间：</dt>
+                    <dd>
+                        <input name="createDateStart" class="date readonly" readonly="readonly" value="<#if (page.createDateStart)??>${page.createDateStart}</#if>">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>至</dt>
+                    <dd>
+                        <input name="createDateEnd" class="date readonly" readonly="readonly" value="<#if (page.createDateEnd)??>${page.createDateEnd}</#if>">
+                    </dd>
+                </dl>
+                <dl class="nowrap"></dl>
+                <dl>
+                    <dt>炉号：</dt>
+                    <dd>
+                        <input type="text" name="stoveCode" maxlength="40" value="<#if (page.stoveCode)??>${page.stoveCode}</#if>"/>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>批号：</dt>
+                    <dd>
+                        <input type="text" name="batchCode" maxlength="40" value="<#if (page.batchCode)??>${page.batchCode}</#if>"/>
+                    </dd>
+                </dl>
+                <dl class="nowrap"></dl>
+                <dl>
+                    <dt>生产编号：</dt>
+                    <dd>
+                        <input type="text" name="productCode" maxlength="40" value="<#if (page.productCode)??>${page.productCode}</#if>"/>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>经办人：</dt>
+                    <dd>
+                        <input type="text" name="operator" maxlength="40" value="<#if (page.operator)??>${page.operator}</#if>"/>
+                    </dd>
+                </dl>
                 <div class="buttonActive">
                     <div class="buttonContent">
                         <button type="submit" onclick="record.query();">查询</button>
                     </div>
                 </div>
-                <div class="button" style="margin-left: 10px;">
+                <@buttonRight menuCode="STOCK_RECORD_EXPORT">
+                <div class="buttonActive" style="margin-left: 10px;">
                     <div class="buttonContent">
                         <button type="button" onclick="record.export();">导出</button>
                     </div>
                 </div>
+                </@buttonRight>
             </div>
         </div>
     </form>
 </div>
 <div class="pageContent">
-    <table class="table" width="100%" layoutH="154">
+    <table class="table" width="100%" layoutH="278">
         <thead>
         <tr>
             <th width="120" orderField="receiptCode" <#if (page.orderField?? && page.orderField=='receiptCode')>class="${page.orderDirection!''}"</#if>>单据编号</th>
@@ -64,10 +105,16 @@
             <th width="150" orderField="warehouseText" <#if (page.orderField?? && page.orderField=='warehouseText')>class="${page.orderDirection!''}"</#if>>仓库描述</th>
             <th width="120" orderField="materialCode" <#if (page.orderField?? && page.orderField=='materialCode')>class="${page.orderDirection!''}"</#if>>物料编号</th>
             <th width="150" orderField="materialText" <#if (page.orderField?? && page.orderField=='materialText')>class="${page.orderDirection!''}"</#if>>物料描述</th>
-            <th width="120" orderField="quantity" <#if (page.orderField?? && page.orderField=='quantity')>class="${page.orderDirection!''}"</#if>>库存</th>
-            <th width="120" orderField="operationType" <#if (page.orderField?? && page.orderField=='operationType')>class="${page.orderDirection!''}"</#if>>类型</th>
-            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>创建人</th>
-            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>创建时间</th>
+            <th width="80" orderField="quantity" <#if (page.orderField?? && page.orderField=='quantity')>class="${page.orderDirection!''}"</#if>>库存</th>
+            <th width="80" orderField="price" <#if (page.orderField?? && page.orderField=='price')>class="${page.orderDirection!''}"</#if>>单价</th>
+            <th width="80">总价</th>
+            <th width="80" orderField="operationType" <#if (page.orderField?? && page.orderField=='operationType')>class="${page.orderDirection!''}"</#if>>类型</th>
+            <th width="120" orderField="stoveCode" <#if (page.orderField?? && page.orderField=='stoveCode')>class="${page.orderDirection!''}"</#if>>炉号</th>
+            <th width="120" orderField="batchCode" <#if (page.orderField?? && page.orderField=='batchCode')>class="${page.orderDirection!''}"</#if>>批号</th>
+            <th width="120" orderField="productCode" <#if (page.orderField?? && page.orderField=='productCode')>class="${page.orderDirection!''}"</#if>>生产编号</th>
+            <th width="80" orderField="operator" <#if (page.orderField?? && page.orderField=='operator')>class="${page.orderDirection!''}"</#if>>经办人</th>
+            <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>操作人</th>
+            <th width="120" orderField="createDateTime" <#if (page.orderField?? && page.orderField=='createDateTime')>class="${page.orderDirection!''}"</#if>>操作时间</th>
         </tr>
         </thead>
         <tbody>
@@ -80,7 +127,13 @@
                     <td>${stock.materialCode!''}</td>
                     <td>${stock.materialText!''}</td>
                     <td>${stock.quantity!''}</td>
+                    <td>${stock.price!''}</td>
+                    <td>${stock.totalPrice!''}</td>
                     <td>${stock.operationTypeText!''}</td>
+                    <td>${stock.stoveCode!''}</td>
+                    <td>${stock.batchCode!''}</td>
+                    <td>${stock.productCode!''}</td>
+                    <td>${stock.operator!''}</td>
                     <td>${stock.createUserText!''}</td>
                     <td>${stock.createDateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
                 </tr>
@@ -95,6 +148,23 @@
     <#include "/common/panelBar.html">
 </div>
 <script>
+
+    $(function () {
+        //控制日期控件中选中最大值和最小值
+        var $fromDate = $('input[name="createDateStart"]', navTab.getCurrentPanel());
+        var $toDate = $('input[name="createDateEnd"]', navTab.getCurrentPanel());
+
+        $fromDate.attr('maxDate', $toDate.val());
+        $toDate.attr('minDate', $fromDate.val());
+
+        $fromDate.change(function () {
+            $toDate.datepicker({minDate: $fromDate.val()});
+        });
+
+        $toDate.change(function () {
+            $fromDate.datepicker({maxDate: $toDate.val()});
+        });
+    });
 
     var record = {
 
@@ -118,6 +188,10 @@
                         warehouseCode: $('input[name="warehouseCode"]', record.$panel).val(),
                         materialCode: $('input[name="materialCode"]', record.$panel).val(),
                         operationType: $('select[name="operationType"]', record.$panel).val(),
+                        stoveCode: $('select[name="stoveCode"]', record.$panel).val(),
+                        batchCode: $('select[name="batchCode"]', record.$panel).val(),
+                        productCode: $('select[name="productCode"]', record.$panel).val(),
+                        operation: $('select[name="operation"]', record.$panel).val(),
                         orderField: $('input[name="orderField"]', record.$panel).val(),
                         orderDirection: $('input[name="orderDirection"]', record.$panel).val()
                     };
