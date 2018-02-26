@@ -34,6 +34,7 @@ public class FreemarkerConfiguration {
     public FreeMarkerConfigurer freeMarkerConfigurer() {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         configurer.setTemplateLoaderPaths(properties.getTemplateLoaderPath());
+        configurer.setDefaultEncoding("UTF-8");
         Map<String, Object> variables = new HashMap<>();
         variables.put("buttonRight", buttonDirective());
         configurer.setFreemarkerVariables(variables);
