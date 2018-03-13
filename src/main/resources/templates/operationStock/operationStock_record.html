@@ -111,6 +111,8 @@
             <th width="80" orderField="operationType" <#if (page.orderField?? && page.orderField=='operationType')>class="${page.orderDirection!''}"</#if>>类型</th>
             <th width="120" orderField="stoveCode" <#if (page.orderField?? && page.orderField=='stoveCode')>class="${page.orderDirection!''}"</#if>>炉号</th>
             <th width="120" orderField="batchCode" <#if (page.orderField?? && page.orderField=='batchCode')>class="${page.orderDirection!''}"</#if>>批号</th>
+            <th width="80" orderField="weight" <#if (page.orderField?? && page.orderField=='weight')>class="${page.orderDirection!''}"</#if>>重量/KG</th>
+            <th width="80" orderField="kgNum" <#if (page.orderField?? && page.orderField=='kgNum')>class="${page.orderDirection!''}"</#if>>公斤数</th>
             <th width="120" orderField="productCode" <#if (page.orderField?? && page.orderField=='productCode')>class="${page.orderDirection!''}"</#if>>生产编号</th>
             <th width="80" orderField="operator" <#if (page.orderField?? && page.orderField=='operator')>class="${page.orderDirection!''}"</#if>>经办人</th>
             <th width="80" orderField="createUser" <#if (page.orderField?? && page.orderField=='createUser')>class="${page.orderDirection!''}"</#if>>操作人</th>
@@ -132,6 +134,8 @@
                     <td>${stock.operationTypeText!''}</td>
                     <td>${stock.stoveCode!''}</td>
                     <td>${stock.batchCode!''}</td>
+                    <td>${stock.weight!''}</td>
+                    <td>${stock.kgNum!''}</td>
                     <td>${stock.productCode!''}</td>
                     <td>${stock.operator!''}</td>
                     <td>${stock.createUserText!''}</td>
@@ -192,6 +196,8 @@
                         createDateEnd : $('input[name="createDateEnd"]', record.$panel).val(),
                         stoveCode: $('input[name="stoveCode"]', record.$panel).val(),
                         batchCode: $('input[name="batchCode"]', record.$panel).val(),
+                        weight: $('input[name="weight"]', record.$panel).val(),
+                        kgNum: $('input[name="kgNum"]', record.$panel).val(),
                         productCode: $('input[name="productCode"]', record.$panel).val(),
                         operator: $('input[name="operator"]', record.$panel).val(),
                         orderField: $('input[name="orderField"]', record.$panel).val(),

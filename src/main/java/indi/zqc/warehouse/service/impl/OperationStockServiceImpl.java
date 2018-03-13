@@ -155,6 +155,8 @@ public class OperationStockServiceImpl implements OperationStockService {
             operationStock.setPrice(jsonObject.getDouble("price"));
             operationStock.setStoveCode(jsonObject.getString("stoveCode"));
             operationStock.setBatchCode(jsonObject.getString("batchCode"));
+            operationStock.setWeight(jsonObject.getInteger("weight"));
+            operationStock.setKgNum(jsonObject.getInteger("kgNum"));
             operationStock.setProductCode(jsonObject.getString("productCode"));
             operationStock.setOperator(jsonObject.getString("operator"));
             operationStock.setOperationType(operationType.getKey());
@@ -205,10 +207,12 @@ public class OperationStockServiceImpl implements OperationStockService {
                 ExcelUtils.setCell(row, 9, styleRow.getCell(9).getCellStyle(), operationStock.getOperationTypeText());
                 ExcelUtils.setCell(row, 10, styleRow.getCell(10).getCellStyle(), operationStock.getStoveCode());
                 ExcelUtils.setCell(row, 11, styleRow.getCell(11).getCellStyle(), operationStock.getBatchCode());
-                ExcelUtils.setCell(row, 12, styleRow.getCell(12).getCellStyle(), operationStock.getProductCode());
-                ExcelUtils.setCell(row, 13, styleRow.getCell(13).getCellStyle(), operationStock.getOperator());
-                ExcelUtils.setCell(row, 14, styleRow.getCell(14).getCellStyle(), operationStock.getCreateUserText());
-                ExcelUtils.setCell(row, 15, styleRow.getCell(15).getCellStyle(), operationStock.getCreateDateTime());
+                ExcelUtils.setCell(row, 12, styleRow.getCell(12).getCellStyle(), operationStock.getWeight());
+                ExcelUtils.setCell(row, 13, styleRow.getCell(13).getCellStyle(), operationStock.getKgNum());
+                ExcelUtils.setCell(row, 14, styleRow.getCell(14).getCellStyle(), operationStock.getProductCode());
+                ExcelUtils.setCell(row, 15, styleRow.getCell(15).getCellStyle(), operationStock.getOperator());
+                ExcelUtils.setCell(row, 16, styleRow.getCell(16).getCellStyle(), operationStock.getCreateUserText());
+                ExcelUtils.setCell(row, 17, styleRow.getCell(17).getCellStyle(), operationStock.getCreateDateTime());
             }
             workbook.write(os);
             os.flush();

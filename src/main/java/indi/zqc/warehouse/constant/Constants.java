@@ -29,6 +29,9 @@ public class Constants {
     //采购清单前缀
     public static final String QD_PREFIX = "QD";
 
+    //生产前缀
+    public static final String SC_PREFIX = "SC";
+
     //成品类型
     public static final String PRODUCTION_TYPE = "03";
 
@@ -40,6 +43,9 @@ public class Constants {
 
     //出入库模板
     public static final String TEMPLATE_OPERATION_STOCK = "/static/template/operation_stock.xlsx";
+
+    //生产表模板
+    public static final String TEMPLATE_PRODUCE = "/static/template/produce.xlsx";
 
     //加密KEY
     public static final String KEY = "@ZZP@";

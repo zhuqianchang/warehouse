@@ -1,0 +1,23 @@
+<div class="panelBar">
+    <#if page??>
+        <div class="pages">
+            <span>显示</span>
+            <select class="combox" name="numPerPage" onchange="dialogPageBreak({numPerPage:this.value})">
+                <#list [10,20,30,50,100,200] as page_size>
+                    <#if (page.numPerPage)==page_size>
+                        <option value="${page_size}" selected="selected">${page_size}</option>
+                    <#else>
+                        <option value="${page_size}">${page_size}</option>
+                    </#if>
+                </#list>
+            </select>
+            <span>共<#if page.totalCount??>${page.totalCount?c}条</#if></span>
+        </div>
+        <div class="pagination" targetType="dialog"
+             totalCount="<#if page.totalCount??>${page.totalCount?c}</#if>"
+             numPerPage="<#if page.numPerPage??>${page.numPerPage?c}</#if>"
+             pageNumShown="5"
+             currentPage="<#if page.pageNum??>${page.pageNum?c}</#if>">
+        </div>
+    </#if>
+</div>

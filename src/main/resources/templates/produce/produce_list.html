@@ -1,0 +1,117 @@
+<#include "/common/pagerForm.html">
+<div class="pageHeader">
+    <form rel="pagerForm" method="post" action="" class="pageForm required-validate" onsubmit="return navTabSearch(this);">
+        <div class="searchBar">
+            <div class="pageFormContent">
+                <dl>
+                    <dt>生产日期：</dt>
+                    <dd>
+                        <input name="produceDateStart" class="date readonly" readonly="readonly" value="<#if (page.produceDateStart)??>${page.produceDateStart}</#if>">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>至</dt>
+                    <dd>
+                        <input name="produceDateEnd" class="date readonly" readonly="readonly" value="<#if (page.produceDateEnd)??>${page.produceDateEnd}</#if>">
+                    </dd>
+                </dl>
+                <dl class="nowrap"></dl>
+                <dl>
+                    <dt>成品：</dt>
+                    <dd>
+                        <input type="hidden" name="productionCode" value="<#if (page.productionCode)??>${page.productionCode!''}</#if>">
+                        <input type="hidden" name="productionText" value="<#if (page.productionText)??>${page.productionText!''}</#if>">
+                        <input type="hidden" name="production.productionCode" value="<#if (page.productionCode)??>${page.productionCode!''}</#if>">
+                        <input type="text" name="production.productionText" readonly="readonly" value="<#if (page.productionText)??>${page.productionText!''}</#if>"/>
+                        <a class="btnLook" href="${rc.getContextPath()}/production/lookup" warn="请选择成品" lookupGroup="production">查找带回</a>
+                    </dd>
+                </dl>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit" onclick="produce_list.query();">查询</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <@buttonRight menuCode="PRODUCE_ADD">
+            <li><a class="add" target="dialog" mask="true" width="400" height="190" rel="addMaterial" title="新增"
+                   href="${rc.getContextPath()}/produce/add?navTabId=${navTabId}"><span>新增</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="PRODUCE_EDIT">
+            <li><a class="edit" target="dialog" mask="true" width="400" height="265" rel="editMaterial" title="编辑"
+                   href="${rc.getContextPath()}/produce/edit?produceCode={produceCode}&navTabId=${navTabId}"><span>编辑</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="PRODUCE_DELETE">
+            <li><a class="delete" target="ajaxTodo" rel="deleteMaterial" title="确定要删除选择的生产记录吗?"
+                   href="${rc.getContextPath()}/produce/delete?produceCode={produceCode}&navTabId=${navTabId}"><span>删除</span></a></li>
+            </@buttonRight>
+            <@buttonRight menuCode="PRODUCE_EXPORT">
+                <li><a class="edit" href="javascript:;" onclick="produce_list.export()"><span>导出</span></a></li>
+            </@buttonRight>
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="181">
+        <thead>
+        <tr>
+            <th width="120" orderField="produceDate" <#if (page.orderField?? && page.orderField=='produceDate')>class="${page.orderDirection!''}"</#if>>生产日期</th>
+            <th width="120" orderField="productionCode" <#if (page.orderField?? && page.orderField=='productionCode')>class="${page.orderDirection!''}"</#if>>成品编号</th>
+            <th width="120" orderField="productionText" <#if (page.orderField?? && page.orderField=='productionCode')>class="${page.productionText!''}"</#if>>成品描述</th>
+            <th width="120" orderField="quantity" <#if (page.orderField?? && page.orderField=='quantity')>class="${page.orderDirection!''}"</#if>>数量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if (page?? && page.data?size>0)>
+            <#list page.data as produce>
+                <tr target="produceCode" rel="${produce.produceCode!''}">
+                    <td>${produce.produceDate?string("yyyy-MM-dd")}</td>
+                    <td>${produce.productionCode!''}</td>
+                    <td>${produce.productionText!''}</td>
+                    <td>${produce.quantity!''}</td>
+                </tr>
+            </#list>
+        <#else>
+            <tr>
+                <td colspan="3" class="noData">======列表无数据=====</td>
+            </tr>
+        </#if>
+        </tbody>
+    </table>
+    <#include "/common/panelBar.html">
+</div>
+<script>
+
+    var produce_list = {
+
+        $panel : navTab.getCurrentPanel(),
+
+        //查询
+        query: function () {
+            $('input[name="productionCode"]', produce_list.$panel).val($('input[name="production.productionCode"]', produce_list.$panel).val());
+            $('input[name="productionText"]', produce_list.$panel).val($('input[name="production.productionText"]', produce_list.$panel).val());
+        },
+
+        //导出
+        export: function () {
+            this.query();
+            alertMsg.confirm('确定要导出查询结果吗', {
+                okCall: function () {
+                    var data = {
+                        productionCode: $('input[name="productionCode"]', produce_list.$panel).val(),
+                        produceDateStart: $('input[name="produceDateStart"]', produce_list.$panel).val(),
+                        produceDateEnd: $('input[name="produceDateEnd"]', produce_list.$panel).val(),
+                        orderField: $('input[name="orderField"]', produce_list.$panel).val(),
+                        orderDirection: $('input[name="orderDirection"]', produce_list.$panel).val()
+                    };
+                    window.open('${rc.getContextPath()}/produce/export?' + $.param(data));
+                }
+            });
+        }
+
+    };
+
+</script>

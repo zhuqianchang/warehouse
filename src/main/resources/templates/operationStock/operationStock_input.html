@@ -45,6 +45,19 @@
             </dl>
             <dl class="nowrap"></dl>
             <dl>
+                <dt>重量/KG：</dt>
+                <dd>
+                    <input type="text" name="weight" class="number" min="0" maxlength="9"/>
+                </dd>
+            </dl>
+            <dl>
+                <dt>公斤数：</dt>
+                <dd>
+                    <input type="text" name="kgNum" class="number" min="0" maxlength="9"/>
+                </dd>
+            </dl>
+            <dl class="nowrap"></dl>
+            <dl>
                 <dt>生产编号：</dt>
                 <dd>
                     <input type="text" name="productCode" maxlength="40"/>
@@ -70,7 +83,7 @@
     </div>
 </div>
 <div class="pageContent">
-    <table class="table" width="100%" layoutH="210">
+    <table class="table" width="100%" layoutH="245">
         <thead>
         <tr>
             <th width="30">操作</th>
@@ -83,6 +96,8 @@
             <th width="120">总价</th>
             <th width="120">炉号</th>
             <th width="120">批号</th>
+            <th width="120">重量/KG</th>
+            <th width="120">公斤数</th>
             <th width="120">生产编号</th>
             <th width="120">经办人</th>
         </tr>
@@ -107,6 +122,8 @@
             var price = $('input[name="price"]', input.$panel).val();
             var stoveCode = $('input[name="stoveCode"]', input.$panel).val();
             var batchCode = $('input[name="batchCode"]', input.$panel).val();
+            var weight = $('input[name="weight"]', input.$panel).val();
+            var kgNum = $('input[name="kgNum"]', input.$panel).val();
             var productCode = $('input[name="productCode"]', input.$panel).val();
             var operator = $('input[name="operator"]', input.$panel).val();
             if (!warehouseCode) {
@@ -142,6 +159,8 @@
                     price : price,
                     stoveCode : stoveCode,
                     batchCode : batchCode,
+                    weight : weight,
+                    kgNum : kgNum,
                     productCode : productCode,
                     operator : operator
                 };
@@ -156,6 +175,8 @@
                     "<td>" + totalPrice + "</td>" +
                     "<td>" + stoveCode + "</td>" +
                     "<td>" + batchCode + "</td>" +
+                    "<td>" + weight + "</td>" +
+                    "<td>" + kgNum + "</td>" +
                     "<td>" + productCode + "</td>" +
                     "<td>" + operator + "</td>" +
                     "</tr>";
@@ -177,6 +198,8 @@
             $('input[name="price"]', input.$panel).val('');
             $('input[name="stoveCode"]', input.$panel).val('');
             $('input[name="batchCode"]', input.$panel).val('');
+            $('input[name="weight"]', input.$panel).val('');
+            $('input[name="kgNum"]', input.$panel).val('');
             $('input[name="productCode"]', input.$panel).val('');
             $('input[name="operator"]', input.$panel).val('');
         },

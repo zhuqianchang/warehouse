@@ -47,6 +47,12 @@ public class OperationStock extends Common{
     //批号
     private String batchCode;
 
+    //重量
+    private Integer weight;
+
+    //公斤数
+    private Integer kgNum;
+
     //生产编号
     private String productCode;
 
@@ -150,6 +156,22 @@ public class OperationStock extends Common{
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Integer getKgNum() {
+        return kgNum;
+    }
+
+    public void setKgNum(Integer kgNum) {
+        this.kgNum = kgNum;
     }
 
     public String getOperator() {

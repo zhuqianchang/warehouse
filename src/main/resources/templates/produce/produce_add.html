@@ -1,0 +1,54 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/produce/save" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <dl>
+                <dt>成品：</dt>
+                <dd>
+                    <input name="produceCode" value="<#if (produce.produceCode)??>${produce.produceCode}</#if>" type="hidden">
+                    <input name="productionCode" value="<#if (produce.productionCode)??>${produce.productionCode}</#if>" type="hidden"/>
+                    <input name="production.productionCode" value="<#if (produce.productionCode)??>${produce.productionCode}</#if>" type="hidden"/>
+                    <input type="text" name="production.productionText" class="required" value="<#if (produce.productionText)??>${produce.productionText}</#if>" placeholder="请选择成品" readonly="readonly"/>
+                    <a class="btnLook" href="${rc.getContextPath()}/production/lookup" warn="请选择成品" lookupGroup="production">查找带回</a>
+                </dd>
+            </dl>
+            <dl>
+                <dt>生产日期：</dt>
+                <dd>
+                    <input type="text" name="produceDateStr" class="date readonly required" type="text" readonly="readonly"
+                           value="<#if (produce.produceDateStr)??>${produce.produceDateStr!''}</#if>">
+                </dd>
+            </dl>
+            <dl>
+                <dt>数量：</dt>
+                <dd>
+                    <input type="text" name="quantity" class="required digits" min="0" maxlength="9" value="<#if (produce.quantity)??>${produce.quantity}</#if>" alt="请输入数量"/>
+                </dd>
+            </dl>
+        </div>
+        <#if (produce.produceCode)??>
+            <#assign createInfo=produce/>
+            <#include "/common/createInfo.html">
+        </#if>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="submit" onclick="produce_add.save();">保存</button></div></div></li>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+<script>
+
+    var produce_add = {
+
+        $dialog: $.pdialog.getCurrent(),
+
+        //保存
+        save: function () {
+            $('input[name="productionCode"]', produce_add.$dialog).val($('input[name="production.productionCode"]', produce_add.$dialog).val());
+        }
+    }
+
+</script>

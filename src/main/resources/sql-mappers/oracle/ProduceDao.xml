@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="indi.zqc.warehouse.dao.ProduceDao">
+
+    <insert id="insertProduce" parameterType="indi.zqc.warehouse.model.Produce">
+        insert into w_produce
+          (producecode,
+           productioncode,
+           quantity,
+           producedate,
+           createuser,
+           createdatetime,
+           modifyuser,
+           modifydatetime)
+        values
+          (#{produceCode, jdbcType = VARCHAR},
+           #{productionCode, jdbcType = VARCHAR},
+           #{quantity, jdbcType = NUMERIC},
+           #{produceDate, jdbcType = DATE},
+           #{createUser, jdbcType = VARCHAR},
+           #{createDateTime, jdbcType = TIMESTAMP},
+           #{modifyUser, jdbcType = VARCHAR},
+           #{modifyDateTime, jdbcType = TIMESTAMP})
+    </insert>
+
+    <delete id="deleteProduce">
+        delete from w_produce
+         where producecode = #{produceCode, jdbcType = VARCHAR}
+    </delete>
+
+    <update id="updateProduce" parameterType="indi.zqc.warehouse.model.Produce">
+        update w_produce
+           set productioncode = #{productionCode, jdbcType = VARCHAR},
+               quantity       = #{quantity, jdbcType = NUMERIC},
+               producedate    = #{produceDate, jdbcType = DATE},
+               modifyuser     = #{modifyUser, jdbcType = VARCHAR},
+               modifydatetime = #{modifyDateTime, jdbcType = TIMESTAMP}
+         where producecode = #{produceCode, jdbcType = VARCHAR}
+    </update>
+
+    <select id="selectProduce" resultType="indi.zqc.warehouse.model.Produce">
+        select p.*,
+               m.materialtext productiontext
+          from w_produce p
+          left join w_material m on p.productioncode = m.materialcode
+         where producecode = #{produceCode, jdbcType = VARCHAR}
+    </select>
+
+    <select id="selectProducePage" parameterType="indi.zqc.warehouse.model.condition.ProduceCondition"
+            resultType="indi.zqc.warehouse.model.Produce">
+        select p.*,
+               m.materialtext productiontext
+          from w_produce p
+          left join w_material m on p.productioncode = m.materialcode
+        <where>
+            <if test="produceCode != null and produceCode != ''">
+                and p.producecode like concat(concat('%', #{produceCode, jdbcType = VARCHAR}), '%')
+            </if>
+            <if test="productionCode != null and productionCode != ''">
+                and p.productioncode = #{productionCode, jdbcType = VARCHAR}
+            </if>
+            <if test="produceDateStart != null and produceDateStart != ''">
+                and to_char(p.producedate, 'yyyy-mm-dd') >= #{produceDateStart, jdbcType = VARCHAR}
+            </if>
+            <if test="produceDateEnd != null and produceDateEnd != ''">
+                and to_char(p.producedate, 'yyyy-mm-dd') <= #{produceDateEnd, jdbcType = VARCHAR}
+            </if>
+        </where>
+        <if test="orderField != null and orderField != ''">
+            order by ${orderField} ${orderDirection}
+        </if>
+    </select>
+
+</mapper>
