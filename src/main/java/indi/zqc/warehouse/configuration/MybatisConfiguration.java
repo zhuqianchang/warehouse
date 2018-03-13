@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * Title : MybatisConfiguraton.java
+ * Title : MybatisConfiguration.java
  * Package : indi.zqc.warehouse.configuration
  * Description : MyBatis配置
  * Create on : 2018/1/22 9:43

@@ -65,7 +65,7 @@
                 and to_char(p.producedate, 'yyyy-mm-dd') >= #{produceDateStart, jdbcType = VARCHAR}
             </if>
             <if test="produceDateEnd != null and produceDateEnd != ''">
-                and to_char(p.producedate, 'yyyy-mm-dd') <= #{produceDateEnd, jdbcType = VARCHAR}
+                and to_char(p.producedate, 'yyyy-mm-dd') &lt;= #{produceDateEnd, jdbcType = VARCHAR}
             </if>
         </where>
         <if test="orderField != null and orderField != ''">
