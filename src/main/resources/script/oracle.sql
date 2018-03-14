@@ -431,6 +431,8 @@ create table W_OPERATIONSTOCK
   OPERATIONTYPE  NVARCHAR2(40) not null,
   STOVECODE      NVARCHAR2(40) null,
 	BATCHCODE      NVARCHAR2(40) null,
+	WEIGHT         NUMBER(11) null,
+	KGNUM          NUMBER(11) null,
 	PRODUCTCODE    NVARCHAR2(40) null,
 	OPERATOR       NVARCHAR2(40) null,
   CREATEUSER     NVARCHAR2(40) not null,
@@ -457,6 +459,10 @@ comment on column W_OPERATIONSTOCK.STOVECODE
   is '炉号';
 comment on column W_OPERATIONSTOCK.BATCHCODE
   is '批号';
+comment on column W_OPERATIONSTOCK.WEIGHT
+  is '重量';
+comment on column W_OPERATIONSTOCK.KGNUM
+  is '公斤数';
 comment on column W_OPERATIONSTOCK.PRODUCTCODE
   is '生产编号';
 comment on column W_OPERATIONSTOCK.OPERATOR
