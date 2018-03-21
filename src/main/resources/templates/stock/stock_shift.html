@@ -1,0 +1,80 @@
+<div class="pageContent">
+    <form method="post" action="${rc.getContextPath()}/stock/doShift" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+        <div class="pageFormContent">
+            <p>
+                <label>原始仓库：</label>
+                <input type="hidden" name="srcWarehouseCode" value="<#if (stock.warehouseCode)??>${stock.warehouseCode!''}</#if>">
+                <input type="text" class="required" readonly="readonly" value="<#if (stock.warehouseText)??>${stock.warehouseText!''}</#if>"/>
+            </p>
+            <p>
+                <label>移动物料：</label>
+                <input type="hidden" name="materialCode" value="<#if (stock.materialCode)??>${stock.materialCode!''}</#if>">
+                <input type="text" class="required" readonly="readonly" value="<#if (stock.materialText)??>${stock.materialText!''}</#if>"/>
+            </p>
+            <p>
+                <label>剩余库存：</label>
+                <input type="text" name="stock" class="required digits" min="0" maxlength="9" readonly="readonly" value="<#if (stock.stock)??>${stock.stock!''}</#if>"/>
+            </p>
+            <p>
+                <label>目标仓库：</label>
+                <input type="hidden" name="targetWarehouseCode">
+                <input type="hidden" name="warehouse.warehouseCode">
+                <input type="text" name="warehouse.warehouseText" readonly="readonly"/>
+                <a class="btnLook" href="${rc.getContextPath()}/warehouse/lookup" warn="请选择仓库" lookupGroup="warehouse">查找带回</a>
+            </p>
+            <p>
+                <label>移动数量：</label>
+                <input type="text" name="shiftNum" class="required digits" min="0" maxlength="9" alt="请输入移动数量"/>
+            </p>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="stock_shift.shift()">移库</button></div></div></li>
+                <li>
+                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+<script>
+
+    var stock_shift = {
+
+        $dialog: $.pdialog.getCurrent(),
+
+        //移库
+        shift: function () {
+            var srcWarehouseCode = $('input[name="srcWarehouseCode"]', stock_shift.$dialog).val();
+            var materialCode = $('input[name="materialCode"]', stock_shift.$dialog).val();
+            var stock = $('input[name="stock"]', stock_shift.$dialog).val();
+            var targetWarehouseCode = $('input[name="warehouse.warehouseCode"]', stock_shift.$dialog).val();
+            var shiftNum = $('input[name="shiftNum"]', stock_shift.$dialog).val();
+            if (targetWarehouseCode) {
+                if (srcWarehouseCode == targetWarehouseCode) {
+                    alertMsg.warn("原始仓库不能和目标仓库相同");
+                    return;
+                }
+            } else {
+                alertMsg.warn("请选择目标仓库");
+                return;
+            }
+            if (shiftNum) {
+                if (Number(stock) < Number(shiftNum)) {
+                    alertMsg.warn("移动数量不能大于剩余库存");
+                    return;
+                }
+            } else {
+                alertMsg.warn("请输入移动数量");
+                return;
+            }
+            alertMsg.confirm('确定要提交移库操作？提交后不能撤销。', {
+                okCall: function () {
+                    $('input[name="targetWarehouseCode"]', stock_shift.$dialog).val(targetWarehouseCode);
+                    $('form', stock_shift.$dialog).submit();
+                }
+            });
+        }
+    }
+
+</script>

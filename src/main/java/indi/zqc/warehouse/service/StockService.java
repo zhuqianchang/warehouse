@@ -2,6 +2,7 @@ package indi.zqc.warehouse.service;
 
 import com.github.pagehelper.Page;
 import indi.zqc.warehouse.model.Stock;
+import indi.zqc.warehouse.model.StockShift;
 import indi.zqc.warehouse.model.condition.StockCondition;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,4 +29,6 @@ public interface StockService {
     Page<Stock> selectStockPage(StockCondition condition);
 
     void exportStock(StockCondition condition, HttpServletResponse response);
+
+    void shiftStock(StockShift stockShift, String userCode);
 }

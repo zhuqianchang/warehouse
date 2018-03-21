@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import indi.zqc.warehouse.constant.Constants;
 import indi.zqc.warehouse.model.DWZResult;
 import indi.zqc.warehouse.model.Stock;
+import indi.zqc.warehouse.model.StockShift;
 import indi.zqc.warehouse.model.condition.StockCondition;
 import indi.zqc.warehouse.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,5 +97,19 @@ public class StockController extends BaseController {
     @ResponseBody
     public void exportStock(StockCondition condition, HttpServletResponse response) {
         stockService.exportStock(condition, response);
+    }
+
+    @RequestMapping("/shift")
+    public String shiftStock(Model model, String stockCode, String navTabId) {
+        model.addAttribute("stock", stockService.selectStock(stockCode.split(Constants.SEPARATOR)[0], stockCode.split(Constants.SEPARATOR)[1]));
+        model.addAttribute(NAVTABID, navTabId);
+        return "stock/stock_shift";
+    }
+
+    @RequestMapping("/doShift")
+    @ResponseBody
+    public DWZResult shiftStock(StockShift stockShift) {
+        stockService.shiftStock(stockShift, getCurrentUserCode());
+        return dialogAjaxDone();
     }
 }

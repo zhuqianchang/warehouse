@@ -50,6 +50,10 @@
             <@buttonRight menuCode="STOCK_EXPORT">
             <li><a class="edit" href="javascript:;" onclick="stock_list.export()"><span>导出</span></a></li>
             </@buttonRight>
+            <@buttonRight menuCode="STOCK_SHIFT">
+            <li><a class="edit" target="dialog" mask="true" width="400" height="255" rel="shiftStock" title="移库"
+                   href="${rc.getContextPath()}/stock/shift?stockCode={stockCode}&navTabId=${navTabId}"><span>移库</span></a></li>
+            </@buttonRight>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="140">

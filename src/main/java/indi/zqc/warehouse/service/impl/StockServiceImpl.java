@@ -3,10 +3,10 @@ package indi.zqc.warehouse.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import indi.zqc.warehouse.constant.Constants;
-import indi.zqc.warehouse.dao.MaterialDao;
 import indi.zqc.warehouse.dao.StockDao;
-import indi.zqc.warehouse.dao.WarehouseDao;
+import indi.zqc.warehouse.exception.BusinessException;
 import indi.zqc.warehouse.model.Stock;
+import indi.zqc.warehouse.model.StockShift;
 import indi.zqc.warehouse.model.condition.StockCondition;
 import indi.zqc.warehouse.service.StockService;
 import indi.zqc.warehouse.util.ExcelUtils;
@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 
 /**
  * Title : StockServiceImpl.java
@@ -38,12 +39,6 @@ public class StockServiceImpl implements StockService {
 
     @Autowired
     private StockDao stockDao;
-
-    @Autowired
-    private WarehouseDao warehouseDao;
-
-    @Autowired
-    private MaterialDao materialDao;
 
     @Override
     public int insertStock(Stock stock) {
@@ -121,5 +116,29 @@ public class StockServiceImpl implements StockService {
                 }
             }
         }
+    }
+
+    @Override
+    public void shiftStock(StockShift stockShift, String userCode) {
+        Stock srcStock = stockDao.selectStock(stockShift.getSrcWarehouseCode(), stockShift.getMaterialCode());
+        if (srcStock == null) {
+            throw new BusinessException(String.format("仓库[%s]与物料[%s]的关系不存在，请先维护", stockShift.getSrcWarehouseCode(), stockShift.getMaterialCode()));
+        } else if (srcStock.getStock() < stockShift.getShiftNum()) {
+            throw new BusinessException(String.format("仓库[%s]中的物料[%s]库存不足", stockShift.getSrcWarehouseCode(), stockShift.getMaterialCode()));
+        }
+        Stock targetStock = stockDao.selectStock(stockShift.getTargetWarehouseCode(), stockShift.getMaterialCode());
+        if (targetStock == null) {
+            throw new BusinessException(String.format("仓库[%s]与物料[%s]的关系不存在，请先维护", stockShift.getTargetWarehouseCode(), stockShift.getMaterialCode()));
+        }
+        //出库
+        srcStock.setStock(srcStock.getStock() - stockShift.getShiftNum());
+        srcStock.setEditor(userCode);
+        srcStock.setEditTime(new Date());
+        stockDao.updateStock(srcStock);
+        //入库
+        targetStock.setStock(targetStock.getStock() + stockShift.getShiftNum());
+        targetStock.setEditor(userCode);
+        targetStock.setEditTime(new Date());
+        stockDao.updateStock(targetStock);
     }
 }
