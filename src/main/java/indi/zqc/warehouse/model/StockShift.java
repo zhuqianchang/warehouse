@@ -9,7 +9,7 @@ package indi.zqc.warehouse.model;
  * @author Zhu.Qianchang
  * @version v1.0.0
  */
-public class StockShift {
+public class StockShift extends Common{
 
     //原始仓库
     private String srcWarehouseCode;

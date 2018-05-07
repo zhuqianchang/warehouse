@@ -30,5 +30,5 @@ public interface StockService {
 
     void exportStock(StockCondition condition, HttpServletResponse response);
 
-    void shiftStock(StockShift stockShift, String userCode);
+    String shiftStock(StockShift stockShift);
 }

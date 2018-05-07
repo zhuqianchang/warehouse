@@ -109,7 +109,7 @@ public class StockController extends BaseController {
     @RequestMapping("/doShift")
     @ResponseBody
     public DWZResult shiftStock(StockShift stockShift) {
-        stockService.shiftStock(stockShift, getCurrentUserCode());
-        return dialogAjaxDone();
+        setCreateInfo(stockShift);
+        return dialogAjaxDone(stockService.shiftStock(stockShift));
     }
 }

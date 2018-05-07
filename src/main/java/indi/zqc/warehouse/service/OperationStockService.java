@@ -21,7 +21,11 @@ public interface OperationStockService {
 
     String inputStock(String stocks, String userCode);
 
+    void inputStock(OperationStock Stock);
+
     String outputStock(String stocks, String userCode);
+
+    void outputStock(OperationStock stock);
 
     void exportRecord(OperationStockCondition condition, HttpServletResponse response);
 }

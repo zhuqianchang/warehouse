@@ -1,5 +1,5 @@
 <div class="pageContent">
-    <form method="post" action="${rc.getContextPath()}/stock/doShift" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+    <form method="post" action="" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
         <div class="pageFormContent">
             <p>
                 <label>原始仓库：</label>
@@ -71,7 +71,28 @@
             alertMsg.confirm('确定要提交移库操作？提交后不能撤销。', {
                 okCall: function () {
                     $('input[name="targetWarehouseCode"]', stock_shift.$dialog).val(targetWarehouseCode);
-                    $('form', stock_shift.$dialog).submit();
+                    $.ajax({
+                        url: contextPath + "/stock/doShift",
+                        data: {
+                            srcWarehouseCode: srcWarehouseCode,
+                            materialCode: materialCode,
+                            stock: stock,
+                            targetWarehouseCode: targetWarehouseCode,
+                            shiftNum: shiftNum
+                        },
+                        dataType: "json",
+                        success: function (result) {
+                            if (result.statusCode == 200) {
+                                //关闭当前弹出框
+                                $.pdialog.closeCurrent();
+                                //刷新当前TAB
+                                navTab.reload(contextPath + "/stock/list?navTabId=${navTabId!''}");
+                                alertMsg.confirm("移库成功，单据编号：" + result.message, {});
+                            } else {
+                                alertMsg.error(result.message);
+                            }
+                        }
+                    });
                 }
             });
         }

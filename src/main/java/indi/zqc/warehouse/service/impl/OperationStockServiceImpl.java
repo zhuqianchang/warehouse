@@ -87,6 +87,7 @@ public class OperationStockServiceImpl implements OperationStockService {
     /**
      * 入库处理
      */
+    @Override
     public void inputStock(OperationStock operationStock) {
         Stock stock = stockDao.selectStock(operationStock.getWarehouseCode(), operationStock.getMaterialCode());
         if (StringUtils.equals(operationStock.getOperationType(), OperationType.INPUT.getKey())) {
@@ -117,6 +118,7 @@ public class OperationStockServiceImpl implements OperationStockService {
     /**
      * 出库处理
      */
+    @Override
     public void outputStock(OperationStock operationStock) {
         Stock stock = stockDao.selectStock(operationStock.getWarehouseCode(), operationStock.getMaterialCode());
         if (StringUtils.equals(operationStock.getOperationType(), OperationType.OUTPUT.getKey())) {

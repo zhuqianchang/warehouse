@@ -4,12 +4,16 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import indi.zqc.warehouse.constant.Constants;
 import indi.zqc.warehouse.dao.StockDao;
+import indi.zqc.warehouse.enums.OperationType;
 import indi.zqc.warehouse.exception.BusinessException;
+import indi.zqc.warehouse.model.OperationStock;
 import indi.zqc.warehouse.model.Stock;
 import indi.zqc.warehouse.model.StockShift;
 import indi.zqc.warehouse.model.condition.StockCondition;
+import indi.zqc.warehouse.service.OperationStockService;
 import indi.zqc.warehouse.service.StockService;
 import indi.zqc.warehouse.util.ExcelUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -39,6 +43,9 @@ public class StockServiceImpl implements StockService {
 
     @Autowired
     private StockDao stockDao;
+
+    @Autowired
+    private OperationStockService operationStockService;
 
     @Override
     public int insertStock(Stock stock) {
@@ -118,8 +125,13 @@ public class StockServiceImpl implements StockService {
         }
     }
 
+    /**
+     * 移库
+     * 先出库 再入库
+     * @param stockShift
+     */
     @Override
-    public void shiftStock(StockShift stockShift, String userCode) {
+    public String shiftStock(StockShift stockShift) {
         Stock srcStock = stockDao.selectStock(stockShift.getSrcWarehouseCode(), stockShift.getMaterialCode());
         if (srcStock == null) {
             throw new BusinessException(String.format("仓库[%s]与物料[%s]的关系不存在，请先维护", stockShift.getSrcWarehouseCode(), stockShift.getMaterialCode()));
@@ -130,15 +142,31 @@ public class StockServiceImpl implements StockService {
         if (targetStock == null) {
             throw new BusinessException(String.format("仓库[%s]与物料[%s]的关系不存在，请先维护", stockShift.getTargetWarehouseCode(), stockShift.getMaterialCode()));
         }
+        String receiptCode = newReceiptCode();
         //出库
-        srcStock.setStock(srcStock.getStock() - stockShift.getShiftNum());
-        srcStock.setEditor(userCode);
-        srcStock.setEditTime(new Date());
-        stockDao.updateStock(srcStock);
-        //入库
-        targetStock.setStock(targetStock.getStock() + stockShift.getShiftNum());
-        targetStock.setEditor(userCode);
-        targetStock.setEditTime(new Date());
-        stockDao.updateStock(targetStock);
+        OperationStock stock = new OperationStock();
+        stock.setReceiptCode(receiptCode);
+        stock.setWarehouseCode(stockShift.getSrcWarehouseCode());
+        stock.setMaterialCode(stockShift.getMaterialCode());
+        stock.setOperationType(OperationType.OUTPUT.getKey());
+        stock.setQuantity(stockShift.getShiftNum());
+        stock.setCreateUser(stockShift.getCreateUser());
+        stock.setCreateDateTime(stockShift.getCreateDateTime());
+        stock.setModifyUser(stockShift.getModifyUser());
+        stock.setModifyDateTime(stockShift.getModifyDateTime());
+        operationStockService.outputStock(stock);
+        //入库操作
+        stock.setWarehouseCode(stockShift.getTargetWarehouseCode());
+        stock.setOperationType(OperationType.INPUT.getKey());
+        operationStockService.inputStock(stock);
+
+        return receiptCode;
+    }
+
+    /**
+     * 单据编号
+     */
+    private String newReceiptCode() {
+        return Constants.DJ_PREFIX + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
     }
 }
